@@ -5,7 +5,7 @@
 \alias{ObsLulcRasterStack-class}
 \title{Class ObsLulcRasterStack}
 \description{
-An S4 class for observed land use maps.
+A virtual S4 class for observed land use maps.
 }
 \section{Slots}{
 

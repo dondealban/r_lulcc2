@@ -30,7 +30,7 @@ NULL
 #'                    t=c(0,6,14))
 #' 
 #' ## explanatory variables
-#' ef <- ExpVarRasterList(x=pie, pattern="ef")
+#' ef <- ExpVarRasterStack(x=pie, pattern="ef")
 #' 
 #' part <- partition(x=obs[[1]], size=0.1, spatial=TRUE)
 #' train.data <- getPredictiveModelInputData(obs=obs, ef=ef, cells=part[["train"]], t=0)

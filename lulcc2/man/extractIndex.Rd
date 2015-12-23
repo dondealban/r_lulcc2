@@ -4,15 +4,15 @@
 \name{Extract by index}
 \alias{Extract by index}
 \alias{[[,CategoryLabel,ANY,ANY-method}
-\alias{[[,ExpVarRasterList,ANY,ANY-method}
+\alias{[[,ContinuousObsLulcRasterStack,ANY,ANY-method}
 \title{Extract by index}
 \usage{
-\S4method{[[}{ExpVarRasterList,ANY,ANY}(x, i, j, ...)
-
 \S4method{[[}{CategoryLabel,ANY,ANY}(x, i, j, ...)
+
+\S4method{[[}{ContinuousObsLulcRasterStack,ANY,ANY}(x, i, j, ...)
 }
 \arguments{
-\item{x}{an object of class ExpVarRasterList or any object inheriting from the
+\item{x}{an object of class ExpVarRasterStack or any object inheriting from the
 virtual class CategoryLabel}
 
 \item{i}{layer number (if 'x' inherits from a RasterStack) or list index (if
@@ -24,7 +24,7 @@ virtual class CategoryLabel}
 }
 \description{
 \code{object[[i]]} can be used to extract individual objects from container
-classes such as \code{ExpVarRasterList}, \code{PredictiveModelList}, \code{PredictionList} and
+classes such as \code{ExpVarRasterStack}, \code{PredictiveModelList}, \code{PredictionList} and
 \code{PerformanceList}.
 }
 \examples{

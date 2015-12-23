@@ -4,7 +4,7 @@ setClassUnion("numericOrNULL", c("numeric", "NULL"))
 setClassUnion("RasterLayerOrNULL", c("RasterLayer", "NULL"))
 setClassUnion("RasterStackOrNULL", c("RasterStack", "NULL"))
 
-#' @include class-NeighbRasterStack.R class-ExpVarRasterList.R class-PredictiveModelList.R class-ObsLulcRasterStack.R class-CategoryLabel.R
+#' @include class-NeighbRasterStack.R class-ExpVarRasterStack.R class-PredictiveModelList.R class-ObsLulcRasterStack.R class-CategoryLabel.R
 NULL
 
 #' Virtual class Model
@@ -30,7 +30,7 @@ setClass("Model",
 #' An S4 class to represent inputs to the CLUE-S land use change model.
 #'
 #' @slot obs an ObsLulcRasterStack object 
-#' @slot ef an ExpVarRasterList object
+#' @slot ef an ExpVarRasterStack object
 #' @slot models a PredictiveModelList object
 #' @slot time numeric vector of timesteps over which simulation will occur
 #' @slot demand matrix containing demand scenario
@@ -53,7 +53,7 @@ setClass("CluesModel",
          contains = c("Model",
                       "CategoryLabel"),
          slots = c(obs = "ObsLulcRasterStack",           
-                   ef = "ExpVarRasterList",
+                   ef = "ExpVarRasterStack",
                    models = "PredictiveModelList",
                    time = "numeric",
                    demand = "matrix",
@@ -75,7 +75,7 @@ setClass("CluesModel",
 #' An S4 class to represent inputs to the Ordered allocation procedure
 #' 
 #' @slot obs an ObsLulcRasterStack object 
-#' @slot ef an ExpVarRasterList object
+#' @slot ef an ExpVarRasterStack object
 #' @slot models a PredictiveModelList object
 #' @slot time numeric vector of timesteps over which simulation will occur
 #' @slot demand matrix containing demand scenario
@@ -98,7 +98,7 @@ setClass("OrderedModel",
          contains = c("Model",
                       "CategoryLabel"),
          slots = c(obs = "ObsLulcRasterStack",           
-                   ef = "ExpVarRasterList",
+                   ef = "ExpVarRasterStack",
                    models = "PredictiveModelList",
                    time = "numeric",
                    demand = "matrix",

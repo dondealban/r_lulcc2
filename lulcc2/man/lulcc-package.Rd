@@ -81,7 +81,7 @@ plot(obs)
 crossTabulate(obs, times=c(0,14))
 
 ## explanatory variables
-ef <- ExpVarRasterList(x=pie, pattern="ef")
+ef <- ExpVarRasterStack(x=pie, pattern="ef")
 ef
 
 part <- partition(x=obs[[1]], size=0.1, spatial=TRUE)

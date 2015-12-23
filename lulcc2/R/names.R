@@ -1,6 +1,6 @@
 
 #' @export
-names.ExpVarRasterList = function(x) x@names
+names.ExpVarRasterStack = function(x) x@names
 
 #' @export
 names.PerformanceList = function(x) x@labels
@@ -11,7 +11,7 @@ names.PredictionList = function(x) x@labels
 #' @export
 names.PredictiveModelList = function(x) x@labels
 
-## setMethod("names", "ExpVarRasterList",
+## setMethod("names", "ExpVarRasterStack",
 ##           function(x) {
 ##               x@names
 ##           }

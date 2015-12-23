@@ -3,7 +3,7 @@
 \docType{methods}
 \name{summary}
 \alias{summary}
-\alias{summary,ExpVarRasterList-method}
+\alias{summary,ExpVarRasterStack-method}
 \alias{summary,Model-method}
 \alias{summary,NeighbRasterStack-method}
 \alias{summary,ObsLulcRasterStack-method}
@@ -14,7 +14,7 @@ summary(object, ...)
 
 \S4method{summary}{ObsLulcRasterStack}(object, ...)
 
-\S4method{summary}{ExpVarRasterList}(object, ...)
+\S4method{summary}{ExpVarRasterStack}(object, ...)
 
 \S4method{summary}{NeighbRasterStack}(object, ...)
 

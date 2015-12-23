@@ -1,13 +1,13 @@
-#' @include length.R names.R ExpVarRasterList.R PerformanceList.R
+#' @include length.R names.R ExpVarRasterStack.R PerformanceList.R
 NULL
 
 #' Subset
 #'
 #' Extract a subset of objects from container classes such as
-#' \code{ExpVarRasterList}, \code{PredictiveModelList}, \code{PredictionList} and
+#' \code{ExpVarRasterStack}, \code{PredictiveModelList}, \code{PredictionList} and
 #' \code{PerformanceList}.
 #'
-#' @param x an object of class \code{ExpVarRasterList},
+#' @param x an object of class \code{ExpVarRasterStack},
 #'   \code{PredictiveModelList}, \code{PredictionList} or \code{PerformanceList}
 #' @param subset integer or character indicating the objects to be extracted
 #' @param ... additional arguments (none)
@@ -16,6 +16,8 @@ NULL
 #' @rdname subset-methods
 #'
 #' @examples
+#'
+#' \dontrun{
 #'
 #' ## Sibuyan Island
 #'
@@ -31,39 +33,22 @@ NULL
 #' summary(obs)
 #' 
 #' ## load explanatory variables
-#' ef <- ExpVarRasterList(x=sibuyan$maps, pattern="ef")
+#' ef <- ExpVarRasterStack(x=sibuyan$maps, pattern="ef")
 #' 
 #' summary(ef)
 #' ef <- subset(ef, subset=1:5)
 #' summary(ef)
-#' 
+#'
+#' }
 
-#' @rdname subset-methods
-#' @aliases subset,ExpVarRasterList-method
-setMethod("subset", signature(x="ExpVarRasterList"), 
-          function(x, subset, ...) {
-              subset <- .getsubset(x, subset)
-              ## if (is.character(subset)) {
-              ##     i <- na.omit(match(subset, names(x@maps)))
-              ##     if (length(i)==0) {
-              ##         stop('invalid layer names')
-              ##     } else if (length(i) < length(subset)) {
-              ##         warning('invalid layer names omitted')
-              ##     }
-              ##     subset <- i
-              ## }
-              ## subset <- as.integer(subset)
-              ## if (! all(subset %in% 1:length(x@maps))) {
-              ##     stop('not a valid subset')
-              ## }
-              if (length(subset) == 1) {
-                  x <- ExpVarRasterList(x=x@maps[[subset]])
-              } else {
-                  x <- ExpVarRasterList(x@maps[subset])
-              }
-              return(x)	
-          }
-          )
+## # rdname subset-methods
+## # aliases subset,ExpVarRasterStack-method
+## setMethod("subset", signature(x="ExpVarRasterStack"), 
+##           function(x, subset, ...) {
+##               subset <- .getsubset(x, subset)
+##               x[[subset]]
+##           }
+##           )
 
 #' @rdname subset-methods
 #' @aliases subset,PredictiveModelList-method
@@ -71,7 +56,7 @@ setMethod("subset", signature(x="PredictiveModelList"),
           function(x, subset, ...) {
               subset <- .getsubset(x, subset)
               if (length(subset) == 1) {
-                  x <- new("PredictiveModelList",
+                  x <- new("PredictiveModelList",  ## is this the behaviour we want?
                            models=list(x@models[[subset]]),
                            categories=x@categories[subset],
                            labels=x@labels[subset])

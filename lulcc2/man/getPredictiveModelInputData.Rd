@@ -4,12 +4,12 @@
 \alias{getPredictiveModelInputData}
 \title{Extract data to fit predictive models}
 \usage{
-getPredictiveModelInputData(obs, ef, cells, ...)
+getPredictiveModelInputData(lu, ef, cells, ...)
 }
 \arguments{
-\item{obs}{an ObsLulcRasterStack object}
+\item{lu}{an ObsLulcRasterStack object}
 
-\item{ef}{an ExpVarRasterList object}
+\item{ef}{an ExpVarRasterStack object}
 
 \item{cells}{index of cells to be extracted, which may be a
 \code{SpatialPoints*} object or a numeric vector representing cell numbers
@@ -29,6 +29,6 @@ models.
 }
 \seealso{
 \code{\link[base]{as.data.frame}}, \code{\link{ObsLulcRasterStack}},
-\code{\link{ExpVarRasterList}}, \code{\link{partition}}
+\code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 }
 

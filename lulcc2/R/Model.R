@@ -1,7 +1,7 @@
 #' @include class-Model.R
 #' @include class-NeighbRasterStack.R
 #' @include class-ObsLulcRasterStack.R
-#' @include class-ExpVarRasterList.R
+#' @include class-ExpVarRasterStack.R
 #' @include class-PredictiveModelList.R
 NULL
 
@@ -30,7 +30,7 @@ NULL
 #' of these parameters will be required.
 #'
 #' @param obs an ObsLulcRasterStack
-#' @param ef an ExpVarRasterList object
+#' @param ef an ExpVarRasterStack object
 #' @param models a PredictiveModelList object
 #' @param time numeric vector containing timesteps over which simulation will
 #'   occur  
@@ -72,8 +72,8 @@ setGeneric("CluesModel", function(obs, ef, models, ...)
            standardGeneric("CluesModel"))
 
 #' @rdname CluesModel
-#' @aliases CluesModel,ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList-method
-setMethod("CluesModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterList", models = "PredictiveModelList"),
+#' @aliases CluesModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
+setMethod("CluesModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
           function(obs, ef, models, time, demand, hist, mask, neighb=NULL, elas, rules=NULL, nb.rules=NULL, params, output=NULL, ...) {
 
               ## check that all maps have the same projection
@@ -170,7 +170,7 @@ setMethod("CluesModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRaster
 #' }
 #' 
 #' @param obs an ObsLulcRasterStack object
-#' @param ef an ExpVarRasterList object
+#' @param ef an ExpVarRasterStack object
 #' @param models a PredictiveModelList object
 #' @param time numeric vector containing timesteps over which simulation will
 #'   occur  
@@ -211,8 +211,8 @@ setGeneric("OrderedModel", function(obs, ef, models, ...)
            standardGeneric("OrderedModel"))
 
 #' @rdname OrderedModel
-#' @aliases OrderedModel,ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList-method
-setMethod("OrderedModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterList", models = "PredictiveModelList"),
+#' @aliases OrderedModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
+setMethod("OrderedModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
           function(obs, ef, models, time, demand, hist, mask, neighb=NULL, rules=NULL, nb.rules=NULL, order, params, output=NULL, ...) {
 
               ## check x and models refer to the same categories

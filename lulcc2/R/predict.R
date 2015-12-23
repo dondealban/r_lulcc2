@@ -33,7 +33,7 @@
 #'                     t=c(0,14))
 #' 
 #' ## load explanatory variables
-#' ef <- ExpVarRasterList(x=sibuyan$maps, pattern="ef")
+#' ef <- ExpVarRasterStack(x=sibuyan$maps, pattern="ef")
 #' 
 #' ## separate data into training and testing partitions
 #' part <- partition(x=obs[[1]], size=0.1, spatial=TRUE)

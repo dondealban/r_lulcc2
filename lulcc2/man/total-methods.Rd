@@ -10,14 +10,14 @@
 \usage{
 total(x, ...)
 
-\S4method{total}{Raster}(x, categories, ...)
-
 \S4method{total}{DiscreteObsLulcRasterStack}(x, ...)
 
 \S4method{total}{ContinuousObsLulcRasterStack}(x, categories, ...)
+
+\S4method{total}{Raster}(x, categories, ...)
 }
 \arguments{
-\item{x}{RasterStack or object inheriting from ObsLulcRasterStack}
+\item{x}{Raster* object}
 
 \item{categories}{numeric vector containing land use categories. Only cells
 belonging to these categories will be counted}
@@ -36,6 +36,8 @@ A list containing the following components:
 Count the number of cells belonging to each category in a Raster* object.
 }
 \examples{
+\dontrun{
+
 ## Sibuyan Island
 
 ## load observed land use data
@@ -48,5 +50,7 @@ obs <- ObsLulcRasterStack(x=sibuyan$maps,
 total(x=obs)
 total(x=obs[[1]])
 total(x=obs[[2]])
+
+}
 }
 

@@ -3,20 +3,20 @@
 \docType{methods}
 \name{OrderedModel}
 \alias{OrderedModel}
-\alias{OrderedModel,ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList-method}
+\alias{OrderedModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method}
 \title{Create an OrderedModel object}
 \usage{
 OrderedModel(obs, ef, models, ...)
 
 
-  \S4method{OrderedModel}{ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList}(obs,
+  \S4method{OrderedModel}{ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList}(obs,
   ef, models, time, demand, hist, mask, neighb = NULL, rules = NULL,
   nb.rules = NULL, order, params, output = NULL, ...)
 }
 \arguments{
 \item{obs}{an ObsLulcRasterStack object}
 
-\item{ef}{an ExpVarRasterList object}
+\item{ef}{an ExpVarRasterStack object}
 
 \item{models}{a PredictiveModelList object}
 

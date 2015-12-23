@@ -12,7 +12,7 @@ An S4 class to represent inputs to the Ordered allocation procedure
 \describe{
 \item{\code{obs}}{an ObsLulcRasterStack object}
 
-\item{\code{ef}}{an ExpVarRasterList object}
+\item{\code{ef}}{an ExpVarRasterStack object}
 
 \item{\code{models}}{a PredictiveModelList object}
 

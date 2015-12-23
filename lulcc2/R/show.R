@@ -1,4 +1,4 @@
-#' @include class-ObsLulcRasterStack.R class-ExpVarRasterList.R
+#' @include class-ObsLulcRasterStack.R class-ExpVarRasterStack.R
 NULL
 
 #' Show
@@ -11,8 +11,8 @@ NULL
 #' @rdname show-methods
 
 #' @rdname show-methods
-#' @aliases show,ExpVarRasterList-method
-setMethod("show", "ExpVarRasterList",
+#' @aliases show,ExpVarRasterStack-method
+setMethod("show", "ExpVarRasterStack",
           function(object) {
               for (i in 1:length(object)) {
                   cat("-------------------------\n\n")

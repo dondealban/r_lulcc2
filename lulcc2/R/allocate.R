@@ -149,12 +149,12 @@ setMethod("allocate", signature(model = "OrderedModel"),
           }
 )
 
-#' @useDynLib lulcc
+#' @useDynLib lulcc2
 .clues <- function(tprob, map0.vals, demand, categories, jitter.f, scale.f, max.iter, max.diff, ave.diff) {
     map1.vals <- .Call("allocateclues", tprob, map0.vals, demand, categories, jitter.f, scale.f, max.iter, max.diff, ave.diff)
 }
 
-#' @useDynLib lulcc
+#' @useDynLib lulcc2
 .ordered <- function(tprob, map0.vals, demand, categories, order, stochastic) {
 
     map0.area <- .Call("total", map0.vals, categories)        ## initial condition
@@ -262,7 +262,7 @@ setMethod("allocate", signature(model = "OrderedModel"),
     tprob
 }
 
-#' @useDynLib lulcc
+#' @useDynLib lulcc2
 .updatehist <- function(lu0, lu1, hist) {
     hist <- .Call("updatehist", lu0, lu1, hist)
 }
@@ -275,7 +275,7 @@ setMethod("allocate", signature(model = "OrderedModel"),
     }
 }
 
-#' @useDynLib lulcc
+#' @useDynLib lulcc2
 .autoConvert <- function(x, prob, categories, mask=NULL, ...) {
     if (!is.null(mask) && length(x) != length(mask)) stop("mask must have same length as x")
     if (is.null(mask)) mask <- rep(1, length(x))

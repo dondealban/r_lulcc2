@@ -1,4 +1,4 @@
-#' @include class-ObsLulcRasterStack.R class-ExpVarRasterList.R
+#' @include class-ObsLulcRasterStack.R class-ExpVarRasterStack.R
 NULL
 
 #' Summary
@@ -37,8 +37,8 @@ setMethod("summary", "ObsLulcRasterStack",
           )
 
 #' @rdname summary-methods
-#' @aliases summary,ExpVarRasterList-method
-setMethod("summary", "ExpVarRasterList",
+#' @aliases summary,ExpVarRasterStack-method
+setMethod("summary", "ExpVarRasterStack",
           function(object, ...) {
               sum <- sapply(object@maps, FUN=function(x) summary(x[[1]]))
               rownames(sum) <- rownames(summary(object@maps[[1]][[1]]))

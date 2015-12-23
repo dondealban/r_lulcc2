@@ -6,7 +6,7 @@ length.PerformanceList = function(x) length(x@performance)
 length.PredictionList = function(x) length(x@prediction)
 
 #' @export
-length.ExpVarRasterList = function(x) length(x@maps)
+length.ExpVarRasterStack = function(x) length(x@maps)
 
 #' @export
 length.PredictiveModelList = function(x) length(x@models)

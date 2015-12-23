@@ -3,20 +3,20 @@
 \docType{methods}
 \name{CluesModel}
 \alias{CluesModel}
-\alias{CluesModel,ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList-method}
+\alias{CluesModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method}
 \title{Create a CluesModel object}
 \usage{
 CluesModel(obs, ef, models, ...)
 
 
-  \S4method{CluesModel}{ObsLulcRasterStack,ExpVarRasterList,PredictiveModelList}(obs,
+  \S4method{CluesModel}{ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList}(obs,
   ef, models, time, demand, hist, mask, neighb = NULL, elas, rules = NULL,
   nb.rules = NULL, params, output = NULL, ...)
 }
 \arguments{
 \item{obs}{an ObsLulcRasterStack}
 
-\item{ef}{an ExpVarRasterList object}
+\item{ef}{an ExpVarRasterStack object}
 
 \item{models}{a PredictiveModelList object}
 
