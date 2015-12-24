@@ -4,20 +4,14 @@
 \name{allocate}
 \alias{allocate}
 \alias{allocate,CluesModel-method}
-\alias{allocate,OrderedModel-method}
 \title{Allocate land use change spatially}
 \usage{
 allocate(model, ...)
 
 \S4method{allocate}{CluesModel}(model, ...)
-
-\S4method{allocate}{OrderedModel}(model, stochastic = TRUE, ...)
 }
 \arguments{
 \item{model}{an object inheriting from class \code{Model}}
-
-\item{stochastic}{logical indicating whether the model should be run
-stochastically. Only used if \code{model} is an \code{OrderedModel} object}
 
 \item{\dots}{additional arguments for specific methods}
 }
@@ -44,6 +38,6 @@ S.S. (2002). Modeling the spatial dynamics of regional land use: the CLUE-S
 model. Environmental management, 30(3):391-405.
 }
 \seealso{
-\code{\link{CluesModel}}, \code{\link{OrderedModel}}
+\code{\link{CluesModel}}
 }
 

@@ -1,6 +1,3 @@
-#' @include class-CategoryLabel.R
-NULL
-
 #' Class PredictionList
 #'
 #' An S4 class that extends \code{ROCR::\link[ROCR]{prediction-class}} to hold
@@ -18,8 +15,10 @@ NULL
 #' @rdname PredictionList-class
 
 setClass("PredictionList",
-         contains = c("CategoryLabel"),
-         slots = c(prediction = "list"),
+         slots = c(
+           prediction = "list",
+           categories = "numeric",
+           labels = "character"),
          validity = function(object) {
              ## TODO
              return(TRUE)

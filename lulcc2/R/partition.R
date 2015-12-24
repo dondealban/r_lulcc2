@@ -12,6 +12,7 @@
 #' @param spatial logical. If TRUE, the function returns a SpatialPoints object
 #'   with the coordinates of cells in each partition. If FALSE, the cell numbers
 #'   are returned
+#' @param t TODO
 #' @param \dots additional arguments (none)
 #'
 #' @seealso \code{caret::\link[caret]{createDataPartition}}
@@ -26,6 +27,7 @@
 #' }
 #'
 #' @export
+#' @rdname partition-methods
 #'
 #' @references Kuhn, M. (2008). Building predictive models in R using the caret
 #' package. Journal of Statistical Software, 28(5), 1-26.
@@ -49,29 +51,81 @@
 #' 
 #' }
 
-partition <- function(x, size=0.5, spatial=TRUE, ...) {
-    points <- raster::rasterToPoints(x, spatial=TRUE)
-    cells <- raster::cellFromXY(x, points)
-    train.ix <- caret::createDataPartition(y=points@data[,1], p=size, list=FALSE, times=1)[,1]
-    if (spatial) {
-        points <- as(points, "SpatialPoints")
-        ## if (size == 1) {
-        ##     train <- points
-        ##     test <- points
-        ## } else {
-        train <- points[train.ix]
-        test <- points[-train.ix]
-        ## }
-        all <- points
-    } else {
-        ## if (size == 1) {
-        ##     train <- cells
-        ##     test <- cells
-        ## } else {
-        train <- cells[train.ix]
-        test <- cells[-train.ix]
-        ## }
-        all <- cells
-    }
-    out <- list(train=train, test=test, all=all)
-}
+setGeneric("partition", function(x, ...)
+           standardGeneric("partition"))
+
+#' @rdname partition-methods
+#' @aliases partition,DiscreteObsLulcRasterStack-method
+setMethod("partition", "DiscreteObsLulcRasterStack",
+          function(x, size=0.5, spatial=TRUE, t, ...) {
+              
+              ix <- which(x@t %in% t)
+              points <- raster::rasterToPoints(x[[ix]], spatial=TRUE)
+              cells <- raster::cellFromXY(x, points)
+              train.ix <- caret::createDataPartition(y=points@data[,1], p=size, list=FALSE, times=1)[,1]
+              if (spatial) {
+                  points <- as(points, "SpatialPoints")
+                  train <- points[train.ix]
+                  test <- points[-train.ix]
+                  all <- points
+              } else {
+                  train <- cells[train.ix]
+                  test <- cells[-train.ix]
+                  all <- cells
+              }
+              list(train=train, test=test, all=all)
+          }
+          )
+
+#' @rdname partition-methods
+#' @aliases partition,ContinuousObsLulcRasterStack-method
+setMethod("partition", "ContinuousObsLulcRasterStack",
+          function(x, size=0.5, spatial=TRUE, ...) {
+
+              x <- as(x, "RasterStack")
+              points <- raster::rasterToPoints(x[[1]], spatial=TRUE)
+              cells <- raster::cellFromXY(x, points)
+              n <- length(points)
+              train.ix <- sample(seq_len(length(points)), round(n * size), replace=FALSE)
+              
+              if (spatial) {
+                  points <- as(points, "SpatialPoints")
+                  train <- points[train.ix]
+                  test <- points[-train.ix]
+                  all <- points
+              } else {
+                  train <- cells[train.ix]
+                  test <- cells[-train.ix]
+                  all <- cells
+              }
+              list(train=train, test=test, all=all)
+          }
+          )
+
+              
+## partition <- function(x, size=0.5, spatial=TRUE, ...) {
+##     points <- raster::rasterToPoints(x, spatial=TRUE)
+##     cells <- raster::cellFromXY(x, points)
+##     train.ix <- caret::createDataPartition(y=points@data[,1], p=size, list=FALSE, times=1)[,1]
+##     if (spatial) {
+##         points <- as(points, "SpatialPoints")
+##         ## if (size == 1) {
+##         ##     train <- points
+##         ##     test <- points
+##         ## } else {
+##         train <- points[train.ix]
+##         test <- points[-train.ix]
+##         ## }
+##         all <- points
+##     } else {
+##         ## if (size == 1) {
+##         ##     train <- cells
+##         ##     test <- cells
+##         ## } else {
+##         train <- cells[train.ix]
+##         test <- cells[-train.ix]
+##         ## }
+##         all <- cells
+##     }
+##     out <- list(train=train, test=test, all=all)
+## }

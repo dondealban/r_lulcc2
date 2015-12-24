@@ -20,8 +20,11 @@
 #' @seealso \code{Hmisc::\link[Hmisc]{approxExtrap}}
 #'
 #' @export
+#' @rdname approxExtrapDemand-methods
 #'
 #' @examples
+#'
+#' \dontrun{
 #'
 #' ## Plum Island Ecosystems
 #'
@@ -47,25 +50,53 @@
 #' matplot(dmd, type="l", ylab="Demand (no. of cells)", xlab="Time point",
 #'         lty=1, col=c("Green","Red","Blue"))
 #' legend("topleft", legend=obs@@labels, col=c("Green","Red","Blue"), lty=1)
-#' 
+#'
+#' }
 
-approxExtrapDemand <- function(obs, tout, ...) {
-    if (nlayers(obs) > 1) {
-        tot <- total(x=obs)$total
-        demand <- matrix(data=NA, nrow=length(tout), ncol=length(obs@categories))
-        for (i in 1:length(obs@categories)) {
-            x <- Hmisc::approxExtrap(obs@t, tot[,i], tout)$y
-            x[x < 0] <- 0
-            demand[,i] <- x
-        }
+setGeneric("approxExtrapDemand", function(obs, ...)
+           standardGeneric("approxExtrapDemand"))
 
-    } else {
-        stop("cannot estimate land use demand with only one observed map")
-    }
+#' @rdname approxExtrapDemand-methods
+#' @aliases approxExtrapDemand,ObsLulcRasterStack-method
+setMethod("approxExtrapDemand", "ObsLulcRasterStack",
+          function(obs, tout, ...) {              
+              if (nlayers(obs) > 1) {
+                  tot <- total(x=obs)$total
+                  demand <- matrix(data=NA, nrow=length(tout), ncol=length(obs@categories))
+                  for (i in 1:length(obs@categories)) {
+                      x <- Hmisc::approxExtrap(obs@t, tot[,i], tout)$y
+                      x[x < 0] <- 0
+                      demand[,i] <- x
+                  }
 
-    ncell <- length(which(!is.na(raster::getValues(obs[[1]]))))
-    demand <- roundSum(demand, ncell)
-}
+              } else {
+                  stop("cannot estimate land use demand with only one observed map")
+              }
+              demand
+              
+          }
+          )   
+
+#' @rdname approxExtrapDemand-methods
+#' @aliases approxExtrapDemand,DiscreteObsLulcRasterStack-method
+setMethod("approxExtrapDemand", "DiscreteObsLulcRasterStack",
+          function(obs, tout, ...) {              
+              demand <- callNextMethod()
+              ncell <- length(which(!is.na(raster::getValues(obs[[1]]))))
+              demand <- roundSum(demand, n=ncell, digits=0)
+              demand
+          }
+          )   
+
+## # rdname approxExtrapDemand-methods
+## # aliases approxExtrapDemand,ContinuousObsLulcRasterStack-method
+## setMethod("approxExtrapDemand", "ContinuousObsLulcRasterStack",
+##           function(obs, tout, totalArea, ...) {              
+##               demand <- callNextMethod()
+##               ## demand <- roundSum(demand, n=totalArea, digits=3)
+##               demand
+##           }
+##           )   
 
 #' Round elements in matrix or data.frame rows
 #'
@@ -78,7 +109,8 @@ approxExtrapDemand <- function(obs, tout, ...) {
 #' the units of demand to number of cells.
 #'
 #' @param x matrix or data.frame
-#' @param ncell numeric specifying the target sum for each row in \code{x}
+#' @param n numeric specifying the target sum for each row in \code{x}
+#' @param digits integer indicating the number of decimal places to be used
 #' @param \dots additional arguments (none)
 #'
 #' @return A matrix.
@@ -86,6 +118,8 @@ approxExtrapDemand <- function(obs, tout, ...) {
 #' @export
 #'
 #' @examples
+#'
+#' \dontrun{
 #'
 #' ## Sibuyan Island
 #'
@@ -109,25 +143,48 @@ approxExtrapDemand <- function(obs, tout, ...) {
 #' dmd <- roundSum(dmd, ncell=ncell)
 #' apply(dmd, 1, sum)
 #'
+#' }
 
-roundSum <- function(x, ncell, ...) {
-    
-    if (missing(x)) stop("missing 'x'") 
-    if (missing(ncell)) stop("missing 'ncell'") 
-    
+roundSum <- function(x, n, digits=0, ...) {
+
+    x <- x * 10 ^ digits
     for (i in 1:nrow(x)) {
         y <- as.numeric(x[i,])
-        y <- y / sum(y) * ncell ## scale row to ensure it sums to ncell
-        xint <- floor(y) ## convert x to integer
-        diff <- y - floor(y) ## roundoff error TODO: tolerance?
+        y[y < 0] <- 0                         ## negative numbers not allowed
+        y <- y / sum(y) * (n * 10 ^ digits)   ## scale row to ensure it sums to n
+        xint <- floor(y)                      ## convert x to integer
+        diff <- y - floor(y)                  ## roundoff error TODO: tolerance?
         diff <- sort(diff, index.return=TRUE) ## sort diff by roundoff error
-        tot.diff <- ncell - sum(floor(y))
+        tot.diff <- (n * 10 ^ digits) - sum(floor(y))
         if (tot.diff > 0) {
-            ix <- seq((length(y)-tot.diff+1), length(y), 1)
+            ix <- seq((length(y) -tot.diff + 1), length(y), 1)
             ix <- diff$ix[ix]
             xint[ix] <- xint[ix] + 1
         }
         x[i,] <- xint
     }
+    x <- x / 10 ^ digits
     x
 }
+
+## roundSum <- function(x, ncell, ...) {
+    
+##     for (i in 1:nrow(x)) {
+##         y <- as.numeric(x[i,])
+##         y[y < 0] <- 0                         ## negative numbers not allowed
+##         y <- y / sum(y) * ncell               ## scale row to ensure it sums to ncell
+##         xint <- floor(y)                      ## convert x to integer
+##         diff <- y - floor(y)                  ## roundoff error TODO: tolerance?
+##         diff <- sort(diff, index.return=TRUE) ## sort diff by roundoff error
+##         tot.diff <- ncell - sum(floor(y))
+##         if (tot.diff > 0) {
+##             ix <- seq((length(y)-tot.diff+1), length(y), 1)
+##             ix <- diff$ix[ix]
+##             xint[ix] <- xint[ix] + 1
+##         }
+##         x[i,] <- xint
+##     }
+##     x
+## }
+
+

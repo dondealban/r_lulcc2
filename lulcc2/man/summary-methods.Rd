@@ -3,22 +3,10 @@
 \docType{methods}
 \name{summary}
 \alias{summary}
-\alias{summary,ExpVarRasterStack-method}
 \alias{summary,Model-method}
-\alias{summary,NeighbRasterStack-method}
-\alias{summary,ObsLulcRasterStack-method}
-\alias{summary,PredictiveModelList-method}
 \title{Summary}
 \usage{
 summary(object, ...)
-
-\S4method{summary}{ObsLulcRasterStack}(object, ...)
-
-\S4method{summary}{ExpVarRasterStack}(object, ...)
-
-\S4method{summary}{NeighbRasterStack}(object, ...)
-
-\S4method{summary}{PredictiveModelList}(object, ...)
 
 \S4method{summary}{Model}(object, ...)
 }

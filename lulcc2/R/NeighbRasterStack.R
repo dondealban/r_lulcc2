@@ -34,6 +34,8 @@ NULL
 #'
 #' @examples
 #'
+#' \dontrun{
+#'
 #' ## Plum Island Ecosystems
 #'
 #' ## observed data
@@ -59,6 +61,7 @@ NULL
 #' ## plot neighbourhood map for forest
 #' plot(nb2[[1]])
 #'
+#' }
 
 setGeneric("NeighbRasterStack", function(x, weights, neighb, ...)
            standardGeneric("NeighbRasterStack"))

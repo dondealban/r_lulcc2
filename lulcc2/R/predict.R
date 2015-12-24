@@ -73,14 +73,13 @@ predict.PredictiveModelList <- function(object, newdata, data.frame=FALSE, ...) 
             out[[i]] <- predict(object=mod, newdata=newdata, type="response", ...) ##[,2]
         }
 
-        if (inherits(mod, "rpart")) {
-            out[[i]] <- predict(object=mod, newdata=newdata, type="prob", ...)[,2]
-        }
+        ## if (inherits(mod, "rpart")) {
+        ##     out[[i]] <- predict(object=mod, newdata=newdata, type="prob", ...)[,2]
+        ## }
 
         if (inherits(mod, "glm")) {
             out[[i]] <- predict(object=mod, newdata=newdata, type="response")#, ...)
         }
-        ## out[[i]] <- predict(object=object@models[[i]], newdata=newdata, ...)
     }
 
     names(out) <- object@labels
@@ -89,7 +88,28 @@ predict.PredictiveModelList <- function(object, newdata, data.frame=FALSE, ...) 
     out
 }
 
-#' @rdname predict
-#' @aliases predict,PredictiveModelList-method
-setMethod("predict","PredictiveModelList",predict.PredictiveModelList)
+## # rdname predict
+## # aliases predict,PredictiveModelList-method
+## setMethod("predict","PredictiveModelList",predict.PredictiveModelList)
 
+## # rdname predict
+## # method predict PredictiveModelList
+## # export
+## predict.PredictiveModelList <- function(object, newdata, data.frame=FALSE, time, ...) {
+##     prob <- vector(mode="list", length=(length(object@categories) * length(time)))
+
+##     ## TODO: avoid repeating raster::predict if no dynamic variables are used (copy first map)
+
+##     for (i in 1:length(time)) {
+##         d <- as(.getExpVarRasterStack(x=newdata, time=time[i]), "RasterStack")                       
+##         for (j in 1:length(object)) {
+##             ix <- (i-1) * length(object) + j
+##             prob[[ix]] <- raster::predict(object=d, model=object[[j]], ...)
+##         }
+##     }
+##     stack(prob)
+## }
+
+## # rdname predict
+## # aliases predict,PredictiveModelList-method
+## setMethod("predict", "PredictiveModelList", predict.PredictiveModelList)

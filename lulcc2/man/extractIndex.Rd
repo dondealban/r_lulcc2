@@ -3,17 +3,25 @@
 \docType{methods}
 \name{Extract by index}
 \alias{Extract by index}
-\alias{[[,CategoryLabel,ANY,ANY-method}
 \alias{[[,ContinuousObsLulcRasterStack,ANY,ANY-method}
+\alias{[[,DiscreteObsLulcRasterStack,ANY,ANY-method}
+\alias{[[,PerformanceList,ANY,ANY-method}
+\alias{[[,PredictionList,ANY,ANY-method}
+\alias{[[,PredictiveModelList,ANY,ANY-method}
 \title{Extract by index}
 \usage{
-\S4method{[[}{CategoryLabel,ANY,ANY}(x, i, j, ...)
+\S4method{[[}{DiscreteObsLulcRasterStack,ANY,ANY}(x, i, j, ...)
+
+\S4method{[[}{PerformanceList,ANY,ANY}(x, i, j, ...)
+
+\S4method{[[}{PredictionList,ANY,ANY}(x, i, j, ...)
+
+\S4method{[[}{PredictiveModelList,ANY,ANY}(x, i, j, ...)
 
 \S4method{[[}{ContinuousObsLulcRasterStack,ANY,ANY}(x, i, j, ...)
 }
 \arguments{
-\item{x}{an object of class ExpVarRasterStack or any object inheriting from the
-virtual class CategoryLabel}
+\item{x}{TODO}
 
 \item{i}{layer number (if 'x' inherits from a RasterStack) or list index (if
 'x' stores data as a list)}

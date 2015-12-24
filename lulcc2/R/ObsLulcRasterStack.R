@@ -1,4 +1,4 @@
-#' @include class-ObsLulcRasterStack.R class-CategoryLabel.R
+#' @include class-ObsLulcRasterStack.R
 NULL
 
 #' Create an ObsLulcRasterStack object
@@ -72,7 +72,7 @@ setMethod("DiscreteObsLulcRasterStack", signature(x = "RasterStack"),
               ix <- order(categories)
               categories <- categories[ix] ## check categories are in correct order
               labels <- labels[ix]
-              out <- new("DiscreteObsLulcRasterStack", x, t=t, categories=categories, labels=labels)
+              new("DiscreteObsLulcRasterStack", x, t=t, categories=categories, labels=labels)
           }
           )
 
@@ -92,7 +92,7 @@ setMethod("ContinuousObsLulcRasterStack", signature(x = "Raster"),
 #' @rdname ObsLulcRasterStack-methods
 #' @aliases ContinuousObsLulcRasterStack,RasterStack-method
 setMethod("ContinuousObsLulcRasterStack", signature(x = "RasterStack"),
-          function(x, pattern, categories, labels, t) {
+          function(x, categories, labels, t) {
 
               if (missing(categories))
                 categories <- seq_len(length(labels))
@@ -101,6 +101,6 @@ setMethod("ContinuousObsLulcRasterStack", signature(x = "RasterStack"),
               categories <- categories[ix] ## check categories are in correct order
               labels <- labels[ix]
               x <- x[[ix]]
-              out <- new("ContinuousObsLulcRasterStack", x, t=t, categories=categories, labels=labels)
+              new("ContinuousObsLulcRasterStack", x, t=t, categories=categories, labels=labels)
           }
           )

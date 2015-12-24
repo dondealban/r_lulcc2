@@ -13,20 +13,15 @@
 #' @slot crs see \code{raster::\link[raster]{Raster-class}}
 #' @slot history see \code{raster::\link[raster]{Raster-class}}
 #' @slot z see \code{raster::\link[raster]{Raster-class}}
-#' @slot t numeric vector with timesteps corresponding to each observed map
-#' @slot categories numeric vector of land use categories
-#' @slot labels character vector corresponding to \code{categories}
 #' 
 #' @export
 #' @exportClass ObsLulcRasterStack
 #' @rdname ObsLulcRasterStack-class
-
 setClass("ObsLulcRasterStack",
-         contains = c(
-           "RasterStack",
-           "CategoryLabel",
-           "VIRTUAL"),
-         slots = c(t = "numeric")
+         contains = c("RasterStack"),
+         validity = function(object) {
+             return(TRUE)
+         }
          )
 
 #' Class DiscreteObsLulcRasterStack
@@ -52,10 +47,11 @@ setClass("ObsLulcRasterStack",
 #' @exportClass DiscreteObsLulcRasterStack
 #' @rdname DiscreteObsLulcRasterStack-class
 setClass("DiscreteObsLulcRasterStack",
-         contains = c(
-           "RasterStack",
-           "CategoryLabel"),
-         slots = c(t = "numeric"),
+         contains = c("ObsLulcRasterStack"),
+         slots = c(
+           t = "numeric",
+           categories = "numeric",
+           labels = "character"),
          validity = function(object) {
              check1 <- (raster::nlayers(object) > 0)
              if (!check1) stop("RasterStack contains no layers")
@@ -92,11 +88,13 @@ setClass("DiscreteObsLulcRasterStack",
 #' @exportClass ContinuousObsLulcRasterStack
 #' @rdname ContinuousObsLulcRasterStack-class
 setClass("ContinuousObsLulcRasterStack",
-         contains = c(
-           "RasterStack",
-           "CategoryLabel"),
-         slots = c(t = "numeric"),
+         contains = c("ObsLulcRasterStack"),
+         slots = c(
+           t = "numeric",
+           categories = "numeric",
+           labels = "character"),
          validity = function(object) {
+             ## TODO: check all values 0 <= val <= 1
              check1 <- (raster::nlayers(object) > 0)
              if (!check1) stop("RasterStack contains no layers")
              check2 <- raster::nlayers(object) == length(object@t) * length(object@categories)

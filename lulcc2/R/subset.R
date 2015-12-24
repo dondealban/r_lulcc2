@@ -56,10 +56,11 @@ setMethod("subset", signature(x="PredictiveModelList"),
           function(x, subset, ...) {
               subset <- .getsubset(x, subset)
               if (length(subset) == 1) {
-                  x <- new("PredictiveModelList",  ## is this the behaviour we want?
-                           models=list(x@models[[subset]]),
-                           categories=x@categories[subset],
-                           labels=x@labels[subset])
+                  x <- x@models[[subset]]
+                  ## x <- new("PredictiveModelList",  ## is this the behaviour we want?
+                  ##          models=list(x@models[[subset]]),
+                  ##          categories=x@categories[subset],
+                  ##          labels=x@labels[subset])
               } else {
                   x <- new("PredictiveModelList",
                            models=x@models[subset],

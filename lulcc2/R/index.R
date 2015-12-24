@@ -1,4 +1,4 @@
-#' @include class-ExpVarRasterStack.R class-CategoryLabel.R
+#' @include class-ExpVarRasterStack.R
 NULL
 
 #' Extract by index
@@ -7,8 +7,7 @@ NULL
 #' classes such as \code{ExpVarRasterStack}, \code{PredictiveModelList}, \code{PredictionList} and
 #' \code{PerformanceList}.
 #'
-#' @param x an object of class ExpVarRasterStack or any object inheriting from the
-#'   virtual class CategoryLabel
+#' @param x TODO
 #' @param i layer number (if 'x' inherits from a RasterStack) or list index (if
 #'   'x' stores data as a list)
 #' @param j numeric (not used)
@@ -62,8 +61,8 @@ NULL
 ##           )
 
 #' @rdname extractIndex
-#' @aliases [[,CategoryLabel,ANY,ANY-method
-setMethod("[[", "CategoryLabel",
+#' @aliases [[,DiscreteObsLulcRasterStack,ANY,ANY-method
+setMethod("[[", "DiscreteObsLulcRasterStack",
           function(x,i,j,...) {
 	      if ( missing(i)) { 
                   stop('you must provide an index') 
@@ -87,7 +86,88 @@ setMethod("[[", "CategoryLabel",
               subset(x, i)
           }
           )
-          
+
+#' @rdname extractIndex
+#' @aliases [[,PerformanceList,ANY,ANY-method
+setMethod("[[", "PerformanceList",
+          function(x,i,j,...) {
+	      if ( missing(i)) { 
+                  stop('you must provide an index') 
+	      }
+              
+ 	      if (! missing(j)) { 
+	          warning('second index is ignored') 
+	      }
+              
+	      if (is.numeric(i)) {
+	          sgn <- sign(i)
+		  sgn[sgn==0] <- 1
+		  if (! all(sgn == 1) ) {
+                      if (! all(sgn == -1) ) {
+                          stop("only 0's may be mixed with negative subscripts")
+                      } else {
+                          i <- (1:length(x))[i]
+                      }
+                  }
+              }
+              subset(x, i)
+          }
+          )
+
+#' @rdname extractIndex
+#' @aliases [[,PredictionList,ANY,ANY-method
+setMethod("[[", "PredictionList",
+          function(x,i,j,...) {
+	      if ( missing(i)) { 
+                  stop('you must provide an index') 
+	      }
+              
+ 	      if (! missing(j)) { 
+	          warning('second index is ignored') 
+	      }
+              
+	      if (is.numeric(i)) {
+	          sgn <- sign(i)
+		  sgn[sgn==0] <- 1
+		  if (! all(sgn == 1) ) {
+                      if (! all(sgn == -1) ) {
+                          stop("only 0's may be mixed with negative subscripts")
+                      } else {
+                          i <- (1:length(x))[i]
+                      }
+                  }
+              }
+              subset(x, i)
+          }
+          )
+
+#' @rdname extractIndex
+#' @aliases [[,PredictiveModelList,ANY,ANY-method
+setMethod("[[", "PredictiveModelList",
+          function(x,i,j,...) {
+	      if ( missing(i)) { 
+                  stop('you must provide an index') 
+	      }
+              
+ 	      if (! missing(j)) { 
+	          warning('second index is ignored') 
+	      }
+              
+	      if (is.numeric(i)) {
+	          sgn <- sign(i)
+		  sgn[sgn==0] <- 1
+		  if (! all(sgn == 1) ) {
+                      if (! all(sgn == -1) ) {
+                          stop("only 0's may be mixed with negative subscripts")
+                      } else {
+                          i <- (1:length(x))[i]
+                      }
+                  }
+              }
+              subset(x, i)
+          }
+          )
+
 #' @rdname extractIndex
 #' @aliases [[,ContinuousObsLulcRasterStack,ANY,ANY-method
 setMethod("[[", "ContinuousObsLulcRasterStack",

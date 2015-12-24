@@ -3,7 +3,7 @@
 \docType{methods}
 \name{crossTabulate}
 \alias{crossTabulate}
-\alias{crossTabulate,ObsLulcRasterStack,ANY-method}
+\alias{crossTabulate,DiscreteObsLulcRasterStack,ANY-method}
 \alias{crossTabulate,RasterLayer,RasterLayer-method}
 \title{Cross tabulate land use transitions}
 \usage{
@@ -12,7 +12,7 @@ crossTabulate(x, y, ...)
 \S4method{crossTabulate}{RasterLayer,RasterLayer}(x, y, categories,
   labels = as.character(categories), ...)
 
-\S4method{crossTabulate}{ObsLulcRasterStack,ANY}(x, y, times, ...)
+\S4method{crossTabulate}{DiscreteObsLulcRasterStack,ANY}(x, y, times, ...)
 }
 \arguments{
 \item{x}{RasterLayer representing land use map from an earlier timestep or an
@@ -43,6 +43,8 @@ further research into the processes driving the most important transitions in
 the study region (Pontius et al., 2004).
 }
 \examples{
+\dontrun{
+
 ## Plum Island Ecosystems
 
 ## Load observed land use maps
@@ -59,6 +61,8 @@ crossTabulate(x=obs[[1]],
               y=obs[[3]],
               categories=c(1,2,3),
               labels=c("forest","built","other"))
+
+}
 }
 \references{
 Pontius Jr, R.G., Shusas, E., McEachern, M. (2004). Detecting

@@ -33,6 +33,8 @@ NULL
 #'
 #' @examples
 #'
+#' \dontrun{
+#'
 #' ## Plum Island Ecosystems 
 #' 
 #' ## Load observed land use maps
@@ -50,6 +52,7 @@ NULL
 #'               categories=c(1,2,3),
 #'               labels=c("forest","built","other"))
 #' 
+#' }
 
 setGeneric("crossTabulate", function(x, y, ...)
            standardGeneric("crossTabulate"))
@@ -84,8 +87,8 @@ setMethod("crossTabulate", signature(x = "RasterLayer", y = "RasterLayer"),
 )
 
 #' @rdname crossTabulate
-#' @aliases crossTabulate,ObsLulcRasterStack,ANY-method
-setMethod("crossTabulate", signature(x = "ObsLulcRasterStack", y = "ANY"),
+#' @aliases crossTabulate,DiscreteObsLulcRasterStack,ANY-method
+setMethod("crossTabulate", signature(x = "DiscreteObsLulcRasterStack", y = "ANY"),
           function(x, y, times, ...) {
 
               if (nlayers(x) < 2) stop("at least two maps required")

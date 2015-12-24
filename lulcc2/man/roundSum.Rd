@@ -4,12 +4,14 @@
 \alias{roundSum}
 \title{Round elements in matrix or data.frame rows}
 \usage{
-roundSum(x, ncell, ...)
+roundSum(x, n, digits = 0, ...)
 }
 \arguments{
 \item{x}{matrix or data.frame}
 
-\item{ncell}{numeric specifying the target sum for each row in \code{x}}
+\item{n}{numeric specifying the target sum for each row in \code{x}}
+
+\item{digits}{integer indicating the number of decimal places to be used}
 
 \item{\dots}{additional arguments (none)}
 }
@@ -27,6 +29,8 @@ land use category for the respective timestep. It may also be used to convert
 the units of demand to number of cells.
 }
 \examples{
+\dontrun{
+
 ## Sibuyan Island
 
 ## load observed land use data and create demand scenario
@@ -48,5 +52,7 @@ ncell <- length(which(!is.na(getValues(sibuyan$maps$lu_sib_1997))))
 ncell
 dmd <- roundSum(dmd, ncell=ncell)
 apply(dmd, 1, sum)
+
+}
 }
 

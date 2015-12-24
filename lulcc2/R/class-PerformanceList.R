@@ -1,6 +1,3 @@
-#' @include class-CategoryLabel.R
-NULL
-
 #' Class PerformanceList
 #'
 #' An S4 class that extends \code{ROCR::\link[ROCR]{performance-class}} to hold
@@ -20,12 +17,11 @@ NULL
 #' @rdname PerformanceList-class
 
 setClass("PerformanceList",
-         contains = c("CategoryLabel"),
-         slots = c(performance = "list",
-                   auc = "numeric"),
-                   ## types = "character",
-                   ## categories = "numeric",
-                   ## labels = "character"),
+         slots = c(
+           performance = "list",
+           auc = "numeric",
+           categories = "numeric",
+           labels = "character"),
          validity = function(object) {
              ## TODO
              return(TRUE)

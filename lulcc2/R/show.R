@@ -10,18 +10,18 @@ NULL
 #' @export
 #' @rdname show-methods
 
-#' @rdname show-methods
-#' @aliases show,ExpVarRasterStack-method
-setMethod("show", "ExpVarRasterStack",
-          function(object) {
-              for (i in 1:length(object)) {
-                  cat("-------------------------\n\n")
-                  cat(i,". ", names(object)[i], "\n\n", sep="")
-                  show(object@maps[[i]])
-              }
-              cat("-------------------------\n\n")
-          }   
-          )
+## # rdname show-methods
+## # aliases show,ExpVarRasterStack-method
+## setMethod("show", "ExpVarRasterStack",
+##           function(object) {
+##               for (i in 1:nlayers(object)) {
+##                   cat("-------------------------\n\n")
+##                   cat(i,". ", names(object)[i], "\n\n", sep="")
+##                   show(object[[i]])
+##               }
+##               cat("-------------------------\n\n")
+##           }   
+##           )
 
 #' @rdname show-methods
 #' @aliases show,PredictiveModelList-method

@@ -51,6 +51,8 @@ weights matrix or providing an alternative function. The resulting object can
 be used as the basis of neighbourhood decision rules.
 }
 \examples{
+\dontrun{
+
 ## Plum Island Ecosystems
 
 ## observed data
@@ -75,6 +77,8 @@ nb2 <- NeighbRasterStack(x=obs[[2]],
 
 ## plot neighbourhood map for forest
 plot(nb2[[1]])
+
+}
 }
 \seealso{
 \code{\link{NeighbRasterStack-class}}, \code{\link{allowNeighb}},

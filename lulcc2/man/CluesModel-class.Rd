@@ -10,11 +10,11 @@ An S4 class to represent inputs to the CLUE-S land use change model.
 \section{Slots}{
 
 \describe{
-\item{\code{obs}}{an ObsLulcRasterStack object}
+\item{\code{observed.lulc}}{an ObsLulcRasterStack object}
 
-\item{\code{ef}}{an ExpVarRasterStack object}
+\item{\code{explanatory.factors}}{an ExpVarRasterStack object}
 
-\item{\code{models}}{a PredictiveModelList object}
+\item{\code{predictive.models}}{a PredictiveModelList object}
 
 \item{\code{time}}{numeric vector of timesteps over which simulation will occur}
 
@@ -24,20 +24,24 @@ An S4 class to represent inputs to the CLUE-S land use change model.
 
 \item{\code{mask}}{RasterLayer showing masked areas or NULL}
 
-\item{\code{neighb}}{NeighbRasterStack object or NULL}
+\item{\code{neighbourhood}}{NeighbRasterStack object or NULL}
+
+\item{\code{transition.rules}}{matrix with land use change decision rules}
+
+\item{\code{neighbourhood.rules}}{numeric with neighbourhood decision rules}
+
+\item{\code{elasticity}}{numeric indicating elasticity to change (only required for}
+
+\item{\code{iteration.factor}}{TODO}
+
+\item{\code{max.iteration}}{TODO}
+
+\item{\code{max.difference}}{TODO}
+
+\item{\code{ave.difference}}{TODO}
 
 \item{\code{categories}}{numeric vector of land use categories}
 
 \item{\code{labels}}{character vector corresponding to \code{categories}}
-
-\item{\code{rules}}{matrix with land use change decision rules}
-
-\item{\code{nb.rules}}{numeric with neighbourhood decision rules}
-
-\item{\code{elas}}{numeric indicating elasticity to change (only required for}
-
-\item{\code{params}}{list with model parameters}
-
-\item{\code{output}}{RasterStack containing simulated land use maps or NULL}
 }}
 

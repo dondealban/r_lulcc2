@@ -74,7 +74,7 @@ setMethod("total", "ContinuousObsLulcRasterStack",
                   st <- as(x[[i]], "RasterStack")
                   for (j in 1:length(categories)) {
                       ix <- which(x@categories %in% categories[j])
-                      area[i,j] <- sum(getValues(st[[ix]]), na.rm=TRUE)
+                      area[i,j] <- sum(getValues(st[[ix]]), na.rm=TRUE) ##* prod(res(x))
                   }
               }
 

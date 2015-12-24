@@ -27,6 +27,7 @@ NULL
 #' ## see lulcc-package examples
 
 PredictionList <- function(models, newdata, ...) {
+    
     ## ix <- which(obs@t %in% timestep)
     ## if (length(ix) == 0) stop(paste0("no observed map exists for timestep ", timestep))
     ## if (missing(partition)) {
@@ -45,5 +46,6 @@ PredictionList <- function(models, newdata, ...) {
     }              
     ## out <- new("PredictionList", prediction=prediction.list, types=models@types, categories=models@categories, labels=models@labels)
     out <- new("PredictionList", prediction=prediction.list, categories=models@categories, labels=models@labels)
+    
 }      
 

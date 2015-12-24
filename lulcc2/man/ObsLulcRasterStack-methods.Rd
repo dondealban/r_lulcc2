@@ -22,8 +22,7 @@ ContinuousObsLulcRasterStack(x, ...)
 
 \S4method{ContinuousObsLulcRasterStack}{Raster}(x, ...)
 
-\S4method{ContinuousObsLulcRasterStack}{RasterStack}(x, pattern, categories,
-  labels, t)
+\S4method{ContinuousObsLulcRasterStack}{RasterStack}(x, categories, labels, t)
 }
 \arguments{
 \item{x}{path (character), Raster* object or list of Raster* objects. Default

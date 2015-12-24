@@ -124,7 +124,7 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
                       cat <- categories[j]
                       tmp.x <- (x == cat) ## maps with binary values where 1/0 indicates presence/absence of 'cat'
                       tmp.x1 <- (x1 == cat)
-                      tmp.y1 <- (y1 == cat)
+                      tmp.y1 <- (y1 == cat) ## these steps not required for continuous data; simply select RasterLayer from RasterStack
 
                       if (factors[f] > 1) {
                           tmp.x <- raster::aggregate(tmp.x, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)

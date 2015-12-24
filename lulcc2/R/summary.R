@@ -16,67 +16,67 @@ NULL
 
 setGeneric("summary")
 
-#' @rdname summary-methods
-#' @aliases summary,ObsLulcRasterStack-method
-setMethod("summary", "ObsLulcRasterStack",
-          function(object, ...) {
+## # rdname summary-methods
+## # aliases summary,ObsLulcRasterStack-method
+## setMethod("summary", "ObsLulcRasterStack",
+##           function(object, ...) {
 
-              sum <- sapply(unstack(object), FUN=function(x) summary(x))
-              rownames(sum) <- rownames(summary(object[[1]]))
-              colnames(sum) <- names(object)
-              sum
+##               sum <- sapply(unstack(object), FUN=function(x) summary(x))
+##               rownames(sum) <- rownames(summary(object[[1]]))
+##               colnames(sum) <- names(object)
+##               sum
               
-              ## tot <- as.data.frame(total(object, categories=object@categories)[[1]])
-              ## nas <- sapply(unstack(object), FUN=function(x) length(which(is.na(getValues(x)))))
-              ## tot <- rbind(tot, nas)
-              ## colnames(tot) <- names(object)
-              ## rownames(tot) <- c(object@labels, "NA's")
-              ## tot
+##               ## tot <- as.data.frame(total(object, categories=object@categories)[[1]])
+##               ## nas <- sapply(unstack(object), FUN=function(x) length(which(is.na(getValues(x)))))
+##               ## tot <- rbind(tot, nas)
+##               ## colnames(tot) <- names(object)
+##               ## rownames(tot) <- c(object@labels, "NA's")
+##               ## tot
               
-          }
-          )
+##           }
+##           )
 
-#' @rdname summary-methods
-#' @aliases summary,ExpVarRasterStack-method
-setMethod("summary", "ExpVarRasterStack",
-          function(object, ...) {
-              sum <- sapply(object@maps, FUN=function(x) summary(x[[1]]))
-              rownames(sum) <- rownames(summary(object@maps[[1]][[1]]))
-              colnames(sum) <- names(object)
-              if (object@dynamic) {
-                  warning("Only variables corresponding to the initial time step are summarized here")
-              }
+## # rdname summary-methods
+## # aliases summary,ExpVarRasterStack-method
+## setMethod("summary", "ExpVarRasterStack",
+##           function(object, ...) {
+##               sum <- sapply(object@maps, FUN=function(x) summary(x[[1]]))
+##               rownames(sum) <- rownames(summary(object@maps[[1]][[1]]))
+##               colnames(sum) <- names(object)
+##               if (object@dynamic) {
+##                   warning("Only variables corresponding to the initial time step are summarized here")
+##               }
               
-              sum
-          }
-          )
+##               sum
+##           }
+##           )
 
-#' @rdname summary-methods
-#' @aliases summary,NeighbRasterStack-method
-setMethod("summary", "NeighbRasterStack",
-          function(object, ...) {
+## # rdname summary-methods
+## # aliases summary,NeighbRasterStack-method
+## setMethod("summary", "NeighbRasterStack",
+##           function(object, ...) {
 
-              sum <- sapply(unstack(object), FUN=function(x) summary(x))
-              rownames(sum) <- rownames(summary(object[[1]]))
-              colnames(sum) <- names(object)
-              sum
+##               sum <- sapply(unstack(object), FUN=function(x) summary(x))
+##               rownames(sum) <- rownames(summary(object[[1]]))
+##               colnames(sum) <- names(object)
+##               sum
               
-          }
-          )
+##           }
+##           )
 
-#' @rdname summary-methods
-#' @aliases summary,PredictiveModelList-method
-setMethod("summary", "PredictiveModelList",
-          function(object, ...) {
+## # rdname summary-methods
+## # aliases summary,PredictiveModelList-method
+## setMethod("summary", "PredictiveModelList",
+##           function(object, ...) {
 
-              sums <- list()
-              for (i in 1:length(object)) {
-                  sums[[i]] <- summary(object@models[[i]])
-              }
-              names(sums) <- names(object)
-              sums
-          }
-          )
+##               sums <- list()
+##               for (i in 1:length(object)) {
+##                   sums[[i]] <- summary(object@models[[i]])
+##               }
+##               names(sums) <- names(object)
+##               sums
+##           }
+##           )
 
 #' @rdname summary-methods
 #' @aliases summary,Model-method

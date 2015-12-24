@@ -1,4 +1,4 @@
-#' @include class-CategoryLabel.R class-Model.R
+#' @include class-Model.R
 NULL
 
 #' Class ThreeMapComparison
@@ -25,10 +25,12 @@ NULL
 #' Geographers 101(1): 45-62.
 
 setClass("ThreeMapComparison",
-         contains = c("CategoryLabel"),
-         slots = c(maps = "list",
-                   tables = "list",
-                   factors = "numeric"),
+         slots = c(
+           maps = "list",
+           tables = "list",
+           factors = "numeric",
+           categories = "numeric",
+           labels = "character"),
          validity = function(object) {
              ## TODO
              return(TRUE)

@@ -130,12 +130,12 @@ randomForestModels <- function(formula, ..., obs, categories=NA, labels=NA) {
     formula <- formula[match(dep, labels)]
 }
 
-.getPredictiveModelInputData <- function(lu, ef, cells, ...) {
-    ludf <- as.data.frame(lu, cells=cells, ...)
-    efdf  <- as.data.frame(ef, cells=cells, ...)
-    df    <- cbind(ludf, efdf)
-    df
-}
+## .getPredictiveModelInputData <- function(lu, ef, cells, ...) {
+##     ludf <- as.data.frame(lu, cells=cells, ...)
+##     efdf  <- as.data.frame(ef, cells=cells, ...)
+##     df    <- cbind(ludf, efdf)
+##     df
+## }
 
 ## # rdname Model-fitting
 ## # exportMethod lmModels

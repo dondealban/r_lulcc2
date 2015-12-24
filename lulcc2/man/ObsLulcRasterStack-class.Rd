@@ -31,11 +31,5 @@ A virtual S4 class for observed land use maps.
 \item{\code{history}}{see \code{raster::\link[raster]{Raster-class}}}
 
 \item{\code{z}}{see \code{raster::\link[raster]{Raster-class}}}
-
-\item{\code{t}}{numeric vector with timesteps corresponding to each observed map}
-
-\item{\code{categories}}{numeric vector of land use categories}
-
-\item{\code{labels}}{character vector corresponding to \code{categories}}
 }}
 
