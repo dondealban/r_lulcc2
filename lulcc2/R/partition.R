@@ -39,7 +39,7 @@
 #' ## Plum Island Ecosystems
 #'
 #' ## Load observed land use maps
-#' obs <- ObsLulcRasterStack(x=pie,
+#' obs <- LulcRasterStack(x=pie,
 #'                    pattern="lu",
 #'                    categories=c(1,2,3),
 #'                    labels=c("forest","built","other"),
@@ -55,8 +55,8 @@ setGeneric("partition", function(x, ...)
            standardGeneric("partition"))
 
 #' @rdname partition-methods
-#' @aliases partition,DiscreteObsLulcRasterStack-method
-setMethod("partition", "DiscreteObsLulcRasterStack",
+#' @aliases partition,DiscreteLulcRasterStack-method
+setMethod("partition", "DiscreteLulcRasterStack",
           function(x, size=0.5, spatial=TRUE, t, ...) {
               
               ix <- which(x@t %in% t)
@@ -78,8 +78,8 @@ setMethod("partition", "DiscreteObsLulcRasterStack",
           )
 
 #' @rdname partition-methods
-#' @aliases partition,ContinuousObsLulcRasterStack-method
-setMethod("partition", "ContinuousObsLulcRasterStack",
+#' @aliases partition,ContinuousLulcRasterStack-method
+setMethod("partition", "ContinuousLulcRasterStack",
           function(x, size=0.5, spatial=TRUE, ...) {
 
               x <- as(x, "RasterStack")

@@ -12,11 +12,12 @@
 #include "Rdefines.h"
 #include "R_ext/Rdynload.h"
 
-SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, SEXP md, SEXP ad) {
+SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP sf, SEXP mi, SEXP md, SEXP ad) {
 
     R_len_t i, j;
     int *alloc, count, ix, lu1_ix;
-    double *prob, *pprob, *demand, *iter, *landuse, *total, *diff, *codes, lu1, tprob, absdiff, maxp, maxd, aved;
+    /* double *prob, *pprob, *demand, *iter, *landuse, *total, *diff, *codes, lu1, tprob, absdiff, maxp, maxd, aved; */
+    double *prob, *demand, *iter, *landuse, *total, *diff, *codes, lu1, tprob, absdiff, maxp, maxd, aved;
 
     //SEXP dim = getAttrib(p, R_DimSymbol);
     //int ncell = INTEGER(dim)[0];   
@@ -36,7 +37,7 @@ SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, S
     PROTECT(c = coerceVector(c, REALSXP));
     codes = REAL(c);
 
-    double jitter_f = REAL(jf)[0]; // do these objects need to be protected?
+    /* double jitter_f = REAL(jf)[0]; // do these objects need to be protected? */
     double scale_f = REAL(sf)[0];
     double maxiter = REAL(mi)[0];
     double maxdiff = REAL(md)[0];
@@ -45,7 +46,7 @@ SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, S
     iter = (double *) malloc(ncode * sizeof(double)); 
     total = (double *) malloc(ncode * sizeof(double));
     diff = (double *) malloc(ncode * sizeof(double));
-    pprob = (double *) malloc(ncode * ncell * sizeof(double));
+    /* pprob = (double *) malloc(ncode * ncell * sizeof(double)); */
     
     SEXP al; 
     PROTECT(al = allocVector(INTSXP, ncell));
@@ -57,18 +58,18 @@ SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, S
   
     count = 0;
 
-    GetRNGstate();
+    /* GetRNGstate(); */
 
     do {
 
-        /* jitter prob */
-        for (i = 0; i < (ncode * ncell); i++) {
-	    if (! R_IsNA(prob[i])) {
-                pprob[i] = prob[i] + (-jitter_f + (jitter_f - (-jitter_f)) * unif_rand());
-	    } else {
-	        pprob[i] = prob[i];
-	    }
-        }
+        /* /\* jitter prob *\/ */
+        /* for (i = 0; i < (ncode * ncell); i++) { */
+	/*     if (! R_IsNA(prob[i])) { */
+        /*         pprob[i] = prob[i] + (-jitter_f + (jitter_f - (-jitter_f)) * unif_rand()); */
+	/*     } else { */
+	/*         pprob[i] = prob[i]; */
+	/*     } */
+        /* } */
 
         for (i = 0; i < ncode; i++) {
             total[i] = 0;
@@ -96,8 +97,10 @@ SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, S
                 maxp = -999;
                 for (j = 0; j < ncode; j++) {
                     ix = j * ncell + i;
-                    if (! R_IsNA(pprob[ix])) {
-		        tprob = pprob[ix] + iter[j];
+                    /* if (! R_IsNA(pprob[ix])) { */
+                    if (! R_IsNA(prob[ix])) {
+		        /* tprob = pprob[ix] + iter[j]; */
+        		tprob = prob[ix] + iter[j];
                         if (maxp < tprob) {
 			    maxp = tprob;
                             lu1_ix = j; 
@@ -147,12 +150,12 @@ SEXP allocateclues(SEXP p, SEXP lu, SEXP d, SEXP c, SEXP jf, SEXP sf, SEXP mi, S
 
     } while (maxd > maxdiff || aved > avediff);
 
-    PutRNGstate();
+    /* PutRNGstate(); */
 
     free(iter);
     free(total);
     free(diff);
-    free(pprob);
+    /* free(pprob); */
 
     UNPROTECT(5);
     return(al);

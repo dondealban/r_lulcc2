@@ -13,7 +13,7 @@ NULL
 #' @param \dots additional arguments for specific methods
 #'
 #' @seealso \code{\link{CluesModel}}
-#' @return An updated Model object.
+#' @return LulcRasterStack.
 #' @export
 #' @rdname allocate
 #'
@@ -37,60 +37,180 @@ setGeneric("allocate", function(model, ...)
 #' @aliases allocate,CluesModel-method
 setMethod("allocate", signature(model = "CluesModel"),
           function(model, ...) {
-              map0 <- model@obs[[1]]
-              cells <- which(!is.na(raster::getValues(map0)))
-              map0.vals <- raster::extract(map0, cells)
-              if (!is.null(model@hist)) hist.vals <- raster::extract(model@hist, cells) else NULL
-              if (!is.null(model@mask)) mask.vals <- raster::extract(model@mask, cells) else NULL
-              newdata <- as.data.frame(x=model@ef, cells=cells)
-              prob <- predict(object=model@models, newdata=newdata)
-              maps <- raster::stack(map0)
 
-              for (i in 1:(nrow(model@demand) - 1)) {
-                   d <- model@demand[(i+1),] 
+              t0 <- model@time[1]
+              lu0 <- model@observed.lulc[[(model@observed.lulc@time %in% t0)]]
+              lu0 <- as(lu0, "RasterLayer")
+              cells <- complete.cases(raster::getValues(lu0))
+              lu0.vals.vals <- extract(lu0, cells)
+              newdata <- as.data.frame(x=model@explanatory.factor, cells=cells, t=t0)
+              prob <- predict(object=model@predictive.models, newdata=newdata)
 
-                   ## 1. update land use suitability matrix if dynamic factors exist
-                   if (model@ef@dynamic && i > 1) {
-                       newdata <- .update.data.frame(x=newdata, y=model@ef, map=map0, cells=cells, timestep=(i-1))
-                       prob <- predict(object=model@models, newdata=newdata)
-                   }
-                   tprob <- prob
+              if (!is.null(model@hist)) {
+                  hist.vals <- raster::extract(model@history, cells)
+              } else {
+                  hist.vals <- NULL
+              }
+              
+              if (!is.null(model@mask)) {
+                  mask.vals <- raster::extract(model@mask, cells)
+              } else {
+                  mask.vals <- NULL
+              }
 
-                   ## 2. add elasticity 
-                   for (j in 1:length(model@categories)) {
-                       ix <- map0.vals %in% model@categories[j]
-                       tprob[ix,j] <- tprob[ix,j] + model@elas[j]
-                   }
+              ncell <- length(cells)
+              ncode <- length(model@categories)
+              nt <- length(model@time)
+              any.dynamic <- any(model@explanatory.variables@index[,3])
 
-                   ## 3. implement neighbourhood decision rules
-                   tprob <- .applyNeighbDecisionRules(model=model, x=map0, tprob=tprob)
+              maps <- vector(mode="list", length=nt)
+              maps[[1]] <- lu0
 
-                   ## 4. implement other decision rules
-                   cd <- d - model@demand[i,] ## change direction
-                   tprob <- .applyDecisionRules(model=model, x=map0.vals, hist=hist.vals, cd=cd, tprob=tprob)
-                     
-                   ## 5. make automatic conversions if necessary
-                   auto <- .autoConvert(x=map0.vals, prob=tprob, categories=model@categories, mask=mask.vals)
-                   map0.vals[auto$ix] <- auto$vals
-                   tprob[auto$ix,] <- NA
+              for (i in 2:nt) {
 
-                   ## 6. allocation
-                   map1.vals <- do.call(.clues, c(list(tprob=tprob, map0.vals=map0.vals, demand=d, categories=model@categories), model@params))
-                   map1 <- raster::raster(map0, ...) 
-                   map1[cells] <- map1.vals
-                   maps <- raster::stack(maps, map1)
+                  t1 <- model@time[i]
+                  d <- model@demand[i,]
 
-                   ## 7. prepare model for next timestep
-                   if (i < nrow(model@demand)) {
-                       if (!is.null(model@hist)) hist.vals <- .updatehist(map0.vals, map1.vals, hist.vals) 
-                       map0 <- map1
-                       map0.vals <- map1.vals 
-                   }
-               }    
-               model@output <- maps
-               model     
+                  if (any.dynamic && i > 2) {
+                      newdata <- updateDataFrame(x=model@explanatory.variables, y=newdata, cells=cells, time=t1)
+                      prob <- predict(object=model@predictive.models, newdata=newdata)
+                  }
+                  tprob <- prob
+
+                  for (j in 1:ncode) {
+                      ix <- lu0.vals %in% model@categories[j]
+                      tprob[ix,j] <- tprob[ix,j] + model@elasticity[j]
+                  }
+
+                  tprob <- .applyNeighbDecisionRules(model=model, x=lu0, tprob=tprob)
+                  change.direction <- d - model@demand[(i-1),]
+                  tprob <- .applyDecisionRules(model=model, x=lu0.vals, hist=hist.vals, cd=change.direction, tprob=tprob)
+                  auto  <- .autoConvert(x=lu0.vals, prob=tprob, categories=model@categories, mask=mask.vals)
+                  lu0.vals[auto$ix] <- auto$vals
+                  tprob[auto$ix,] <- NA
+
+                  lu1.vals <- .clues(tprob=tprob,
+                                     lu0.vals=lu0.vals,
+                                     demand=d,
+                                     categories=model@categories,
+                                     scale.factor=model@scale.factor,
+                                     max.iteration=model@max.iteration,
+                                     max.difference=model@max.difference,
+                                     average.difference=model@average.difference)
+
+                  lu1 <- raster::raster(lu0, ...) 
+                  lu1[cells] <- lu1.vals
+                  maps[[i]] <- lu1
+
+                  if (i < nt) {
+
+                      if (!is.null(hist.vals)) {
+                          hist.vals <- .updatehist(lu0.vals, lu1.vals, hist.vals)
+                      }
+                      
+                      lu0 <- lu1
+                      lu0.vals <- lu1.vals 
+                  }
+              }
+
+              raster::stack(maps)
+              ## model@output <- raster::stack(maps)
+              ## model     
+
+          }
+          )
+ 
+#' @rdname allocate
+#' @aliases allocate,ClueModel-method
+setMethod("allocate", signature(model = "ClueModel"),
+          function(model, ...) {
+
+              t0 <- model@time[1]
+              lu0 <- model@observed.lulc[[(model@observed.lulc@t %in% t0)]]
+              lu0 <- as(lu0, "RasterStack")
+              cells <- which(complete.cases(raster::getValues(lu0)))
+              cells <- xyFromCell(lu0, cells, spatial=TRUE) ######
+              
+              lu0.vals <- extract(lu0, cells)
+              newdata <- as.data.frame(x=model@explanatory.variables, cells=cells, t=t0)
+              regr <- predict(object=model@predictive.models, newdata=newdata)
+
+              ncell <- length(cells)
+              ncode <- length(model@categories)
+              nt <- length(model@time)
+              any.dynamic <- any(model@explanatory.variables@index[,3])
+              
+              maps <- vector(mode="list", length=nt)
+              maps[[1]] <- lu0
+
+              for (i in 2:nt) {
+
+                  t1 <- model@time[i]; print(t1)
+                  d <- model@demand[i,]
+
+                  if (any.dynamic && (i > 1)) {
+                      ## newdata <- updateDataFrame(x=model@explanatory.variables, y=newdata, cells=cells, time=model@time[(i+1)])
+                      newdata <- updateDataFrame(x=model@explanatory.variables, y=newdata, cells=cells, time=model@time[i])
+                      regr <- predict(object=model@predictive.models, newdata=newdata)
+                  }
+
+                  ## do something here to allow for fill?
+                  if (!all(model@labels %in% colnames(regr))) {
+                      regr1 <- matrix(data=0.5, nrow=nrow(regr), ncol=length(model@labels))
+                      colnames(regr1) <- model@labels
+                      ix <- match(colnames(regr), model@labels)
+                      regr1[,ix] <- regr
+                      regr <- regr1
+                  }   
+
+                  lu1.vals <- .clue(regr=regr,
+                                    lu0.vals=lu0.vals,
+                                    demand=d,
+                                    elasticity=model@elasticity,
+                                    change.rule=model@change.rule,
+                                    min.elasticity=model@min.elasticity,
+                                    max.elasticity=model@max.elasticity,
+                                    min.change=model@min.change,
+                                    max.change=model@max.change,
+                                    min.value=model@min.value,
+                                    max.value=model@max.value,
+                                    max.iteration=model@max.iteration,
+                                    max.difference=model@max.difference,
+                                    cell.area=model@cell.area,
+                                    ncell=ncell,
+                                    ncode=ncode)
+
+                  lu1 <- lu0
+                  lu1[cells] <- lu1.vals
+                  maps[[i]] <- lu1
+
+                  if (i < nt) {
+                      lu0.vals <- matrix(data=lu1.vals, nrow=ncell)
+                  }
+              }
+
+              ContinuousLulcRasterStack(x=raster::stack(maps),
+                                        labels=model@labels,
+                                        t=model@time)
+              ## model@output <- ContinuousLulcRasterStack(x=raster::stack(maps),
+              ##                                           labels=model@labels,
+              ##                                           t=model@time)
+              ## model
+              
           }
 )
+
+#' @useDynLib lulcc2
+.clues <- function(tprob, lu0.vals, demand, categories, scale.factor, max.iteration, max.difference, average.difference) {
+    .Call("allocateclues", tprob, lu0.vals, demand, categories, scale.factor, max.iteration, max.difference, average.difference)
+}
+
+#' @useDynLib lulcc2
+.clue <- function(regr, lu0.vals, demand, elasticity, change.rule, cellarea, min.elasticity, max.elasticity, min.change, max.change, min.value, max.value, max.iteration, max.difference, cell.area, ncell, ncode) {
+    
+    .Call("allocateclue", regr, lu0.vals, demand, elasticity, change.rule, cell.area, min.elasticity, max.elasticity, min.change, max.change, min.value, max.value, max.iteration, max.difference, ncell, ncode)
+
+}
 
 ## # rdname allocate
 ## # aliases allocate,OrderedModel-method
@@ -146,11 +266,6 @@ setMethod("allocate", signature(model = "CluesModel"),
 ##                model     
 ##           }
 ## )
-
-#' @useDynLib lulcc2
-.clues <- function(tprob, map0.vals, demand, categories, jitter.f, scale.f, max.iter, max.diff, ave.diff) {
-    map1.vals <- .Call("allocateclues", tprob, map0.vals, demand, categories, jitter.f, scale.f, max.iter, max.diff, ave.diff)
-}
 
 ## # useDynLib lulcc2
 ## .ordered <- function(tprob, map0.vals, demand, categories, order, stochastic) {

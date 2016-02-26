@@ -26,7 +26,7 @@
 #' ## Sibuyan Island
 #' 
 #' ## load observed land use data
-#' obs <- ObsLulcRasterStack(x=sibuyan$maps,
+#' obs <- LulcRasterStack(x=sibuyan$maps,
 #'                     pattern="lu",
 #'                     categories=c(1,2,3,4,5),
 #'                     labels=c("Forest","Coconut","Grass","Rice","Other"),
@@ -42,8 +42,8 @@ setGeneric("total", function(x, ...)
            standardGeneric("total"))
 
 #' @rdname total-methods
-#' @aliases total,DiscreteObsLulcRasterStack-method
-setMethod("total", "DiscreteObsLulcRasterStack",
+#' @aliases total,DiscreteLulcRasterStack-method
+setMethod("total", "DiscreteLulcRasterStack",
           function(x, ...) {
 
               if (missing(categories)) {
@@ -61,8 +61,8 @@ setMethod("total", "DiscreteObsLulcRasterStack",
           )
 
 #' @rdname total-methods
-#' @aliases total,ContinuousObsLulcRasterStack-method
-setMethod("total", "ContinuousObsLulcRasterStack",
+#' @aliases total,ContinuousLulcRasterStack-method
+setMethod("total", "ContinuousLulcRasterStack",
           function(x, categories, ...) {
               
               if (missing(categories)) {

@@ -7,9 +7,4 @@
 \description{
 A virtual S4 class to represent land use change models.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{output}}{RasterStack containing simulated land use maps or NULL}
-}}
 

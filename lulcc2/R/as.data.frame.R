@@ -4,14 +4,14 @@ NULL
 #' Coerce objects to data.frame
 #'
 #' This function extracts data from all raster objects in
-#' \code{\link{ObsLulcRasterStack}} or \code{\link{ExpVarRasterStack}} objects
+#' \code{\link{LulcRasterStack}} or \code{\link{ExpVarRasterStack}} objects
 #' for a specified timestep.
 #'
-#' If x is an ObsLulcRasterStack object the raster corresponding to t is first
+#' If x is an LulcRasterStack object the raster corresponding to t is first
 #' transformed to a RasterBrick with a boolean layer for each class with
 #' \code{raster::\link[raster]{layerize}}.
 #'
-#' @param x an ExpVarRasterStack or ObsLulcRasterStack object
+#' @param x an ExpVarRasterStack or LulcRasterStack object
 #' @param row.names NULL or a character vector giving the row.names for the
 #'   data.frame. Missing values are not allowed
 #' @param optional logical. If TRUE, setting row names and converting column
@@ -22,7 +22,7 @@ NULL
 #' @param t numeric indicating the time under consideration
 #' @param \dots additional arguments (none)
 #'
-#' @seealso \code{\link[base]{as.data.frame}}, \code{\link{ObsLulcRasterStack}},
+#' @seealso \code{\link[base]{as.data.frame}}, \code{\link{LulcRasterStack}},
 #' \code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 #'
 #' @return A data.frame.
@@ -37,7 +37,7 @@ NULL
 #' ## Plum Island Ecosystems
 #' 
 #' ## observed maps
-#' obs <- ObsLulcRasterStack(x=pie,
+#' obs <- LulcRasterStack(x=pie,
 #'                           pattern="lu", 
 #'                           categories=c(1,2,3), 
 #'                           labels=c("Forest","Built","Other"), 
@@ -57,15 +57,18 @@ NULL
 #' @method as.data.frame ExpVarRasterStack
 #' @export
 as.data.frame.ExpVarRasterStack <- function(x, row.names=NULL, optional=FALSE, cells, t, ...) {
-    x <- .getExpVarRasterStack(x, time=t)
-    st <- as(x, "RasterStack")
+    ix <- .ExpVarIndex(x, time=t)
+    x <- x[[ix]]
+    names(x) <- names(ix)
+    ## x <- .getExpVarRasterStack(x, time=t)
+    ## st <- as(x, "RasterStack")
     as.data.frame(extract(x, cells, ...))
 }
 
 #' @rdname as.data.frame
-#' @method as.data.frame DiscreteObsLulcRasterStack
+#' @method as.data.frame DiscreteLulcRasterStack
 #' @export
-as.data.frame.DiscreteObsLulcRasterStack <- function(x, row.names=NULL, optional=FALSE, cells, t, ...) {
+as.data.frame.DiscreteLulcRasterStack <- function(x, row.names=NULL, optional=FALSE, cells, t, ...) {
 
     if (!t %in% x@t) stop()
     ix <- which(x@t %in% t)
@@ -75,9 +78,9 @@ as.data.frame.DiscreteObsLulcRasterStack <- function(x, row.names=NULL, optional
 }
     
 #' @rdname as.data.frame
-#' @method as.data.frame ContinuousObsLulcRasterStack
+#' @method as.data.frame ContinuousLulcRasterStack
 #' @export
-as.data.frame.ContinuousObsLulcRasterStack <- function(x, row.names=NULL, optional=FALSE, cells, t, ...) {
+as.data.frame.ContinuousLulcRasterStack <- function(x, row.names=NULL, optional=FALSE, cells, t, ...) {
 
     if (!t %in% x@t) stop()
     ix <- which(x@t %in% t)
@@ -86,60 +89,114 @@ as.data.frame.ContinuousObsLulcRasterStack <- function(x, row.names=NULL, option
     as.data.frame(raster::extract(x=br, y=cells, ...))
 }
 
-
 #' @rdname as.data.frame
 #' @aliases as.data.frame,ExpVarRasterStack-method
 setMethod("as.data.frame","ExpVarRasterStack",as.data.frame.ExpVarRasterStack)
 
 #' @rdname as.data.frame
-#' @aliases as.data.frame,DiscreteObsLulcRasterStack-method
-setMethod("as.data.frame","DiscreteObsLulcRasterStack",as.data.frame.DiscreteObsLulcRasterStack)
+#' @aliases as.data.frame,DiscreteLulcRasterStack-method
+setMethod("as.data.frame","DiscreteLulcRasterStack",as.data.frame.DiscreteLulcRasterStack)
 
 #' @rdname as.data.frame
-#' @aliases as.data.frame,ContinuousObsLulcRasterStack-method
-setMethod("as.data.frame","ContinuousObsLulcRasterStack",as.data.frame.ContinuousObsLulcRasterStack)
+#' @aliases as.data.frame,ContinuousLulcRasterStack-method
+setMethod("as.data.frame","ContinuousLulcRasterStack",as.data.frame.ContinuousLulcRasterStack)
 
+#' Update data.frame
+#'
+#' TODO
+#' 
+#' @param x ExpVarRasterStack object
+#' @param y data.frame to update
+#' @param cells TODO
+#' @param time TODO
+#' @param \dots TODO
+#'
+#' @return data.frame
+#' @rdname updateDataFrame-methods
+#' @export
+#'
+#' @examples
+#'
+#' ## TODO
+setGeneric("updateDataFrame", function(x, ...)
+           standardGeneric("updateDataFrame"))
 
-.update.data.frame <- function(x, y, map, cells, t, ...) {
-    ## hidden function to update a data.frame containing dynamic explanatory variables
-    ##
-    ## Args:
-    ##   x: a data.frame
-    ##   y: an ExpVarRasterStack object
-    ##   map: ???
-    ##   cells: ???
-    ##   t: the time for which dynamic explanatory variables should be updated
-    ##
-    ## Returns:
-    ##   a data.frame
-    
-    ix <- t + 1
-    nms <- names(x)
-    if (length(y@maps) > 0) {
-        dynamic.ix <- which(as.logical(sapply(y@maps, function(x) (nlayers(x) > 1))))
-        if (length(dynamic.ix) > 0) {
-            s <- raster::stack(lapply(y@maps[dynamic.ix], function(x) x[[ix]]))
-            update.vals <- s[cells]
-            x[,dynamic.ix] <- update.vals
-        }
-    }
+#' @rdname updateDataFrame-methods
+#' @aliases updateDataFrame,ExpVarRasterStack-method
+setMethod("updateDataFrame", "ExpVarRasterStack",
+          function(x, y, cells, time, ...) {
 
-    names(x) <- nms
-    x
-}
-    
-.getExpVarRasterStack <- function(x, time) {
+              if (length(cells) != nrow(y))
+                stop()
+
+              ix1 <- .dynamicExpVarIndex(x, time=time)
+              ix2 <- which(names(y) %in% names(ix1))
+              y[,ix2] <- as.data.frame(extract(x[[ix1]], cells, ...))
+              y
+          }
+          )
+
+.staticExpVarIndex <- function(x) {
     index <- x@index
-    static.ix <- !index[,3]
-    dyn.vars <- unique(index[!static.ix,1])
-    dyn.ix <- sapply(seq_len(length(dyn.vars)), FUN=function(i) {
+    static.ix <- which(!index[,3])
+    setNames(static.ix, index[static.ix,1])
+}
+
+.dynamicExpVarIndex <- function(x, time) {
+    index <- x@index
+    dyn.ix <- index[,3]
+    dyn.vars <- unique(index[dyn.ix,1])
+    setNames(sapply(seq_len(length(dyn.vars)), FUN=function(i) {
         var <- dyn.vars[i]
         t <- sort(index[(index[,1] %in% var), 2])
         t <- t[findInterval(time, t, all.inside=TRUE)]
-        which(index[,1] %in% var & index[,2] %in% t)})
-
-    ix <- sort(c(which(static.ix), dyn.ix))
-    setNames(x[[ix]], index[ix,1])
+        which(index[,1] %in% var & index[,2] %in% t)}), dyn.vars)
+}
+    
+.ExpVarIndex <- function(x, time) {
+    static.ix <- .staticExpVarIndex(x)
+    dynamic.ix <- .dynamicExpVarIndex(x, time)
+    sort(c(static.ix, dynamic.ix))
 }
 
+## .update.data.frame <- function(x, y, map, cells, t, ...) {
+##     ## hidden function to update a data.frame containing dynamic explanatory variables
+##     ##
+##     ## Args:
+##     ##   x: a data.frame
+##     ##   y: an ExpVarRasterStack object
+##     ##   map: ???
+##     ##   cells: ???
+##     ##   t: the time for which dynamic explanatory variables should be updated
+##     ##
+##     ## Returns:
+##     ##   a data.frame
+    
+##     ix <- t + 1
+##     nms <- names(x)
+##     if (length(y@maps) > 0) {
+##         dynamic.ix <- which(as.logical(sapply(y@maps, function(x) (nlayers(x) > 1))))
+##         if (length(dynamic.ix) > 0) {
+##             s <- raster::stack(lapply(y@maps[dynamic.ix], function(x) x[[ix]]))
+##             update.vals <- s[cells]
+##             x[,dynamic.ix] <- update.vals
+##         }
+##     }
 
+##     names(x) <- nms
+##     x
+## }
+
+## .getExpVarRasterStack <- function(x, time) {
+##     index <- x@index
+##     static.ix <- !index[,3]
+##     dyn.vars <- unique(index[!static.ix,1])
+##     dyn.ix <- sapply(seq_len(length(dyn.vars)), FUN=function(i) {
+##         var <- dyn.vars[i]
+##         t <- sort(index[(index[,1] %in% var), 2])
+##         t <- t[findInterval(time, t, all.inside=TRUE)]
+##         which(index[,1] %in% var & index[,2] %in% t)})
+
+##     ix <- sort(c(which(static.ix), dyn.ix))
+##     ## setNames(x[[ix]], index[ix,1])
+## }

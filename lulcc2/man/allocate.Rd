@@ -3,12 +3,15 @@
 \docType{methods}
 \name{allocate}
 \alias{allocate}
+\alias{allocate,ClueModel-method}
 \alias{allocate,CluesModel-method}
 \title{Allocate land use change spatially}
 \usage{
 allocate(model, ...)
 
 \S4method{allocate}{CluesModel}(model, ...)
+
+\S4method{allocate}{ClueModel}(model, ...)
 }
 \arguments{
 \item{model}{an object inheriting from class \code{Model}}
@@ -16,7 +19,7 @@ allocate(model, ...)
 \item{\dots}{additional arguments for specific methods}
 }
 \value{
-An updated Model object.
+LulcRasterStack.
 }
 \description{
 Perform spatially explicit allocation of land use change using different

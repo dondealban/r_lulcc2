@@ -1,4 +1,4 @@
-#' @include class-ObsLulcRasterStack.R class-ExpVarRasterStack.R
+#' @include class-LulcRasterStack.R class-ExpVarRasterStack.R
 NULL
 
 #' Summary
@@ -17,8 +17,8 @@ NULL
 setGeneric("summary")
 
 ## # rdname summary-methods
-## # aliases summary,ObsLulcRasterStack-method
-## setMethod("summary", "ObsLulcRasterStack",
+## # aliases summary,LulcRasterStack-method
+## setMethod("summary", "LulcRasterStack",
 ##           function(object, ...) {
 
 ##               sum <- sapply(unstack(object), FUN=function(x) summary(x))

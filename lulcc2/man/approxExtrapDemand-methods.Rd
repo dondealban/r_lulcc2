@@ -3,18 +3,18 @@
 \docType{methods}
 \name{approxExtrapDemand}
 \alias{approxExtrapDemand}
-\alias{approxExtrapDemand,DiscreteObsLulcRasterStack-method}
-\alias{approxExtrapDemand,ObsLulcRasterStack-method}
+\alias{approxExtrapDemand,DiscreteLulcRasterStack-method}
+\alias{approxExtrapDemand,LulcRasterStack-method}
 \title{Extrapolate land use area in time}
 \usage{
 approxExtrapDemand(obs, ...)
 
-\S4method{approxExtrapDemand}{ObsLulcRasterStack}(obs, tout, ...)
+\S4method{approxExtrapDemand}{LulcRasterStack}(obs, tout, ...)
 
-\S4method{approxExtrapDemand}{DiscreteObsLulcRasterStack}(obs, tout, ...)
+\S4method{approxExtrapDemand}{DiscreteLulcRasterStack}(obs, tout, ...)
 }
 \arguments{
-\item{obs}{an ObsLulcRasterStack object containing at least two maps}
+\item{obs}{an LulcRasterStack object containing at least two maps}
 
 \item{tout}{numeric vector specifying the timesteps where interpolation is to
 take place. Comparable to the \code{xout} argument of
@@ -42,7 +42,7 @@ however, linear extrapolation of trends remains a useful technique.
 ## Plum Island Ecosystems
 
 ## load observed land use maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                    pattern="lu",
                    categories=c(1,2,3),
                    labels=c("forest","built","other"),

@@ -24,9 +24,17 @@ NULL
 #' ## see lulcc-package examples
 
 #' @rdname plot
-#' @method plot ObsLulcRasterStack
+#' @method plot ContinuousLulcRasterStack
 #' @export
-plot.ObsLulcRasterStack <- function(x, y, ...) {
+plot.ContinuousLulcRasterStack <- function(x, y, ...) {
+    p <- rasterVis::levelplot(as(x, "RasterStack"), ...)
+    p
+}
+
+#' @rdname plot
+#' @method plot DiscreteLulcRasterStack
+#' @export
+plot.DiscreteLulcRasterStack <- function(x, y, ...) {
 
     rat <- data.frame(ID=x@categories, labels=x@labels)
     x <- unstack(x)
@@ -38,26 +46,26 @@ plot.ObsLulcRasterStack <- function(x, y, ...) {
     p
 }
 
-#' @rdname plot
-#' @method plot Model
-#' @export
-plot.Model <- function(x, y, ...) {
+## # rdname plot
+## # method plot Model
+## # export
+## plot.Model <- function(x, y, ...) {
 
-    output <- x@output
-    if (!is(output, "RasterStack")) {
-        stop("'x' does not contain output maps")
-    }
+##     output <- x@output
+##     if (!is(output, "RasterStack")) {
+##         stop("'x' does not contain output maps")
+##     }
 
-    rat <- data.frame(ID=x@categories, labels=x@labels)
-    output <- unstack(output)
-    for (i in 1:length(output)) {
-        levels(output[[i]]) <- rat
-    }
-    output <- stack(output)
-    names(output) <- paste0("t", x@time)
-    p <- rasterVis::levelplot(output, ...)
-    p
-}
+##     rat <- data.frame(ID=x@categories, labels=x@labels)
+##     output <- unstack(output)
+##     for (i in 1:length(output)) {
+##         levels(output[[i]]) <- rat
+##     }
+##     output <- stack(output)
+##     names(output) <- paste0("t", x@time)
+##     p <- rasterVis::levelplot(output, ...)
+##     p
+## }
 
 #' @rdname plot
 #' @method plot ThreeMapComparison
@@ -132,12 +140,16 @@ plot.ThreeMapComparison <- function(x, y, category, factors, ...) {
 }
 
 #' @rdname plot
-#' @aliases plot,ObsLulcRasterStack,ANY-method
-setMethod("plot", "ObsLulcRasterStack", plot.ObsLulcRasterStack)
+#' @aliases plot,ContinuousLulcRasterStack,ANY-method
+setMethod("plot", "ContinuousLulcRasterStack", plot.ContinuousLulcRasterStack)
 
 #' @rdname plot
-#' @aliases plot,Model,ANY-method
-setMethod("plot", "Model", plot.Model)
+#' @aliases plot,DiscreteLulcRasterStack,ANY-method
+setMethod("plot", "DiscreteLulcRasterStack", plot.DiscreteLulcRasterStack)
+
+## # rdname plot
+## # aliases plot,Model,ANY-method
+## setMethod("plot", "Model", plot.Model)
 
 #' @rdname plot
 #' @aliases plot,ThreeMapComparison,ANY-method

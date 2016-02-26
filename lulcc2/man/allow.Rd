@@ -60,7 +60,7 @@ procedure.
 ## Plum Island Ecosystems
 
 ## load observed land use data
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                    pattern="lu",
                    categories=c(1,2,3),
                    labels=c("forest","built","other"),

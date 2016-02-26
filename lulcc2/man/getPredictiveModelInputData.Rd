@@ -7,7 +7,7 @@
 getPredictiveModelInputData(lu, ef, cells, ...)
 }
 \arguments{
-\item{lu}{an ObsLulcRasterStack object}
+\item{lu}{an LulcRasterStack object}
 
 \item{ef}{an ExpVarRasterStack object}
 
@@ -28,7 +28,7 @@ models.
 ## TODO
 }
 \seealso{
-\code{\link[base]{as.data.frame}}, \code{\link{ObsLulcRasterStack}},
+\code{\link[base]{as.data.frame}}, \code{\link{LulcRasterStack}},
 \code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 }
 

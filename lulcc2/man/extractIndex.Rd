@@ -3,14 +3,14 @@
 \docType{methods}
 \name{Extract by index}
 \alias{Extract by index}
-\alias{[[,ContinuousObsLulcRasterStack,ANY,ANY-method}
-\alias{[[,DiscreteObsLulcRasterStack,ANY,ANY-method}
+\alias{[[,ContinuousLulcRasterStack,ANY,ANY-method}
+\alias{[[,DiscreteLulcRasterStack,ANY,ANY-method}
 \alias{[[,PerformanceList,ANY,ANY-method}
 \alias{[[,PredictionList,ANY,ANY-method}
 \alias{[[,PredictiveModelList,ANY,ANY-method}
 \title{Extract by index}
 \usage{
-\S4method{[[}{DiscreteObsLulcRasterStack,ANY,ANY}(x, i, j, ...)
+\S4method{[[}{DiscreteLulcRasterStack,ANY,ANY}(x, i, j, ...)
 
 \S4method{[[}{PerformanceList,ANY,ANY}(x, i, j, ...)
 
@@ -18,7 +18,7 @@
 
 \S4method{[[}{PredictiveModelList,ANY,ANY}(x, i, j, ...)
 
-\S4method{[[}{ContinuousObsLulcRasterStack,ANY,ANY}(x, i, j, ...)
+\S4method{[[}{ContinuousLulcRasterStack,ANY,ANY}(x, i, j, ...)
 }
 \arguments{
 \item{x}{TODO}
@@ -39,7 +39,7 @@ classes such as \code{ExpVarRasterStack}, \code{PredictiveModelList}, \code{Pred
 ## Plum Island Ecosystems
 
 ## Load observed land use maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                    pattern="lu",
                    categories=c(1,2,3),
                    labels=c("forest","built","other"),

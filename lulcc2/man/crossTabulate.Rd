@@ -3,7 +3,7 @@
 \docType{methods}
 \name{crossTabulate}
 \alias{crossTabulate}
-\alias{crossTabulate,DiscreteObsLulcRasterStack,ANY-method}
+\alias{crossTabulate,DiscreteLulcRasterStack,ANY-method}
 \alias{crossTabulate,RasterLayer,RasterLayer-method}
 \title{Cross tabulate land use transitions}
 \usage{
@@ -12,24 +12,24 @@ crossTabulate(x, y, ...)
 \S4method{crossTabulate}{RasterLayer,RasterLayer}(x, y, categories,
   labels = as.character(categories), ...)
 
-\S4method{crossTabulate}{DiscreteObsLulcRasterStack,ANY}(x, y, times, ...)
+\S4method{crossTabulate}{DiscreteLulcRasterStack,ANY}(x, y, times, ...)
 }
 \arguments{
 \item{x}{RasterLayer representing land use map from an earlier timestep or an
-ObsLulcRasterStack object containing at least two land use maps for different
+LulcRasterStack object containing at least two land use maps for different
 points in time}
 
 \item{y}{RasterLayer representing land use map from a later timestep. Not used
-if \code{x} is an ObsLulcRasterStack object}
+if \code{x} is an LulcRasterStack object}
 
 \item{categories}{numeric vector containing land use categories to consider.
-Not used if \code{x} is an ObsLulcRasterStack object}
+Not used if \code{x} is an LulcRasterStack object}
 
 \item{labels}{character vector (optional) with labels corresponding to
-\code{categories}. Not used if \code{x} is an ObsLulcRasterStack object}
+\code{categories}. Not used if \code{x} is an LulcRasterStack object}
 
 \item{times}{numeric vector representing the time points of two land use maps
-from ObsLulcRasterStack}
+from LulcRasterStack}
 
 \item{\dots}{additional arguments to \code{raster::\link[raster]{crosstab}}}
 }
@@ -48,7 +48,7 @@ the study region (Pontius et al., 2004).
 ## Plum Island Ecosystems
 
 ## Load observed land use maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                    pattern="lu",
                    categories=c(1,2,3),
                    labels=c("forest","built","other"),
@@ -70,6 +70,6 @@ important categorical land changes while accounting for persistence.
 Agriculture, Ecosystems & Environment 101(2):251-268.
 }
 \seealso{
-\code{\link{ObsLulcRasterStack}}, \code{raster::\link[raster]{crosstab}}
+\code{\link{LulcRasterStack}}, \code{raster::\link[raster]{crosstab}}
 }
 

@@ -1,4 +1,4 @@
-#' Class ObsLulcRasterStack
+#' Class LulcRasterStack
 #'
 #' A virtual S4 class for observed land use maps.
 #'
@@ -15,16 +15,16 @@
 #' @slot z see \code{raster::\link[raster]{Raster-class}}
 #' 
 #' @export
-#' @exportClass ObsLulcRasterStack
-#' @rdname ObsLulcRasterStack-class
-setClass("ObsLulcRasterStack",
+#' @exportClass LulcRasterStack
+#' @rdname LulcRasterStack-class
+setClass("LulcRasterStack",
          contains = c("RasterStack"),
          validity = function(object) {
              return(TRUE)
          }
          )
 
-#' Class DiscreteObsLulcRasterStack
+#' Class DiscreteLulcRasterStack
 #'
 #' A virtual S4 class for observed land use maps.
 #'
@@ -44,10 +44,10 @@ setClass("ObsLulcRasterStack",
 #' @slot labels character vector corresponding to \code{categories}
 #' 
 #' @export
-#' @exportClass DiscreteObsLulcRasterStack
-#' @rdname DiscreteObsLulcRasterStack-class
-setClass("DiscreteObsLulcRasterStack",
-         contains = c("ObsLulcRasterStack"),
+#' @exportClass DiscreteLulcRasterStack
+#' @rdname DiscreteLulcRasterStack-class
+setClass("DiscreteLulcRasterStack",
+         contains = c("LulcRasterStack"),
          slots = c(
            t = "numeric",
            categories = "numeric",
@@ -65,7 +65,7 @@ setClass("DiscreteObsLulcRasterStack",
          }
 )
 
-#' Class ContinuousObsLulcRasterStack
+#' Class ContinuousLulcRasterStack
 #'
 #' A virtual S4 class for observed land use maps.
 #'
@@ -85,10 +85,10 @@ setClass("DiscreteObsLulcRasterStack",
 #' @slot labels character vector corresponding to \code{categories}
 #' 
 #' @export
-#' @exportClass ContinuousObsLulcRasterStack
-#' @rdname ContinuousObsLulcRasterStack-class
-setClass("ContinuousObsLulcRasterStack",
-         contains = c("ObsLulcRasterStack"),
+#' @exportClass ContinuousLulcRasterStack
+#' @rdname ContinuousLulcRasterStack-class
+setClass("ContinuousLulcRasterStack",
+         contains = c("LulcRasterStack"),
          slots = c(
            t = "numeric",
            categories = "numeric",
@@ -97,8 +97,8 @@ setClass("ContinuousObsLulcRasterStack",
              ## TODO: check all values 0 <= val <= 1
              check1 <- (raster::nlayers(object) > 0)
              if (!check1) stop("RasterStack contains no layers")
-             check2 <- raster::nlayers(object) == length(object@t) * length(object@categories)
-             if (!check2) stop()
+             ## check2 <- raster::nlayers(object) == (length(object@t) * length(object@categories))
+             ## if (!check2) stop("TODO")
              check3 <- (length(object@categories) == length(object@labels))
              if (!check3) stop("labels and categories have different lengths")
              return(TRUE)

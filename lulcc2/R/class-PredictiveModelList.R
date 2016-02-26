@@ -17,9 +17,7 @@ setClass("PredictiveModelList",
            labels = "character"),
          validity = function(object) {
              check1 <- (length(object@models) == length(object@categories))
-             if (!check1) stop("")
-             check2 <- (length(object@models) == length(object@labels))
-             if (!check2) stop("")
+             if (!check1) stop("Number of models does not equal number of land use categories")
              return(TRUE)
          }
          )

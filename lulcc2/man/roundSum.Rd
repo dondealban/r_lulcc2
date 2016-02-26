@@ -34,7 +34,7 @@ the units of demand to number of cells.
 ## Sibuyan Island
 
 ## load observed land use data and create demand scenario
-obs <- ObsLulcRasterStack(x=sibuyan$maps,
+obs <- LulcRasterStack(x=sibuyan$maps,
                     pattern="lu",
                     categories=c(1,2,3,4,5),
                     labels=c("Forest","Coconut","Grass","Rice","Other"),

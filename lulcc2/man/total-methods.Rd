@@ -3,16 +3,16 @@
 \docType{methods}
 \name{total}
 \alias{total}
-\alias{total,ContinuousObsLulcRasterStack-method}
-\alias{total,DiscreteObsLulcRasterStack-method}
+\alias{total,ContinuousLulcRasterStack-method}
+\alias{total,DiscreteLulcRasterStack-method}
 \alias{total,Raster-method}
 \title{Total number of cells in a categorical Raster* object}
 \usage{
 total(x, ...)
 
-\S4method{total}{DiscreteObsLulcRasterStack}(x, ...)
+\S4method{total}{DiscreteLulcRasterStack}(x, ...)
 
-\S4method{total}{ContinuousObsLulcRasterStack}(x, categories, ...)
+\S4method{total}{ContinuousLulcRasterStack}(x, categories, ...)
 
 \S4method{total}{Raster}(x, categories, ...)
 }
@@ -41,7 +41,7 @@ Count the number of cells belonging to each category in a Raster* object.
 ## Sibuyan Island
 
 ## load observed land use data
-obs <- ObsLulcRasterStack(x=sibuyan$maps,
+obs <- LulcRasterStack(x=sibuyan$maps,
                     pattern="lu",
                     categories=c(1,2,3,4,5),
                     labels=c("Forest","Coconut","Grass","Rice","Other"),

@@ -18,8 +18,8 @@
 #'   argument to \cr
 #'   \code{raster::\link[raster]{aggregate}} representing the resolutions at which
 #'   model performance should be tested
-#' @param timestep numeric value indicating the timestep of the simulated land use
-#'   map. Only required if \code{x} is a \code{Model} object
+## # param timestep numeric value indicating the timestep of the simulated land use
+## #   map. Only required if \code{x} is a \code{Model} object
 #' @param categories numeric vector of land use categories in observed maps. Only
 #'   required if \code{x} is a RasterLayer
 #' @param labels character vector (optional) with labels corresponding to
@@ -45,25 +45,25 @@
 setGeneric("ThreeMapComparison", function(x, x1, y1, ...)
            standardGeneric("ThreeMapComparison"))
 
-#' @rdname ThreeMapComparison
-#' @aliases ThreeMapComparison,Model,ANY,ANY-method
-setMethod("ThreeMapComparison", signature(x = "Model", x1 = "ANY", y1 = "ANY"),
-          function(x, x1, y1, factors, timestep, ...) {
+## # @rdname ThreeMapComparison
+## # aliases ThreeMapComparison,Model,ANY,ANY-method
+## setMethod("ThreeMapComparison", signature(x = "Model", x1 = "ANY", y1 = "ANY"),
+##           function(x, x1, y1, factors, timestep, ...) {
             
-              if (!timestep %in% x@obs@t) {
-                  stop(paste0("no observed map for timestep ", timestep))
-              }
+##               if (!timestep %in% x@obs@t) {
+##                   stop(paste0("no observed map for timestep ", timestep))
+##               }
 
-              categories <- x@categories
-              labels <- x@labels
-              x1 <- x@obs[[which(x@obs@t %in% timestep)]]
-              y1 <- x@output[[which(x@time %in% timestep)]]
-              x <- x@obs[[1]]
+##               categories <- x@categories
+##               labels <- x@labels
+##               x1 <- x@obs[[which(x@obs@t %in% timestep)]]
+##               y1 <- x@output[[which(x@time %in% timestep)]]
+##               x <- x@obs[[1]]
 
-              out <- ThreeMapComparison(x=x, x1=x1, y1=y1, factors=factors, categories=categories, labels=labels, ...)
-              out
-          }
-)
+##               out <- ThreeMapComparison(x=x, x1=x1, y1=y1, factors=factors, categories=categories, labels=labels, ...)
+##               out
+##           }
+## )
             
 #' @rdname ThreeMapComparison
 #' @aliases ThreeMapComparison,RasterLayer,RasterLayer,RasterLayer-method

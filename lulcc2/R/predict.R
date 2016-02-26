@@ -26,7 +26,7 @@
 #' ## Sibuyan Island
 #' 
 #' ## load observed land use data
-#' obs <- ObsLulcRasterStack(x=sibuyan$maps,
+#' obs <- LulcRasterStack(x=sibuyan$maps,
 #'                     pattern="lu",
 #'                     categories=c(1,2,3,4,5),
 #'                     labels=c("Forest","Coconut","Grass","Rice","Other"),
@@ -70,15 +70,19 @@ predict.PredictiveModelList <- function(object, newdata, data.frame=FALSE, ...) 
 
         mod <- object@models[[i]]
         if (inherits(mod, "randomForest")) {
-            out[[i]] <- predict(object=mod, newdata=newdata, type="response", ...) ##[,2]
+            out[[i]] <- predict(object=mod, newdata=newdata, ...)
         }
 
         ## if (inherits(mod, "rpart")) {
         ##     out[[i]] <- predict(object=mod, newdata=newdata, type="prob", ...)[,2]
         ## }
 
+        if (inherits(mod, "lm")) {
+            out[[i]] <- predict(object=mod, newdata=newdata, ...)
+        }
+            
         if (inherits(mod, "glm")) {
-            out[[i]] <- predict(object=mod, newdata=newdata, type="response")#, ...)
+            out[[i]] <- predict(object=mod, newdata=newdata, type="response", ...)
         }
     }
 

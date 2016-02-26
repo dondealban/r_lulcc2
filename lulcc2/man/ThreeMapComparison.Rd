@@ -3,13 +3,10 @@
 \docType{methods}
 \name{ThreeMapComparison}
 \alias{ThreeMapComparison}
-\alias{ThreeMapComparison,Model,ANY,ANY-method}
 \alias{ThreeMapComparison,RasterLayer,RasterLayer,RasterLayer-method}
 \title{Evaluate allocation performance with three maps}
 \usage{
 ThreeMapComparison(x, x1, y1, ...)
-
-\S4method{ThreeMapComparison}{Model,ANY,ANY}(x, x1, y1, factors, timestep, ...)
 
 \S4method{ThreeMapComparison}{RasterLayer,RasterLayer,RasterLayer}(x, x1, y1,
   factors, categories, labels, ...)
@@ -28,9 +25,6 @@ required if \code{x} is also a RasterLayer}
 argument to \cr
 \code{raster::\link[raster]{aggregate}} representing the resolutions at which
 model performance should be tested}
-
-\item{timestep}{numeric value indicating the timestep of the simulated land use
-map. Only required if \code{x} is a \code{Model} object}
 
 \item{categories}{numeric vector of land use categories in observed maps. Only
 required if \code{x} is a RasterLayer}

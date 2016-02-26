@@ -9,19 +9,19 @@ NULL
 #' the study region (Pontius et al., 2004).
 #'
 #' @param x RasterLayer representing land use map from an earlier timestep or an
-#'   ObsLulcRasterStack object containing at least two land use maps for different
+#'   LulcRasterStack object containing at least two land use maps for different
 #'   points in time
 #' @param y RasterLayer representing land use map from a later timestep. Not used
-#'   if \code{x} is an ObsLulcRasterStack object
+#'   if \code{x} is an LulcRasterStack object
 #' @param categories numeric vector containing land use categories to consider.
-#'   Not used if \code{x} is an ObsLulcRasterStack object
+#'   Not used if \code{x} is an LulcRasterStack object
 #' @param labels character vector (optional) with labels corresponding to
-#'   \code{categories}. Not used if \code{x} is an ObsLulcRasterStack object
+#'   \code{categories}. Not used if \code{x} is an LulcRasterStack object
 #' @param times numeric vector representing the time points of two land use maps
-#'   from ObsLulcRasterStack
+#'   from LulcRasterStack
 #' @param \dots additional arguments to \code{raster::\link[raster]{crosstab}}
 #'
-#' @seealso \code{\link{ObsLulcRasterStack}}, \code{raster::\link[raster]{crosstab}}
+#' @seealso \code{\link{LulcRasterStack}}, \code{raster::\link[raster]{crosstab}}
 #' @return A data.frame.
 #'
 #' @export
@@ -38,7 +38,7 @@ NULL
 #' ## Plum Island Ecosystems 
 #' 
 #' ## Load observed land use maps
-#' obs <- ObsLulcRasterStack(x=pie,
+#' obs <- LulcRasterStack(x=pie,
 #'                    pattern="lu",
 #'                    categories=c(1,2,3),
 #'                    labels=c("forest","built","other"),
@@ -87,8 +87,8 @@ setMethod("crossTabulate", signature(x = "RasterLayer", y = "RasterLayer"),
 )
 
 #' @rdname crossTabulate
-#' @aliases crossTabulate,DiscreteObsLulcRasterStack,ANY-method
-setMethod("crossTabulate", signature(x = "DiscreteObsLulcRasterStack", y = "ANY"),
+#' @aliases crossTabulate,DiscreteLulcRasterStack,ANY-method
+setMethod("crossTabulate", signature(x = "DiscreteLulcRasterStack", y = "ANY"),
           function(x, y, times, ...) {
 
               if (nlayers(x) < 2) stop("at least two maps required")

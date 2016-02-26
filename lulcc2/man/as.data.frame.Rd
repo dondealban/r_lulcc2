@@ -2,34 +2,34 @@
 % Please edit documentation in R/as.data.frame.R
 \docType{methods}
 \name{as.data.frame.ExpVarRasterStack}
-\alias{as.data.frame,ContinuousObsLulcRasterStack-method}
-\alias{as.data.frame,DiscreteObsLulcRasterStack-method}
+\alias{as.data.frame,ContinuousLulcRasterStack-method}
+\alias{as.data.frame,DiscreteLulcRasterStack-method}
 \alias{as.data.frame,ExpVarRasterStack-method}
-\alias{as.data.frame.ContinuousObsLulcRasterStack}
-\alias{as.data.frame.DiscreteObsLulcRasterStack}
+\alias{as.data.frame.ContinuousLulcRasterStack}
+\alias{as.data.frame.DiscreteLulcRasterStack}
 \alias{as.data.frame.ExpVarRasterStack}
 \title{Coerce objects to data.frame}
 \usage{
 \method{as.data.frame}{ExpVarRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 
-\method{as.data.frame}{DiscreteObsLulcRasterStack}(x, row.names = NULL,
+\method{as.data.frame}{DiscreteLulcRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 
-\method{as.data.frame}{ContinuousObsLulcRasterStack}(x, row.names = NULL,
+\method{as.data.frame}{ContinuousLulcRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 
 \S4method{as.data.frame}{ExpVarRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 
-\S4method{as.data.frame}{DiscreteObsLulcRasterStack}(x, row.names = NULL,
+\S4method{as.data.frame}{DiscreteLulcRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 
-\S4method{as.data.frame}{ContinuousObsLulcRasterStack}(x, row.names = NULL,
+\S4method{as.data.frame}{ContinuousLulcRasterStack}(x, row.names = NULL,
   optional = FALSE, cells, t, ...)
 }
 \arguments{
-\item{x}{an ExpVarRasterStack or ObsLulcRasterStack object}
+\item{x}{an ExpVarRasterStack or LulcRasterStack object}
 
 \item{row.names}{NULL or a character vector giving the row.names for the
 data.frame. Missing values are not allowed}
@@ -50,11 +50,11 @@ A data.frame.
 }
 \description{
 This function extracts data from all raster objects in
-\code{\link{ObsLulcRasterStack}} or \code{\link{ExpVarRasterStack}} objects
+\code{\link{LulcRasterStack}} or \code{\link{ExpVarRasterStack}} objects
 for a specified timestep.
 }
 \details{
-If x is an ObsLulcRasterStack object the raster corresponding to t is first
+If x is an LulcRasterStack object the raster corresponding to t is first
 transformed to a RasterBrick with a boolean layer for each class with
 \code{raster::\link[raster]{layerize}}.
 }
@@ -64,7 +64,7 @@ transformed to a RasterBrick with a boolean layer for each class with
 ## Plum Island Ecosystems
 
 ## observed maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                           pattern="lu",
                           categories=c(1,2,3),
                           labels=c("Forest","Built","Other"),
@@ -81,7 +81,7 @@ df2 <- as.data.frame(x=ef, cells=part[["all"]], t=0)
 }
 }
 \seealso{
-\code{\link[base]{as.data.frame}}, \code{\link{ObsLulcRasterStack}},
+\code{\link[base]{as.data.frame}}, \code{\link{LulcRasterStack}},
 \code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 }
 

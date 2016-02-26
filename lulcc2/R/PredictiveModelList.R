@@ -1,4 +1,4 @@
-#' @include class-PredictiveModelList.R class-ObsLulcRasterStack.R class-ExpVarRasterStack.R as.data.frame.R
+#' @include class-PredictiveModelList.R class-LulcRasterStack.R class-ExpVarRasterStack.R as.data.frame.R
 NULL
 
 #' Fit predictive models 
@@ -143,8 +143,8 @@ randomForestModels <- function(formula, ..., obs, categories=NA, labels=NA) {
 ##            standardGeneric("lmModels"))
 
 ## # rdname Model-fitting
-## # aliases lmModels,ContinuousObsLulcRasterStack,list-method
-## setMethod("lmModels", c("ContinuousObsLulcRasterStack","ExpVarRasterStack"),
+## # aliases lmModels,ContinuousLulcRasterStack,list-method
+## setMethod("lmModels", c("ContinuousLulcRasterStack","ExpVarRasterStack"),
 ##           function(lu, ef, time, subset, formula, ...) {
 
 ##               lm.models <- vector(mode="list", length=length(formula))
@@ -170,8 +170,8 @@ randomForestModels <- function(formula, ..., obs, categories=NA, labels=NA) {
 ##            standardGeneric("glmModels"))
 
 ## # rdname Model-fitting
-## # aliases glmModels,DiscreteObsLulcRasterStack,ExpVarRasterStack-method
-## setMethod("glmModels", c("DiscreteObsLulcRasterStack","ExpVarRasterStack"),
+## # aliases glmModels,DiscreteLulcRasterStack,ExpVarRasterStack-method
+## setMethod("glmModels", c("DiscreteLulcRasterStack","ExpVarRasterStack"),
 ##           function(lu, ef, time, subset, formula, family=binomial, model=FALSE, ...) {
 
 ##               glm.models <- vector(mode="list", length=length(formula))
@@ -197,8 +197,8 @@ randomForestModels <- function(formula, ..., obs, categories=NA, labels=NA) {
 ##            standardGeneric("randomForestModels"))
 
 ## # rdname Model-fitting
-## # aliases randomForestModels,DiscreteObsLulcRasterStack,ExpVarRasterStack-method
-## setMethod("randomForestModels", c("DiscreteObsLulcRasterStack","ExpVarRasterStack"),
+## # aliases randomForestModels,DiscreteLulcRasterStack,ExpVarRasterStack-method
+## setMethod("randomForestModels", c("DiscreteLulcRasterStack","ExpVarRasterStack"),
 ##           function(lu, ef, time, subset, formula, ...) {
 
 ##               rf.models <- vector(mode="list", length=length(formula))
@@ -219,8 +219,8 @@ randomForestModels <- function(formula, ..., obs, categories=NA, labels=NA) {
 ##           )
 
 ## # rdname Model-fitting
-## # aliases randomForestModels,ContinuousObsLulcRasterStack,ExpVarRasterStack-method
-## setMethod("randomForestModels", c("ContinuousObsLulcRasterStack","ExpVarRasterStack"),
+## # aliases randomForestModels,ContinuousLulcRasterStack,ExpVarRasterStack-method
+## setMethod("randomForestModels", c("ContinuousLulcRasterStack","ExpVarRasterStack"),
 ##           function(lu, ef, time, subset, formula, ...) {
 ##               rf.models <- vector(mode="list", length=length(formula))
 ##               formula <- .checkFormula(formula, lu@categories, lu@labels)

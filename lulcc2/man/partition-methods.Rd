@@ -3,16 +3,16 @@
 \docType{methods}
 \name{partition}
 \alias{partition}
-\alias{partition,ContinuousObsLulcRasterStack-method}
-\alias{partition,DiscreteObsLulcRasterStack-method}
+\alias{partition,ContinuousLulcRasterStack-method}
+\alias{partition,DiscreteLulcRasterStack-method}
 \title{Partition raster data}
 \usage{
 partition(x, ...)
 
-\S4method{partition}{DiscreteObsLulcRasterStack}(x, size = 0.5,
-  spatial = TRUE, t, ...)
+\S4method{partition}{DiscreteLulcRasterStack}(x, size = 0.5, spatial = TRUE,
+  t, ...)
 
-\S4method{partition}{ContinuousObsLulcRasterStack}(x, size = 0.5,
+\S4method{partition}{ContinuousLulcRasterStack}(x, size = 0.5,
   spatial = TRUE, ...)
 }
 \arguments{
@@ -53,7 +53,7 @@ categorical raster map into training and testing partitions.
 ## Plum Island Ecosystems
 
 ## Load observed land use maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                    pattern="lu",
                    categories=c(1,2,3),
                    labels=c("forest","built","other"),

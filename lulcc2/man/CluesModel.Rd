@@ -4,15 +4,15 @@
 \alias{CluesModel}
 \title{Create a CluesModel object}
 \usage{
-CluesModel(observed.lulc, explanatory.factors, predictive.models, time, demand,
-  history, mask, neighbourhood, transition.rules, neighbourhood.rules,
+CluesModel(observed.lulc, explanatory.variables, predictive.models, time,
+  demand, history, mask, neighbourhood, transition.rules, neighbourhood.rules,
   elasticity, iteration.factor = 1e-05, max.iteration = 1000,
   max.difference = 5, ave.difference = 5, ...)
 }
 \arguments{
-\item{observed.lulc}{an ObsLulcRasterStack}
+\item{observed.lulc}{an LulcRasterStack}
 
-\item{explanatory.factors}{an ExpVarRasterStack object}
+\item{explanatory.variables}{an ExpVarRasterStack object}
 
 \item{predictive.models}{a PredictiveModelList object}
 
@@ -56,23 +56,6 @@ A CluesModel object.
 \description{
 Methods to create a \code{CluesModel} object to supply to
 \code{\link{allocate}}.
-}
-\details{
-The \code{params} argument is a list of parameter values which should contain
-the following components:
-
-\describe{
-  \item{\code{scale.f}}{Scale factor which controls the amount by which
-    suitability is increased if demand is not met. Default is 0.0005}
-  \item{\code{max.iter}}{The maximum number of iterations in the simulation}
-  \item{\code{max.diff}}{The maximum allowed difference between allocated and
-    demanded area of any land use type. Default is 5}
-  \item{\code{ave.diff}}{The average allowed difference between allocated and
-    demanded area. Default is 5}
-}
-
-Note that, in order to achieve convergence, it is likely that some adjustment
-of these parameters will be required.
 }
 \examples{
 ## see lulcc-package examples

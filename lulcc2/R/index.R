@@ -22,7 +22,7 @@ NULL
 #' ## Plum Island Ecosystems
 #' 
 #' ## Load observed land use maps
-#' obs <- ObsLulcRasterStack(x=pie,
+#' obs <- LulcRasterStack(x=pie,
 #'                    pattern="lu",
 #'                    categories=c(1,2,3),
 #'                    labels=c("forest","built","other"),
@@ -61,8 +61,8 @@ NULL
 ##           )
 
 #' @rdname extractIndex
-#' @aliases [[,DiscreteObsLulcRasterStack,ANY,ANY-method
-setMethod("[[", "DiscreteObsLulcRasterStack",
+#' @aliases [[,DiscreteLulcRasterStack,ANY,ANY-method
+setMethod("[[", "DiscreteLulcRasterStack",
           function(x,i,j,...) {
 	      if ( missing(i)) { 
                   stop('you must provide an index') 
@@ -169,8 +169,8 @@ setMethod("[[", "PredictiveModelList",
           )
 
 #' @rdname extractIndex
-#' @aliases [[,ContinuousObsLulcRasterStack,ANY,ANY-method
-setMethod("[[", "ContinuousObsLulcRasterStack",
+#' @aliases [[,ContinuousLulcRasterStack,ANY,ANY-method
+setMethod("[[", "ContinuousLulcRasterStack",
           function(x,i,j,...) {
 	      if ( missing(i)) { 
                   stop('you must provide an index') 
@@ -182,7 +182,17 @@ setMethod("[[", "ContinuousObsLulcRasterStack",
 
               nt <- length(x@t)
               nl <- raster::nlayers(x)
-              subset(x, seq(from=((i-1) * nl + 1), length.out=nl))
+              nc <- length(x@categories)
+
+              ix <- as.numeric(sapply(i, FUN=function(index) seq(from=((index-1) * nc + 1), length.out=nc)))
+              ## subset(x, seq(from=((i-1) * nc + 1), length.out=nc))
+
+              new("ContinuousLulcRasterStack",
+                  subset(x, ix),
+                  labels=x@labels,
+                  categories=x@categories,
+                  t=x@t[i])
+
 	      ## if (is.numeric(i)) {
 	      ##     sgn <- sign(i)
 	      ##     sgn[sgn==0] <- 1

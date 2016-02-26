@@ -1,4 +1,4 @@
-#' @include class-ObsLulcRasterStack.R class-ExpVarRasterStack.R
+#' @include class-LulcRasterStack.R class-ExpVarRasterStack.R
 NULL
 
 #' Show
@@ -72,16 +72,16 @@ setMethod("show", "Model",
               cat("\n-------------------------------------------\n")
               cat("Input data:\n\n")
 
-              cat("initial observed map : ", names(object@obs)[1], "\n", sep="")
-              cat("explanatory factors  : ", paste0(names(object@ef), collapse=", "), "\n", sep="")
+              cat("initial observed map : ", names(object@observed.lulc)[1], "\n", sep="")
+              cat("explanatory factors  : ", paste0(names(object@explanatory.variables), collapse=", "), "\n", sep="")
               if (.hasSlot(object, "mask")) cat("mask file            : ", names(object@mask), "\n", sep="")
               if (.hasSlot(object, "hist")) cat("history file         : ", names(object@hist), "\n", sep="")
               
               cat("no. time points      : ", length(object@time), "\n", sep="")
 
               mnr <- 15		
-              nl <- length(object@obs@labels)
-              ln <- c(object@obs@labels, "Total")
+              nl <- length(object@observed.lulc@labels)
+              ln <- c(object@obserced.lulc@labels, "Total")
 	      if (nl > mnr) {
                   ln <- c(ln[1:mnr], '...')
 	      }
@@ -163,11 +163,11 @@ setMethod("show", "Model",
               }
 
               cat("\n-------------------------------------------\n")
-              cat("Model region (defined by ObsLulcRasterStack object):\n\n")    
-              cat('dimensions           : ', nrow(object@obs), ', ', ncol(object@obs), ', ', ncell(object@obs),'  (nrow, ncol, ncell)\n', sep="" )
-              cat('resolution           : ' , xres(object@obs), ', ', yres(object@obs), '  (x, y)\n', sep="")
-              cat('extent               : ' , object@obs@extent@xmin, ', ', object@obs@extent@xmax, ', ', object@obs@extent@ymin, ', ', object@obs@extent@ymax, '  (xmin, xmax, ymin, ymax)\n', sep="")
-              cat('coord. ref.          :' , projection(object@obs, TRUE), '\n\n')
+              cat("Model region (defined by LulcRasterStack object):\n\n")    
+              cat('dimensions           : ', nrow(object@observed.lulc), ', ', ncol(object@observed.lulc), ', ', ncell(object@observed.lulc),'  (nrow, ncol, ncell)\n', sep="" )
+              cat('resolution           : ' , xres(object@observed.lulc), ', ', yres(object@observed.lulc), '  (x, y)\n', sep="")
+              cat('extent               : ' , object@observed.lulc@extent@xmin, ', ', object@observed.lulc@extent@xmax, ', ', object@observed.lulc@extent@ymin, ', ', object@observed.lulc@extent@ymax, '  (xmin, xmax, ymin, ymax)\n', sep="")
+              cat('coord. ref.          :' , projection(object@observed.lulc, TRUE), '\n\n')
               
           }
           )

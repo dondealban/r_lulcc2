@@ -32,7 +32,7 @@ Extract a subset of objects from container classes such as
 ## Sibuyan Island
 
 ## load observed land use data
-obs <- ObsLulcRasterStack(x=sibuyan$maps,
+obs <- LulcRasterStack(x=sibuyan$maps,
                     pattern="lu",
                     categories=c(1,2,3,4,5),
                     labels=c("Forest","Coconut","Grass","Rice","Other"),

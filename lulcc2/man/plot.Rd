@@ -3,23 +3,23 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,Model,ANY-method}
-\alias{plot,ObsLulcRasterStack,ANY-method}
+\alias{plot,ContinuousLulcRasterStack,ANY-method}
+\alias{plot,DiscreteLulcRasterStack,ANY-method}
 \alias{plot,ThreeMapComparison,ANY-method}
-\alias{plot.Model}
-\alias{plot.ObsLulcRasterStack}
+\alias{plot.ContinuousLulcRasterStack}
+\alias{plot.DiscreteLulcRasterStack}
 \alias{plot.ThreeMapComparison}
 \title{Plot method for objects based on Raster* data}
 \usage{
-\method{plot}{ObsLulcRasterStack}(x, y, ...)
+\method{plot}{ContinuousLulcRasterStack}(x, y, ...)
 
-\method{plot}{Model}(x, y, ...)
+\method{plot}{DiscreteLulcRasterStack}(x, y, ...)
 
 \method{plot}{ThreeMapComparison}(x, y, category, factors, ...)
 
-\S4method{plot}{ObsLulcRasterStack,ANY}(x, y, ...)
+\S4method{plot}{ContinuousLulcRasterStack,ANY}(x, y, ...)
 
-\S4method{plot}{Model,ANY}(x, y, ...)
+\S4method{plot}{DiscreteLulcRasterStack,ANY}(x, y, ...)
 
 \S4method{plot}{ThreeMapComparison,ANY}(x, y, category, factors, ...)
 }

@@ -10,9 +10,9 @@ An S4 class to represent inputs to the CLUE-S land use change model.
 \section{Slots}{
 
 \describe{
-\item{\code{observed.lulc}}{an ObsLulcRasterStack object}
+\item{\code{observed.lulc}}{an LulcRasterStack object}
 
-\item{\code{explanatory.factors}}{an ExpVarRasterStack object}
+\item{\code{explanatory.variables}}{an ExpVarRasterStack object}
 
 \item{\code{predictive.models}}{a PredictiveModelList object}
 
@@ -20,7 +20,7 @@ An S4 class to represent inputs to the CLUE-S land use change model.
 
 \item{\code{demand}}{matrix containing demand scenario}
 
-\item{\code{hist}}{RasterLayer showing land use history or NULL}
+\item{\code{history}}{RasterLayer showing land use history or NULL}
 
 \item{\code{mask}}{RasterLayer showing masked areas or NULL}
 

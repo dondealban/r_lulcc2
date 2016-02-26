@@ -69,7 +69,7 @@ datasets are also included.
 data(pie)
 
 ## observed maps
-obs <- ObsLulcRasterStack(x=pie,
+obs <- LulcRasterStack(x=pie,
                           pattern="lu",
                           categories=c(1,2,3),
                           labels=c("Forest","Built","Other"),

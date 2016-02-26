@@ -1,33 +1,91 @@
 #' @include class-Model.R
 #' @include class-NeighbRasterStack.R
-#' @include class-ObsLulcRasterStack.R
+#' @include class-LulcRasterStack.R
 #' @include class-ExpVarRasterStack.R
 #' @include class-PredictiveModelList.R
 NULL
+
+#' Create a ClueModel object
+#'
+#' Methods to create a \code{ClueModel} object to supply to
+#' \code{\link{allocate}}.
+#'
+#' @param observed.lulc an LulcRasterStack
+#' @param explanatory.variables an ExpVarRasterStack object
+#' @param predictive.models a PredictiveModelList object
+#' @param time numeric vector containing timesteps over which simulation will
+#'   occur  
+#' @param demand matrix with demand for each land use category in terms of number
+#'   of cells to be allocated. The first row should be the number of cells
+#'   allocated to the initial observed land use map (i.e. the land use map for
+#'   time 0)
+#' @param elasticity numeric
+#' @param change.rule numeric 
+#' @param min.elasticity numeric
+#' @param max.elasticity numeric
+#' @param min.value numeric
+#' @param max.value numeric
+#' @param min.change numeric
+#' @param max.change numeric
+#' @param max.iteration TODO
+#' @param max.difference TODO
+#' @param cell.area numeric
+#' @param \dots additional arguments (none)
+#'
+#' @seealso \code{\link{ClueModel-class}}, \code{\link{allocate}}
+#'
+#' @return A ClueModel object.
+#'
+#' @export
+#' @rdname ClueModel
+#'
+#' @references
+#' TODO
+#'
+#' @examples
+#'
+#' ## see lulcc-package examples
+
+ClueModel <- function(observed.lulc,        #observedLU
+                      explanatory.variables,  #explanatoryVariables
+                      predictive.models,    #predictiveModels
+                      ## subset,               #subset
+                      time,                 #time
+                      demand,               #demand
+                      elasticity=0.1,       #elasticity
+                      change.rule,          #changeRule
+                      min.elasticity=0.001, #minElasticity
+                      max.elasticity=1.5,   #maxElasticity
+                      min.value,            #minValue
+                      max.value,            #maxValue
+                      min.change,           #minChange
+                      max.change,           #maxChange
+                      max.iteration=1000,   #maxIteration
+                      max.difference,       #maxDifference
+                      cell.area) {     
+
+    ## if (missing(subset))
+    ##   subset <- complete.cases(raster::getValues(as(observed.lulc[[1]], "RasterStack")))
+
+    ## default parameter values
+    ## n <- length(observed.lulc@categories)
+    ## if (missing(change.rule)) change.rule <- rep(-1, n)
+    ## if (missing(min.value))   min.value <- rep(0, n)
+    ## if (missing(max.value))   max.value <- rep(1, n)
+    ## if (missing(min.change))  min.change <- rep(0, n)
+    ## if (missing(max.change))  max.change <- rep(1, n)
+    
+    out <- new("ClueModel", observed.lulc=observed.lulc, explanatory.variables=explanatory.variables, predictive.models=predictive.models, time=time, demand=demand, elasticity=elasticity, change.rule=change.rule, min.elasticity=min.elasticity, max.elasticity=max.elasticity, min.value=min.value, max.value=max.value, min.change=min.change, max.change=max.change, max.iteration=max.iteration, max.difference=max.difference, cell.area=cell.area, categories=observed.lulc@categories, labels=observed.lulc@labels)
+
+}
 
 #' Create a CluesModel object
 #'
 #' Methods to create a \code{CluesModel} object to supply to
 #' \code{\link{allocate}}.
 #'
-#' The \code{params} argument is a list of parameter values which should contain
-#' the following components:
-#' 
-#' \describe{
-#'   \item{\code{scale.f}}{Scale factor which controls the amount by which
-#'     suitability is increased if demand is not met. Default is 0.0005}
-#'   \item{\code{max.iter}}{The maximum number of iterations in the simulation}
-#'   \item{\code{max.diff}}{The maximum allowed difference between allocated and
-#'     demanded area of any land use type. Default is 5}
-#'   \item{\code{ave.diff}}{The average allowed difference between allocated and
-#'     demanded area. Default is 5}
-#' }
-#'
-#' Note that, in order to achieve convergence, it is likely that some adjustment
-#' of these parameters will be required.
-#'
-#' @param observed.lulc an ObsLulcRasterStack
-#' @param explanatory.factors an ExpVarRasterStack object
+#' @param observed.lulc an LulcRasterStack
+#' @param explanatory.variables an ExpVarRasterStack object
 #' @param predictive.models a PredictiveModelList object
 #' @param time numeric vector containing timesteps over which simulation will
 #'   occur  
@@ -68,7 +126,7 @@ NULL
 #' ## see lulcc-package examples
 
 CluesModel <- function(observed.lulc, 
-                       explanatory.factors,
+                       explanatory.variables,
                        predictive.models,
                        time,
                        demand,
@@ -93,9 +151,7 @@ CluesModel <- function(observed.lulc,
         mask[!is.na(mask)] <- 1
     }
 
-    ## class should include slot for ObsLulcRasterStack observed.lu = "ObsLulcRasterStack"
-
-    out <- new("CluesModel", observed.lulc, explanatory.factors, predictive.models=predictive.models, time=time, demand=demand, history=history, mask=mask, neighbourhoods=neighbourhood, transition.rules=transition.rules, neighbourhood.rules=neighbourhood.rules, elasticity=elasticity, iteration.factor=iteration.factor, max.iteration=max.iteration, max.difference=max.difference, ave.difference=ave.difference, categories=observed.lulc@categories, labels=observed.lulc@categories)
+    out <- new("CluesModel", observed.lulc=observed.lulc, explanatory.variables=explanatory.variables, predictive.models=predictive.models, time=time, demand=demand, history=history, mask=mask, neighbourhood=neighbourhood, transition.rules=transition.rules, neighbourhood.rules=neighbourhood.rules, elasticity=elasticity, iteration.factor=iteration.factor, max.iteration=max.iteration, max.difference=max.difference, ave.difference=ave.difference, categories=observed.lulc@categories, labels=observed.lulc@categories)
 
 }
            
@@ -103,8 +159,8 @@ CluesModel <- function(observed.lulc,
 ##            standardGeneric("CluesModel"))
 
 ## # rdname CluesModel
-## # aliases CluesModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
-## setMethod("CluesModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
+## # aliases CluesModel,LulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
+## setMethod("CluesModel", signature(obs = "LulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
 ##           function(obs, ef, models, time, demand, hist, mask, neighb=NULL, elas, rules=NULL, nb.rules=NULL, params, output=NULL, ...) {
 
 ##               ## check that all maps have the same projection
@@ -200,7 +256,7 @@ CluesModel <- function(observed.lulc,
 ## #     demanded area of any land use type. Default is 5}
 ## # }
 ## # 
-## # param obs an ObsLulcRasterStack object
+## # param obs an LulcRasterStack object
 ## # param ef an ExpVarRasterStack object
 ## # param models a PredictiveModelList object
 ## # param time numeric vector containing timesteps over which simulation will
@@ -242,8 +298,8 @@ CluesModel <- function(observed.lulc,
 ##            standardGeneric("OrderedModel"))
 
 ## # rdname OrderedModel
-## # aliases OrderedModel,ObsLulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
-## setMethod("OrderedModel", signature(obs = "ObsLulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
+## # aliases OrderedModel,LulcRasterStack,ExpVarRasterStack,PredictiveModelList-method
+## setMethod("OrderedModel", signature(obs = "LulcRasterStack", ef = "ExpVarRasterStack", models = "PredictiveModelList"),
 ##           function(obs, ef, models, time, demand, hist, mask, neighb=NULL, rules=NULL, nb.rules=NULL, order, params, output=NULL, ...) {
 
 ##               ## check x and models refer to the same categories

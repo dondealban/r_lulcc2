@@ -9,7 +9,7 @@
 #' predict future or past land use demand based on economic considerations;
 #' however, linear extrapolation of trends remains a useful technique.
 #'
-#' @param obs an ObsLulcRasterStack object containing at least two maps
+#' @param obs an LulcRasterStack object containing at least two maps
 #' @param tout numeric vector specifying the timesteps where interpolation is to
 #'   take place. Comparable to the \code{xout} argument of
 #'   \code{Hmisc::\link[Hmisc]{approxExtrap}}
@@ -29,7 +29,7 @@
 #' ## Plum Island Ecosystems
 #'
 #' ## load observed land use maps
-#' obs <- ObsLulcRasterStack(x=pie,
+#' obs <- LulcRasterStack(x=pie,
 #'                    pattern="lu",
 #'                    categories=c(1,2,3),
 #'                    labels=c("forest","built","other"),
@@ -57,8 +57,8 @@ setGeneric("approxExtrapDemand", function(obs, ...)
            standardGeneric("approxExtrapDemand"))
 
 #' @rdname approxExtrapDemand-methods
-#' @aliases approxExtrapDemand,ObsLulcRasterStack-method
-setMethod("approxExtrapDemand", "ObsLulcRasterStack",
+#' @aliases approxExtrapDemand,LulcRasterStack-method
+setMethod("approxExtrapDemand", "LulcRasterStack",
           function(obs, tout, ...) {              
               if (nlayers(obs) > 1) {
                   tot <- total(x=obs)$total
@@ -78,8 +78,8 @@ setMethod("approxExtrapDemand", "ObsLulcRasterStack",
           )   
 
 #' @rdname approxExtrapDemand-methods
-#' @aliases approxExtrapDemand,DiscreteObsLulcRasterStack-method
-setMethod("approxExtrapDemand", "DiscreteObsLulcRasterStack",
+#' @aliases approxExtrapDemand,DiscreteLulcRasterStack-method
+setMethod("approxExtrapDemand", "DiscreteLulcRasterStack",
           function(obs, tout, ...) {              
               demand <- callNextMethod()
               ncell <- length(which(!is.na(raster::getValues(obs[[1]]))))
@@ -89,8 +89,8 @@ setMethod("approxExtrapDemand", "DiscreteObsLulcRasterStack",
           )   
 
 ## # rdname approxExtrapDemand-methods
-## # aliases approxExtrapDemand,ContinuousObsLulcRasterStack-method
-## setMethod("approxExtrapDemand", "ContinuousObsLulcRasterStack",
+## # aliases approxExtrapDemand,ContinuousLulcRasterStack-method
+## setMethod("approxExtrapDemand", "ContinuousLulcRasterStack",
 ##           function(obs, tout, totalArea, ...) {              
 ##               demand <- callNextMethod()
 ##               ## demand <- roundSum(demand, n=totalArea, digits=3)
@@ -124,7 +124,7 @@ setMethod("approxExtrapDemand", "DiscreteObsLulcRasterStack",
 #' ## Sibuyan Island
 #'
 #' ## load observed land use data and create demand scenario
-#' obs <- ObsLulcRasterStack(x=sibuyan$maps,
+#' obs <- LulcRasterStack(x=sibuyan$maps,
 #'                     pattern="lu",
 #'                     categories=c(1,2,3,4,5),
 #'                     labels=c("Forest","Coconut","Grass","Rice","Other"),
