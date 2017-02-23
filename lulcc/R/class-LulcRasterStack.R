@@ -23,9 +23,9 @@
 setClass("LulcRasterStack",
          contains = c("RasterStack"),
          slots = c(
-           t = "numeric",
-           categories = "numeric",
-           labels = "character"),
+             t = "numeric", 
+             categories = "numeric",
+             labels = "character"),
          validity = function(object) {
              return(TRUE)
          }

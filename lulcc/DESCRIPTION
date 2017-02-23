@@ -24,10 +24,10 @@ Suggests:
     plyr,
     RColorBrewer,
 Collate:
-    'class-PredictiveModelList.R'
-    'class-NeighbRasterStack.R'
     'class-LulcRasterStack.R'
+    'class-PredictiveModelList.R'
     'class-ExpVarRasterStack.R'
+    'class-NeighbRasterStack.R'
     'class-Model.R'
     'class-ThreeMapComparison.R'
     'AgreementBudget.R'

@@ -1,0 +1,10 @@
+*~
+\#*\#
+lulcc.Rcheck/
+.Rhistory
+.Rd2pdf*
+lulcc.pdf
+lulcc_*.tar.gz
+thesis_lulcc_example.R
+lulcc_class_diagram*
+ForKerry.zip
