@@ -71,3 +71,4 @@ Packaged: 2015-08-19 08:56:15 UTC; simon
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2015-08-19 11:50:07
+RoxygenNote: 5.0.1
