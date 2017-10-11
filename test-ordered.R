@@ -167,3 +167,6 @@ orderedfun = function(model, ...) {
                             t=model@time)
 }
 
+cppFunction("bool myfun(double x) {
+  return std::isfinite(x);
+}")
