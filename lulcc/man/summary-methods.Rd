@@ -3,8 +3,8 @@
 \docType{methods}
 \name{summary}
 \alias{summary}
-\alias{summary,ExpVarRasterStack-method}
 \alias{summary,LulcRasterStack-method}
+\alias{summary,ExpVarRasterStack-method}
 \alias{summary,Model-method}
 \title{Summary}
 \usage{
@@ -27,4 +27,3 @@ A matrix, data.frame or list
 \description{
 Summarise lulcc objects
 }
-

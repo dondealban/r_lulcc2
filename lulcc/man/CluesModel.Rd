@@ -73,4 +73,3 @@ model. Environmental management, 30(3):391-405.
 \seealso{
 \code{\link{CluesModel-class}}, \code{\link{allocate}}
 }
-

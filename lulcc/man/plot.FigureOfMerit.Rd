@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot.FigureOfMerit.R
 \docType{methods}
 \name{plot.FigureOfMerit}
-\alias{plot,FigureOfMerit,ANY-method}
 \alias{plot.FigureOfMerit}
+\alias{plot,FigureOfMerit,ANY-method}
 \title{Plot method for FigureOfMerit objects}
 \usage{
 \method{plot}{FigureOfMerit}(x, y, ..., from, to,
@@ -18,6 +18,8 @@
 \item{x}{a FigureOfMerit object}
 
 \item{y}{not used}
+
+\item{\dots}{additional arguments to \code{lattice::\link[lattice]{xyplot}}}
 
 \item{from}{optional numeric value representing a land use category. If 
 provided without \code{to} the figure of merit for all transitions from this
@@ -40,8 +42,6 @@ in which case the different transitions will be included on the same plot}
 \item{xlab}{character or expression. See \code{lattice::\link[lattice]{xyplot}}}
 
 \item{ylab}{character or expression. See \code{lattice::\link[lattice]{xyplot}}}
-
-\item{\dots}{additional arguments to \code{lattice::\link[lattice]{xyplot}}}
 }
 \value{
 A trellis object.
@@ -58,4 +58,3 @@ different resolutions.
 \code{\link{FigureOfMerit}}, \code{lattice::\link[lattice]{xyplot}},
   \code{lattice::\link[lattice]{panel.xyplot}}
 }
-

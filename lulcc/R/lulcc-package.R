@@ -1,7 +1,10 @@
 #' @import methods raster
 NULL
 
-#' @importFrom stats binomial glm na.omit runif
+#' @importFrom stats binomial glm na.omit runif complete.cases setNames
+NULL
+
+#' @importFrom Rcpp sourceCpp
 NULL
 
 #' lulcc: land use change modelling in R

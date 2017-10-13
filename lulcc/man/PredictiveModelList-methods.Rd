@@ -25,4 +25,3 @@ Crete an object of class PredictiveModelList.
 
 ## see lulcc-package examples
 }
-

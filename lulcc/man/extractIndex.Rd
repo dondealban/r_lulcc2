@@ -3,12 +3,12 @@
 \docType{methods}
 \name{Extract by index}
 \alias{Extract by index}
-\alias{[,PredictiveModelList,ANY,ANY-method}
-\alias{[[,ContinuousLulcRasterStack,ANY,ANY-method}
 \alias{[[,DiscreteLulcRasterStack,ANY,ANY-method}
 \alias{[[,PerformanceList,ANY,ANY-method}
 \alias{[[,PredictionList,ANY,ANY-method}
 \alias{[[,PredictiveModelList,ANY,ANY-method}
+\alias{[,PredictiveModelList,ANY,ANY-method}
+\alias{[[,ContinuousLulcRasterStack,ANY,ANY-method}
 \title{Extract by index}
 \usage{
 \S4method{[[}{DiscreteLulcRasterStack,ANY,ANY}(x, i, j, ...)
@@ -57,4 +57,3 @@ summary(lu[[1:2]])
 
 ## Also see lulcc-package
 }
-

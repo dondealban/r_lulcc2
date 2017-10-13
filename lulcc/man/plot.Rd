@@ -3,12 +3,12 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,ContinuousLulcRasterStack,ANY-method}
-\alias{plot,DiscreteLulcRasterStack,ANY-method}
-\alias{plot,ThreeMapComparison,ANY-method}
 \alias{plot.ContinuousLulcRasterStack}
 \alias{plot.DiscreteLulcRasterStack}
 \alias{plot.ThreeMapComparison}
+\alias{plot,ContinuousLulcRasterStack,ANY-method}
+\alias{plot,DiscreteLulcRasterStack,ANY-method}
+\alias{plot,ThreeMapComparison,ANY-method}
 \title{Plot method for objects based on Raster* data}
 \usage{
 \method{plot}{ContinuousLulcRasterStack}(x, y, ...)
@@ -28,12 +28,12 @@
 
 \item{y}{not used}
 
+\item{\dots}{additional arguments to
+\code{rasterVis::\link[rasterVis]{levelplot}}}
+
 \item{category}{numeric}
 
 \item{factors}{numeric}
-
-\item{\dots}{additional arguments to
-\code{rasterVis::\link[rasterVis]{levelplot}}}
 }
 \value{
 A trellis object.
@@ -48,4 +48,3 @@ Plot \code{lulcc} objects based on Raster* data
 \seealso{
 \code{rasterVis::\link[rasterVis]{levelplot}}
 }
-

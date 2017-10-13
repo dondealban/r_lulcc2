@@ -104,7 +104,8 @@ allow <- function(x, categories, cd, rules, hist=NULL, ...) {
     
     rules <- t(rules) ## this makes it easier to handle in C function
     allow <- matrix(data=NA, nrow=length(x), ncol=length(categories))
-    allow[] <- .Call("allow", x, hist, categories, cd, rules)
+    allow[] <- allowfun(x, hist, categories, cd, rules)
+    ## allow[] <- .Call("allow", x, hist, categories, cd, rules)
     allow[allow == 0] <- NA
     allow
 }

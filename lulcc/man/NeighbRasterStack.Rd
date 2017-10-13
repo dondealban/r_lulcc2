@@ -3,9 +3,9 @@
 \docType{methods}
 \name{NeighbRasterStack}
 \alias{NeighbRasterStack}
-\alias{NeighbRasterStack,RasterLayer,ANY,NeighbRasterStack-method}
 \alias{NeighbRasterStack,RasterLayer,list,ANY-method}
 \alias{NeighbRasterStack,RasterLayer,matrix,ANY-method}
+\alias{NeighbRasterStack,RasterLayer,ANY,NeighbRasterStack-method}
 \title{Create a NeighbRasterStack object}
 \usage{
 NeighbRasterStack(x, weights, neighb, ...)
@@ -32,12 +32,12 @@ NeighbRasterStack(x, weights, neighb, ...)
 NeighbRasterStack objects need to be updated because a new land use map is
 available, such as during the allocation procedure.}
 
+\item{\dots}{additional arguments to \code{raster::\link[raster]{focal}}}
+
 \item{categories}{numeric vector containing land use categories for which
 neighbourhood values should be calculated}
 
 \item{fun}{function. Input argument to \code{focal}. Default is \code{mean}}
-
-\item{\dots}{additional arguments to \code{raster::\link[raster]{focal}}}
 }
 \value{
 A NeighbRasterStack object.
@@ -80,4 +80,3 @@ plot(nb2[[1]])
 \code{\link{NeighbRasterStack-class}}, \code{\link{allowNeighb}},
 \code{raster::\link[raster]{focal}}
 }
-

@@ -7,4 +7,3 @@
 \description{
 A virtual S4 class to represent land use change models.
 }
-

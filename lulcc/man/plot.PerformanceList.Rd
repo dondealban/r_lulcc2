@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot.Performance.R
 \docType{methods}
 \name{plot.PerformanceList}
-\alias{plot,list,ANY-method}
 \alias{plot.PerformanceList}
+\alias{plot,list,ANY-method}
 \title{Plot method for PerformanceList objects}
 \usage{
 \method{plot}{PerformanceList}(x, y, multipanel = TRUE, type = "l",
@@ -53,4 +53,3 @@ comparison.
 \seealso{
 \code{\link{PerformanceList}}, \code{lattice::\link[lattice]{xyplot}}
 }
-

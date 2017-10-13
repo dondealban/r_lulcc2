@@ -225,9 +225,6 @@ fom.p
 }
 
 }
-\author{
-Simon Moulds
-}
 \references{
 Fuchs, R., Herold, M., Verburg, P.H., and Clevers, J.G.P.W. (2013). A
 high-resolution and harmonized model approach for reconstructing and analysing
@@ -250,4 +247,6 @@ Verburg, P.H., Soepboer, W., Veldkamp, A., Limpiada, R., Espaldon, V., Mastura,
 S.S. (2002). Modeling the spatial dynamics of regional land use: the CLUE-S
 model. Environmental management, 30(3):391-405.
 }
-
+\author{
+Simon Moulds
+}

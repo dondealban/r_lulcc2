@@ -55,4 +55,3 @@ V., Mastura, S.S (2002). Modeling the Spatial Dynamics of Regional Land Use:
 The CLUE-S Model. Environmental Management 30(3): 391-405.
 }
 \keyword{datasets}
-

@@ -30,4 +30,3 @@ Pontius Jr, R. G., & Parmentier, B. (2014). Recommendations for using the
 relative operating characteristic (ROC). Landscape ecology, 29(3), 367-382.
 }
 \keyword{datasets}
-

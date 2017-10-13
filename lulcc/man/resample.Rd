@@ -35,4 +35,3 @@ raster objects in an ExpVarRasterStack object or list.
 \seealso{
 \code{\link{ExpVarRasterStack}}, \code{raster::\link[raster]{resample}}
 }
-

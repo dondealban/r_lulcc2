@@ -57,4 +57,3 @@ names(train.data)
 \code{\link[base]{as.data.frame}}, \code{\link{LulcRasterStack}},
 \code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 }
-

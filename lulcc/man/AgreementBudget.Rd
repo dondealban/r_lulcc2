@@ -3,8 +3,8 @@
 \docType{methods}
 \name{AgreementBudget}
 \alias{AgreementBudget}
-\alias{AgreementBudget,RasterLayer-method}
 \alias{AgreementBudget,ThreeMapComparison-method}
+\alias{AgreementBudget,RasterLayer-method}
 \title{Create an AgreementBudget object}
 \usage{
 AgreementBudget(x, ...)
@@ -54,4 +54,3 @@ Geographers 101(1): 45-62.
 \code{\link{plot.AgreementBudget}}, \code{\link{ThreeMapComparison}},
 \code{\link{FigureOfMerit}}
 }
-

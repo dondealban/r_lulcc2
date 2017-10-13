@@ -80,4 +80,3 @@ population pressure: the case of Java. Global environmental change, 9(4),
 \seealso{
 \code{\link{ClueModel-class}}, \code{\link{allocate}}
 }
-

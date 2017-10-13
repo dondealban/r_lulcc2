@@ -11,7 +11,12 @@ Depends:
     R (>= 3.1.0)
 License: GPL (>= 2)
 LazyData: true
+LinkingTo:
+    Rcpp,
+    Rcpp11,
+    RcppArmadillo
 Imports:
+    Rcpp,
     ROCR,
     lattice,
     rasterVis
@@ -23,7 +28,7 @@ Suggests:
     Hmisc,
     plyr,
     RColorBrewer,
-Collate:
+Collate: 
     'class-LulcRasterStack.R'
     'class-PredictiveModelList.R'
     'class-ExpVarRasterStack.R'
@@ -42,6 +47,7 @@ Collate:
     'PredictionList.R'
     'as.data.frame.R'
     'PredictiveModelList.R'
+    'RcppExports.R'
     'ThreeMapComparison.R'
     'allocate.R'
     'allow.R'
@@ -67,8 +73,9 @@ Collate:
     'subset.R'
     'summary.R'
     'total.R'
+SystemRequirements: c++11
 Packaged: 2015-08-19 08:56:15 UTC; simon
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2015-08-19 11:50:07
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

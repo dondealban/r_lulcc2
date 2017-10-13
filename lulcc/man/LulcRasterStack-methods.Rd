@@ -2,13 +2,13 @@
 % Please edit documentation in R/LulcRasterStack.R
 \docType{methods}
 \name{LulcRasterStack}
-\alias{ContinuousLulcRasterStack}
-\alias{ContinuousLulcRasterStack,Raster-method}
-\alias{ContinuousLulcRasterStack,RasterStack-method}
+\alias{LulcRasterStack}
 \alias{DiscreteLulcRasterStack}
 \alias{DiscreteLulcRasterStack,Raster-method}
 \alias{DiscreteLulcRasterStack,RasterStack-method}
-\alias{LulcRasterStack}
+\alias{ContinuousLulcRasterStack}
+\alias{ContinuousLulcRasterStack,Raster-method}
+\alias{ContinuousLulcRasterStack,RasterStack-method}
 \title{Create an LulcRasterStack object}
 \usage{
 DiscreteLulcRasterStack(x, ...)
@@ -27,6 +27,8 @@ ContinuousLulcRasterStack(x, ...)
 \item{x}{path (character), Raster* object or list of Raster* objects. Default
 behaviour is to search for files in the working directory}
 
+\item{\dots}{additional arguments to \code{raster::\link[raster]{stack}}}
+
 \item{categories}{numeric vector of land use categories in observed maps}
 
 \item{labels}{character vector (optional) with labels corresponding to
@@ -34,8 +36,6 @@ behaviour is to search for files in the working directory}
 
 \item{t}{numeric vector containing the timestep of each observed map. The 
 first timestep must be 0}
-
-\item{\dots}{additional arguments to \code{raster::\link[raster]{stack}}}
 }
 \value{
 An LulcRasterStack object.
@@ -69,4 +69,3 @@ lu <- DiscreteLulcRasterStack(x=stack(sibuyan$maps[1:2]),
 \seealso{
 \code{\link{LulcRasterStack-class}}, \code{raster::\link[raster]{stack}}
 }
-

@@ -21,6 +21,8 @@ required if \code{x} is also a RasterLayer}
 \item{y1}{a RasterLayer of simulated land use corresponding to \code{x1}. Only
 required if \code{x} is also a RasterLayer}
 
+\item{\dots}{additional arguments to \code{raster::\link[raster]{aggregate}}}
+
 \item{factors}{numeric vector of aggregation factors (equivalent to the 'fact'
 argument to \cr
 \code{raster::\link[raster]{aggregate}} representing the resolutions at which
@@ -31,8 +33,6 @@ required if \code{x} is a RasterLayer}
 
 \item{labels}{character vector (optional) with labels corresponding to
 \code{categories}. Only required if \code{x} is a RasterLayer}
-
-\item{\dots}{additional arguments to \code{raster::\link[raster]{aggregate}}}
 }
 \value{
 A \code{ThreeMapComparison} object.
@@ -60,4 +60,3 @@ Geographers 101(1): 45-62.
 \code{\link{AgreementBudget}}, \code{\link{FigureOfMerit}},
 \code{raster::\link[raster]{aggregate}}
 }
-

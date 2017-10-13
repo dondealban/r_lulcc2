@@ -3,8 +3,8 @@
 \docType{methods}
 \name{ExpVarRasterStack}
 \alias{ExpVarRasterStack}
-\alias{ExpVarRasterStack,RasterStack-method}
 \alias{ExpVarRasterStack,character-method}
+\alias{ExpVarRasterStack,RasterStack-method}
 \title{Create an ExpVarRasterStack object}
 \usage{
 ExpVarRasterStack(x, ...)
@@ -16,9 +16,9 @@ ExpVarRasterStack(x, ...)
 \arguments{
 \item{x}{Raster* object}
 
-\item{index}{data.frame}
-
 \item{\dots}{additional arguments to \code{raster::\link[raster]{stack}}}
+
+\item{index}{data.frame}
 }
 \value{
 An ExpVarRasterStack object.
@@ -63,4 +63,3 @@ ef <- ExpVarRasterStack(x=stack(sibuyan$maps[3:15]), index=idx)
 \seealso{
 \code{raster::\link[raster]{stack}}
 }
-

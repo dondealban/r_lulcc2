@@ -59,4 +59,3 @@ historic land changes in Europe, Biogeosciences, 10:1543-1559.
 \seealso{
 \code{\link{OrderedModel-class}}, \code{\link{allocate}}
 }
-

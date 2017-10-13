@@ -1,9 +1,11 @@
-// [[Rcpp::plugins(cpp11)]]
-// [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <numeric>
 #include <Rcpp.h>
 #include <unordered_set>
+
+// [[Rcpp::plugins(cpp11)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -45,7 +47,7 @@ Rcpp::IntegerVector orderC(NumericVector x, bool decreasing) {
 }
 
 // [[Rcpp::export]]
-IntegerVector orderedCpp(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd, IntegerVector alloc_order, IntegerVector categories, bool stochastic, int maxiter) {
+IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd, IntegerVector alloc_order, IntegerVector categories, bool stochastic, int maxiter) {
 
   // lu0 is a vector containing land use values (non-NA only)
   // tprob is a matrix with total probability - make sure

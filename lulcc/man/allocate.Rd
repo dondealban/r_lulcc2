@@ -3,8 +3,8 @@
 \docType{methods}
 \name{allocate}
 \alias{allocate}
-\alias{allocate,ClueModel-method}
 \alias{allocate,CluesModel-method}
+\alias{allocate,ClueModel-method}
 \alias{allocate,OrderedModel-method}
 \title{Allocate land use change spatially}
 \usage{
@@ -19,9 +19,9 @@ allocate(model, ...)
 \arguments{
 \item{model}{an object inheriting from class \code{Model}}
 
-\item{stochastic}{logical}
-
 \item{\dots}{additional arguments for specific methods}
+
+\item{stochastic}{logical}
 }
 \value{
 LulcRasterStack.
@@ -58,4 +58,3 @@ model. Environmental management, 30(3):391-405.
 \seealso{
 \code{\link{CluesModel}}
 }
-

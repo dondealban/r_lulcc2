@@ -49,4 +49,3 @@ Don District, Vietnam. Annals of the Association of American Geographers
 \seealso{
 \code{\link{plot.FigureOfMerit}}, \code{\link{ThreeMapComparison}}
 }
-

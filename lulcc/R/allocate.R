@@ -427,18 +427,20 @@ setMethod("allocate", signature(model = "OrderedModel"),
                   }
                   tprob <- prob
 
-                  lu1.vals <- ordered(lu0=lu0,
-                                      lu0.vals=lu0.vals,
-                                      tprob=tprob,
-                                      nb=model@neighbourhood,
-                                      nb.rules=model@neighbourhood.rules,
-                                      transition.rules=model@transition.rules,
-                                      hist.vals=hist.vals,
-                                      mask.vals=mask.vals,
-                                      demand=model@demand[c(i-1,i),,drop=FALSE],
-                                      categories=model@categories,
-                                      order=model@order,
-                                      stochastic=stochastic)
+                  lu1.vals <- ordered(lu0, tprob, d, model@order, model@categories, stochastic, 100)
+                  
+                  ## lu1.vals <- ordered_old(lu0=lu0,
+                  ##                         lu0.vals=lu0.vals,
+                  ##                         tprob=tprob,
+                  ##                         nb=model@neighbourhood,
+                  ##                         nb.rules=model@neighbourhood.rules,
+                  ##                         transition.rules=model@transition.rules,
+                  ##                         hist.vals=hist.vals,
+                  ##                         mask.vals=mask.vals,
+                  ##                         demand=model@demand[c(i-1,i),,drop=FALSE],
+                  ##                         categories=model@categories,
+                  ##                         order=model@order,
+                  ##                         stochastic=stochastic)
 
                   lu1 <- raster::raster(lu0, ...) 
                   lu1[cells] <- lu1.vals
@@ -519,12 +521,12 @@ setMethod("allocate", signature(model = "OrderedModel"),
 #' @useDynLib lulcc
 #'
 #' @export
-#' @rdname ordered
+#' @rdname ordered_old
 #'
 #' @examples
 #'
 #' ## See lulcc-package examples
-ordered <- function(lu0, lu0.vals, tprob, nb=NULL, nb.rules=NULL, transition.rules=NULL, hist.vals=NULL, mask.vals=NULL, demand, categories, order, stochastic) {
+ordered_old <- function(lu0, lu0.vals, tprob, nb=NULL, nb.rules=NULL, transition.rules=NULL, hist.vals=NULL, mask.vals=NULL, demand, categories, order, stochastic) {
 
     ## apply neighbourhood rules
     tprob <- .applyNeighbDecisionRules(nb=nb, nb.rules=nb.rules, x=lu0, tprob=tprob, categories=categories)
@@ -646,9 +648,11 @@ ordered <- function(lu0, lu0.vals, tprob, nb=NULL, nb.rules=NULL, transition.rul
     tprob
 }
 
-#' @useDynLib lulcc
+# useDynLib lulcc
 .updatehist <- function(lu0, lu1, hist) {
-    hist <- .Call("updatehist", lu0, lu1, hist)
+    hist <- updatehist(lu0, lu1, hist)
+    ## hist <- .Call("updatehist", lu0, lu1, hist)
+    hist
 }
 
 .maxtprob <- function(x) {    
@@ -659,12 +663,13 @@ ordered <- function(lu0, lu0.vals, tprob, nb=NULL, nb.rules=NULL, transition.rul
     }
 }
 
-#' @useDynLib lulcc
+# useDynLib lulcc
 .autoConvert <- function(x, prob, categories, mask=NULL, ...) {
     if (!is.null(mask) && length(x) != length(mask)) stop("mask must have same length as x")
     if (is.null(mask)) mask <- rep(1, length(x))
     ## TODO: change autoconvert function so mask is optional
-    vals <- .Call("autoconvert", x, mask, prob, categories)
+    ## vals <- .Call("autoconvert", x, mask, prob, categories)
+    vals <- autoconvert(x, mask, prob, categories)
     ix <- which(!is.na(vals))
     vals <- vals[ix]
     out <- list(ix=ix, vals=vals)

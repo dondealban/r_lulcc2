@@ -106,4 +106,3 @@ model. Environmental management, 30(3):391-405.
 \seealso{
 \code{\link{allowNeighb}}
 }
-

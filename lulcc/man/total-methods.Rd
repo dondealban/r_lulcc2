@@ -3,8 +3,8 @@
 \docType{methods}
 \name{total}
 \alias{total}
-\alias{total,ContinuousLulcRasterStack-method}
 \alias{total,DiscreteLulcRasterStack-method}
+\alias{total,ContinuousLulcRasterStack-method}
 \alias{total,Raster-method}
 \title{Total number of cells in a Raster* object}
 \usage{
@@ -19,10 +19,10 @@ total(x, ...)
 \arguments{
 \item{x}{Raster* object}
 
+\item{\dots}{additional arguments (none)}
+
 \item{categories}{numeric vector containing land use categories. Only cells
 belonging to these categories will be counted}
-
-\item{\dots}{additional arguments (none)}
 }
 \value{
 A list containing the following components:
@@ -56,4 +56,3 @@ total(x=lu[[1]])
 total(x=lu[[2]])
 
 }
-

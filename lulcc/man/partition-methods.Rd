@@ -3,9 +3,9 @@
 \docType{methods}
 \name{partition}
 \alias{partition}
-\alias{partition,ContinuousLulcRasterStack-method}
-\alias{partition,DiscreteLulcRasterStack-method}
 \alias{partition,RasterLayer-method}
+\alias{partition,DiscreteLulcRasterStack-method}
+\alias{partition,ContinuousLulcRasterStack-method}
 \title{Partition raster data}
 \usage{
 partition(x, ...)
@@ -21,6 +21,8 @@ partition(x, ...)
 \arguments{
 \item{x}{RasterLayer with categorical data}
 
+\item{\dots}{additional arguments (none)}
+
 \item{size}{numeric value between zero and one indicating the proportion of
 non-NA cells that should be included in the training partition. Default is
 0.5, which results in equally sized partitions}
@@ -31,8 +33,6 @@ are returned}
 
 \item{t}{numeric corresponding to one of the time points for which a land use
 map is available.}
-
-\item{\dots}{additional arguments (none)}
 }
 \value{
 A list containing the following components:
@@ -76,4 +76,3 @@ package. Journal of Statistical Software, 28(5), 1-26.
 \seealso{
 \code{caret::\link[caret]{createDataPartition}}
 }
-

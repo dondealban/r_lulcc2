@@ -67,4 +67,3 @@ Allocate land use change using the CLUE algorithm.
 ## See lulcc-package examples
 
 }
-

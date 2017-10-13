@@ -78,4 +78,3 @@ plot(probmaps)
 \seealso{
 \code{\link[stats]{predict}}, \code{\link{allocate}}
 }
-

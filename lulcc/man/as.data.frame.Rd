@@ -2,12 +2,12 @@
 % Please edit documentation in R/as.data.frame.R
 \docType{methods}
 \name{as.data.frame.ExpVarRasterStack}
-\alias{as.data.frame,ContinuousLulcRasterStack-method}
-\alias{as.data.frame,DiscreteLulcRasterStack-method}
-\alias{as.data.frame,ExpVarRasterStack-method}
-\alias{as.data.frame.ContinuousLulcRasterStack}
-\alias{as.data.frame.DiscreteLulcRasterStack}
 \alias{as.data.frame.ExpVarRasterStack}
+\alias{as.data.frame.DiscreteLulcRasterStack}
+\alias{as.data.frame.ContinuousLulcRasterStack}
+\alias{as.data.frame,ExpVarRasterStack-method}
+\alias{as.data.frame,DiscreteLulcRasterStack-method}
+\alias{as.data.frame,ContinuousLulcRasterStack-method}
 \title{Coerce objects to data.frame}
 \usage{
 \method{as.data.frame}{ExpVarRasterStack}(x, row.names = NULL,
@@ -90,4 +90,3 @@ df <- cbind(df1,df2)
 \code{\link[base]{as.data.frame}}, \code{\link{LulcRasterStack}},
 \code{\link{ExpVarRasterStack}}, \code{\link{partition}}
 }
-

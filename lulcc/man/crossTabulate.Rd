@@ -3,8 +3,8 @@
 \docType{methods}
 \name{crossTabulate}
 \alias{crossTabulate}
-\alias{crossTabulate,DiscreteLulcRasterStack,ANY-method}
 \alias{crossTabulate,RasterLayer,RasterLayer-method}
+\alias{crossTabulate,DiscreteLulcRasterStack,ANY-method}
 \title{Cross tabulate land use transitions}
 \usage{
 crossTabulate(x, y, ...)
@@ -22,6 +22,8 @@ points in time}
 \item{y}{RasterLayer representing land use map from a later timestep. Not used
 if \code{x} is an LulcRasterStack object}
 
+\item{\dots}{additional arguments to \code{raster::\link[raster]{crosstab}}}
+
 \item{categories}{numeric vector containing land use categories to consider.
 Not used if \code{x} is an LulcRasterStack object}
 
@@ -30,8 +32,6 @@ Not used if \code{x} is an LulcRasterStack object}
 
 \item{times}{numeric vector representing the time points of two land use maps
 from LulcRasterStack}
-
-\item{\dots}{additional arguments to \code{raster::\link[raster]{crosstab}}}
 }
 \value{
 A data.frame.
@@ -73,4 +73,3 @@ Ecosystems & Environment 101(2):251-268.
 \seealso{
 \code{\link{LulcRasterStack}}, \code{raster::\link[raster]{crosstab}}
 }
-

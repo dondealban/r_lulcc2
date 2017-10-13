@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot.AgreementBudget.R
 \docType{methods}
 \name{plot.AgreementBudget}
-\alias{plot,AgreementBudget,ANY-method}
 \alias{plot.AgreementBudget}
+\alias{plot,AgreementBudget,ANY-method}
 \title{Plot method for AgreementBudget objects}
 \usage{
 \method{plot}{AgreementBudget}(x, y, from, to,
@@ -60,4 +60,3 @@ Geographers 101(1): 45-62.
 \seealso{
 \code{\link{AgreementBudget}}, \code{lattice::\link[lattice]{xyplot}}
 }
-

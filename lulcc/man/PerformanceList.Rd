@@ -37,4 +37,3 @@ ROCR: visualizing classifier performance in R. Bioinformatics
 \seealso{
 \code{\link{performance}}, \code{\link{PredictionList}}
 }
-

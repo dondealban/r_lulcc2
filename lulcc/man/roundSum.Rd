@@ -56,4 +56,3 @@ apply(dmd, 1, sum)
 
 }
 }
-

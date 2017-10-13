@@ -2,9 +2,9 @@
 % Please edit documentation in R/subset.R
 \docType{methods}
 \name{subset,PredictiveModelList-method}
+\alias{subset,PredictiveModelList-method}
 \alias{subset,PerformanceList-method}
 \alias{subset,PredictionList-method}
-\alias{subset,PredictiveModelList-method}
 \title{Subset objects}
 \usage{
 \S4method{subset}{PredictiveModelList}(x, subset, drop = FALSE, ...)
@@ -57,4 +57,3 @@ ef <- subset(ef, subset=1:5)
 summary(ef)
 
 }
-

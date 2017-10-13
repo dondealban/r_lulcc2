@@ -2,10 +2,10 @@
 % Please edit documentation in R/show.R
 \docType{methods}
 \name{show,PredictiveModelList-method}
-\alias{show,Model-method}
-\alias{show,PerformanceList-method}
-\alias{show,PredictionList-method}
 \alias{show,PredictiveModelList-method}
+\alias{show,PredictionList-method}
+\alias{show,PerformanceList-method}
+\alias{show,Model-method}
 \alias{show,ThreeMapComparison-method}
 \title{Show objects}
 \usage{
@@ -28,4 +28,3 @@ Null
 \description{
 Show lulcc objects
 }
-

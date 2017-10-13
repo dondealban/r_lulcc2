@@ -3,8 +3,8 @@
 \docType{methods}
 \name{approxExtrapDemand}
 \alias{approxExtrapDemand}
-\alias{approxExtrapDemand,DiscreteLulcRasterStack-method}
 \alias{approxExtrapDemand,LulcRasterStack-method}
+\alias{approxExtrapDemand,DiscreteLulcRasterStack-method}
 \title{Extrapolate land use area in time}
 \usage{
 approxExtrapDemand(lu, ...)
@@ -16,11 +16,11 @@ approxExtrapDemand(lu, ...)
 \arguments{
 \item{lu}{an LulcRasterStack object containing at least two maps}
 
+\item{\dots}{additional arguments to \code{Hmisc::\link[Hmisc]{approxExtrap}}}
+
 \item{tout}{numeric vector specifying the timesteps where interpolation is to
 take place. Comparable to the \code{xout} argument of
 \code{Hmisc::\link[Hmisc]{approxExtrap}}}
-
-\item{\dots}{additional arguments to \code{Hmisc::\link[Hmisc]{approxExtrap}}}
 }
 \value{
 A matrix.
@@ -66,4 +66,3 @@ legend("topleft", legend=lu@labels, col=c("Green","Red","Blue"), lty=1)
 \seealso{
 \code{Hmisc::\link[Hmisc]{approxExtrap}}
 }
-

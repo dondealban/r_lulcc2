@@ -16,10 +16,10 @@ compareAUC(pred, ...)
 \arguments{
 \item{pred}{a PredictionList object or a list of these}
 
+\item{\dots}{additional arguments (none)}
+
 \item{digits}{numeric indicating the number of digits to be displayed after
 the decimal point for AUC values}
-
-\item{\dots}{additional arguments (none)}
 }
 \value{
 A data.frame.
@@ -49,4 +49,3 @@ relative operating characteristic (ROC). Landscape ecology, 29(3), 367-382.
 \seealso{
 \code{\link{PredictionList}}, \code{ROCR::\link[ROCR]{performance}}
 }
-

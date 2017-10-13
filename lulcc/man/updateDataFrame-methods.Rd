@@ -13,6 +13,8 @@ updateDataFrame(x, ...)
 \arguments{
 \item{x}{ExpVarRasterStack object}
 
+\item{\dots}{additional arguments (none)}
+
 \item{y}{data.frame to update}
 
 \item{cells}{index of cells to be extracted and added to the data frame (see
@@ -20,8 +22,6 @@ updateDataFrame(x, ...)
 
 \item{time}{numeric indicating the time for which the data frame should be
 updated}
-
-\item{\dots}{additional arguments (none)}
 }
 \value{
 data.frame
@@ -31,4 +31,3 @@ Function to update a data frame holding model variables with values of dynamic
 covariables for a new time point. This function is used internally by
 allocation routines.
 }
-

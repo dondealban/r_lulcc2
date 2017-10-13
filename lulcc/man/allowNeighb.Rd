@@ -64,4 +64,3 @@ plot(r)
 \seealso{
 \code{\link{allow}}, \code{\link{NeighbRasterStack}}
 }
-
