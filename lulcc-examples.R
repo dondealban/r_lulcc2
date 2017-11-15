@@ -1,5 +1,5 @@
 
-devtools::load_all("/home/simon/projects/r_lulcc2/lulcc2", quiet=TRUE)
+devtools::load_all("lulcc", quiet=TRUE)
 
 data(pie)
 lu <- DiscreteLulcRasterStack(x=stack(pie[1:3]),
@@ -91,25 +91,25 @@ clues.model <- CluesModel(observed.lulc=lu,
                           ave.difference=5)
 clues.result <- allocate(clues.model)
 
-ordered.model <- OrderedModel(observed.lulc=lu, 
-                              explanatory.variables=ef, 
-                              predictive.models=glm.mods, 
-                              time=0:14, 
-                              demand=dmd,                              
-                              transition.rules=matrix(data=1, nrow=3, ncol=3),                              
-                              order=c(2,1,3)) 
-ordered.result <- allocate(ordered.model, stochastic=TRUE)
+## ordered.model <- OrderedModel(observed.lulc=lu, 
+##                               explanatory.variables=ef, 
+##                               predictive.models=glm.mods, 
+##                               time=0:14, 
+##                               demand=dmd,                              
+##                               transition.rules=matrix(data=1, nrow=3, ncol=3),                              
+##                               order=c(2,1,3)) 
+## ordered.result <- allocate(ordered.model, stochastic=TRUE)
 
-## ordered
-ordered.tabs <- ThreeMapComparison(x=lu[[1]],
-                                   x1=lu[[3]],
-                                   y1=ordered.result[[15]],
-                                   factors=2^(1:8), 
-                                   categories=lu@categories,
-                                   labels=lu@labels) 
+## ## ordered
+## ordered.tabs <- ThreeMapComparison(x=lu[[1]],
+##                                    x1=lu[[3]],
+##                                    y1=ordered.result[[15]],
+##                                    factors=2^(1:8), 
+##                                    categories=lu@categories,
+##                                    labels=lu@labels) 
 
-ordered.agr  <- AgreementBudget(x=ordered.tabs) 
-ordered.fom  <- FigureOfMerit(x=ordered.tabs) 
+## ordered.agr  <- AgreementBudget(x=ordered.tabs) 
+## ordered.fom  <- FigureOfMerit(x=ordered.tabs) 
 
 ## plot(ordered.agr, from=1, to=2) 
 ## plot(ordered.fom, from=1, to=2) 
@@ -121,7 +121,8 @@ clues.tabs <- ThreeMapComparison(x=lu[[1]],
                                  factors=2^(1:8),
                                  categories=lu@categories,
                                  labels=lu@labels)
-                                 
+
+stop()
 ## ## plot three dimensional tables in different ways (figures not shown in paper)
 ## plot(clues.tabs)
 ## plot(clues.tabs, category=1, factors=2^(1:8)[c(1,3,5,7)])

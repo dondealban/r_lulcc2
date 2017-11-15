@@ -110,7 +110,7 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
                   wt.vals <- wt.vals[!is.na(wt.vals)]
 
                   ## preallocate three dimensional table
-                  tab <- matrix(data=NA, nrow=((length(categories) + 1) * (length(categories) + 1)), ncol=(length(categories) + 1))
+                  ## tab <- matrix(data=NA, nrow=((length(categories) + 1) * (length(categories) + 1)), ncol=(length(categories) + 1))
                   x.list <- list()
                   x1.list <- list()
                   y1.list <- list()
@@ -124,12 +124,12 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
                       cat <- categories[j]
                       tmp.x <- (x == cat) ## maps with binary values where 1/0 indicates presence/absence of 'cat'
                       tmp.x1 <- (x1 == cat)
-                      tmp.y1 <- (y1 == cat) ## these steps not required for continuous data; simply select RasterLayer from RasterStack
+                      tmp.y1 <- (y1 == cat) 
 
                       if (factors[f] > 1) {
-                          tmp.x <- raster::aggregate(tmp.x, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
-                          tmp.x1 <- raster::aggregate(tmp.x1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
-                          tmp.y1 <- raster::aggregate(tmp.y1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
+                          tmp.x <- raster::aggregate(tmp.x, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
+                          tmp.x1 <- raster::aggregate(tmp.x1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
+                          tmp.y1 <- raster::aggregate(tmp.y1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
                       }
 
                       st[[j]] <- stack((tmp.x / weight), (tmp.x1 / weight), (tmp.y1 / weight)) ####
@@ -153,166 +153,168 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
                   }
 
                   maps[[(f+1)]] <- stack(st)
+
+                  tables[[f]] <- threeDimensionTable(x.list, x1.list, y1.list, wt.vals, categories)
                   
-                  eq1.list <- list()
-                  eq2.list <- list()
-                  for (j in 1:length(categories)) {
-                      eq1.list[[j]] <- pmin(Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 1
-                      eq2.list[[j]] <- pmin(Qng.list[[j]], Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 2
-                  }
+                  ## eq1.list <- list()
+                  ## eq2.list <- list()
+                  ## for (j in 1:length(categories)) {
+                  ##     eq1.list[[j]] <- pmin(Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 1
+                  ##     eq2.list[[j]] <- pmin(Qng.list[[j]], Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 2
+                  ## }
 
-                  eq3.list <- list()
-                  for (j in 1:length(categories)) {
+                  ## eq3.list <- list()
+                  ## for (j in 1:length(categories)) {
 
-                      ## Equation 3
-                      bsum <- list()
-                      for (i in 1:length(categories)) {
-                          if (i != j) {
-                              ix <- length(bsum) + 1
-                              bsum[[ix]] <- Qng.list[[i]] - eq2.list[[i]]
-                          }
-                      }
-                      bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
+                  ##     ## Equation 3
+                  ##     bsum <- list()
+                  ##     for (i in 1:length(categories)) {
+                  ##         if (i != j) {
+                  ##             ix <- length(bsum) + 1
+                  ##             bsum[[ix]] <- Qng.list[[i]] - eq2.list[[i]]
+                  ##         }
+                  ##     }
+                  ##     bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
 
-                      eq3.sublist <- list()
-                      for (i in 1:length(categories)) {
-                          if (i != j) {
-                              b <- Qng.list[[i]] - eq2.list[[i]] ## numerator of expression right of multiplication sign
-                              eq3.sublist[[i]] <- (eq1.list[[j]] - eq2.list[[j]]) * b / bsum ## Equation 3
-                          } else {
-                              eq3.sublist[[i]] <- NA
-                          }
-                      }
-                      eq3.list[[j]] <- eq3.sublist
-                  }
+                  ##     eq3.sublist <- list()
+                  ##     for (i in 1:length(categories)) {
+                  ##         if (i != j) {
+                  ##             b <- Qng.list[[i]] - eq2.list[[i]] ## numerator of expression right of multiplication sign
+                  ##             eq3.sublist[[i]] <- (eq1.list[[j]] - eq2.list[[j]]) * b / bsum ## Equation 3
+                  ##         } else {
+                  ##             eq3.sublist[[i]] <- NA
+                  ##         }
+                  ##     }
+                  ##     eq3.list[[j]] <- eq3.sublist
+                  ## }
 
-                  ## Equation 4
-                  Qqng.list <- list()
-                  for (i in 1:length(categories)) {
-                      Tng <- list()
-                      for (j in 1:length(categories)) {
-                          if (i != j) {
-                              Tng[[j]] <- eq3.list[[j]][[i]]
-                          } else {
-                              Tng[[j]] <- eq2.list[[i]]
-                          }
-                      }
-                      Tng <- rowSums(do.call(cbind, Tng), na.rm=TRUE)  
-                      Qqng.list[[i]] <- Qng.list[[i]] - Tng ## Equation 4
+                  ## ## Equation 4
+                  ## Qqng.list <- list()
+                  ## for (i in 1:length(categories)) {
+                  ##     Tng <- list()
+                  ##     for (j in 1:length(categories)) {
+                  ##         if (i != j) {
+                  ##             Tng[[j]] <- eq3.list[[j]][[i]]
+                  ##         } else {
+                  ##             Tng[[j]] <- eq2.list[[i]]
+                  ##         }
+                  ##     }
+                  ##     Tng <- rowSums(do.call(cbind, Tng), na.rm=TRUE)  
+                  ##     Qqng.list[[i]] <- Qng.list[[i]] - Tng ## Equation 4
 
-                  }
+                  ## }
 
-                  ## Equation 5
-                  Rrng.list <- list()
-                  for (j in 1:length(categories)) {
-                      Rrng.list[[j]] <- Rng.list[[j]] - eq1.list[[j]] ## Equation 5
-                  }
+                  ## ## Equation 5
+                  ## Rrng.list <- list()
+                  ## for (j in 1:length(categories)) {
+                  ##     Rrng.list[[j]] <- Rng.list[[j]] - eq1.list[[j]] ## Equation 5
+                  ## }
 
-                  ## Equation 6
-                  Ssng.list <- list()
-                  for (k in 1:length(categories)) {
-                      Ssng.list[[k]] <- Sng.list[[k]] - eq1.list[[k]] ## Equation 6
-                  }
+                  ## ## Equation 6
+                  ## Ssng.list <- list()
+                  ## for (k in 1:length(categories)) {
+                  ##     Ssng.list[[k]] <- Sng.list[[k]] - eq1.list[[k]] ## Equation 6
+                  ## }
 
-                  ## Equation 7
-                  a <- Reduce("+", eq1.list) ## expression left of multiplication sign
-                  bsum <- list()
-                  for (j in 1:length(categories)) {
-                      for (k in 1:length(categories)) {
-                          for (i in 1:length(categories)) {
-                              if (j != k) {
-                                  ix <- length(bsum) + 1
-                                  bsum[[ix]] <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]]
-                              }
-                          }
-                      }
-                  }        
-                  bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
+                  ## ## Equation 7
+                  ## a <- Reduce("+", eq1.list) ## expression left of multiplication sign
+                  ## bsum <- list()
+                  ## for (j in 1:length(categories)) {
+                  ##     for (k in 1:length(categories)) {
+                  ##         for (i in 1:length(categories)) {
+                  ##             if (j != k) {
+                  ##                 ix <- length(bsum) + 1
+                  ##                 bsum[[ix]] <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]]
+                  ##             }
+                  ##         }
+                  ##     }
+                  ## }        
+                  ## bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
 
-                  eq7.list <- list()
-                  for (j in 1:length(categories)) {
-                      eq7.sublist <- list()
-                      for (k in 1:length(categories)) {
-                          eq7.subsublist <- list()
-                          for (i in 1:length(categories)) {
-                              if (j != k) {
-                                  b <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]] ## numerator of expression right of multiplication sign
-                                  eq7.subsublist[[i]] <- (1 - a) * b / bsum ## Equation 7
-                              } else {
-                                  eq7.subsublist[[i]] <- NA
-                              }
-                          }
-                          eq7.sublist[[k]] <- eq7.subsublist
-                      }
-                      eq7.list[[j]] <- eq7.sublist
-                  }
+                  ## eq7.list <- list()
+                  ## for (j in 1:length(categories)) {
+                  ##     eq7.sublist <- list()
+                  ##     for (k in 1:length(categories)) {
+                  ##         eq7.subsublist <- list()
+                  ##         for (i in 1:length(categories)) {
+                  ##             if (j != k) {
+                  ##                 b <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]] ## numerator of expression right of multiplication sign
+                  ##                 eq7.subsublist[[i]] <- (1 - a) * b / bsum ## Equation 7
+                  ##             } else {
+                  ##                 eq7.subsublist[[i]] <- NA
+                  ##             }
+                  ##         }
+                  ##         eq7.sublist[[k]] <- eq7.subsublist
+                  ##     }
+                  ##     eq7.list[[j]] <- eq7.sublist
+                  ## }
 
-                  ## Fill in three-dimensional table
+                  ## ## Fill in three-dimensional table
 
-                  ## Rule 1
-                  for (j in 1:length(categories)) {
-                      ixy <- j * (length(categories) + 1)
-                      ixx <- j
-                      tab[ixy,ixx] <- sum(eq1.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
-                  }
+                  ## ## Rule 1
+                  ## for (j in 1:length(categories)) {
+                  ##     ixy <- j * (length(categories) + 1)
+                  ##     ixx <- j
+                  ##     tab[ixy,ixx] <- sum(eq1.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+                  ## }
 
-                  ## Rule 2
-                  for (j in 1:length(categories)) {
-                      ixy <- j + (j-1) * (length(categories) + 1)
-                      ixx <- j
-                      tab[ixy,ixx] <- sum(eq2.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
-                  }
+                  ## ## Rule 2
+                  ## for (j in 1:length(categories)) {
+                  ##     ixy <- j + (j-1) * (length(categories) + 1)
+                  ##     ixx <- j
+                  ##     tab[ixy,ixx] <- sum(eq2.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+                  ## }
 
-                  ## Rule 3
-                  for (j in 1:length(categories)) {
-                      for (i in 1:length(categories)) {
-                          if (i != j) {
-                              ixy <- i + (j-1) * (length(categories) + 1)
-                              ixx <- j
-                              tab[ixy,ixx] <- sum(eq3.list[[j]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
-                          }
-                      }
-                  }
+                  ## ## Rule 3
+                  ## for (j in 1:length(categories)) {
+                  ##     for (i in 1:length(categories)) {
+                  ##         if (i != j) {
+                  ##             ixy <- i + (j-1) * (length(categories) + 1)
+                  ##             ixx <- j
+                  ##             tab[ixy,ixx] <- sum(eq3.list[[j]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+                  ##         }
+                  ##     }
+                  ## }
 
-                  ## Rule 4
-                  for (j in 1:length(categories)) {
-                      for (k in 1:length(categories)) {
-                          for (i in 1:length(categories)) {
-                              if (j != k) {
-                                  ixy <- i + (j-1) * (length(categories) + 1)
-                                  ixx <- k
-                                  tab[ixy,ixx] <- sum(eq7.list[[j]][[k]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
-                              }
-                          }
-                      }
-                  }
+                  ## ## Rule 4
+                  ## for (j in 1:length(categories)) {
+                  ##     for (k in 1:length(categories)) {
+                  ##         for (i in 1:length(categories)) {
+                  ##             if (j != k) {
+                  ##                 ixy <- i + (j-1) * (length(categories) + 1)
+                  ##                 ixx <- k
+                  ##                 tab[ixy,ixx] <- sum(eq7.list[[j]][[k]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+                  ##             }
+                  ##         }
+                  ##     }
+                  ## }
 
-                  ## Fill in total values
-                  for (j in 1:length(categories)) {
-                      for (k in 1:length(categories)) {
-                          ixy <- j + (length(categories) + 1) * length(categories)
-                          ixx <- k
-                          tab[ixy,ixx] <- sum(tab[seq(j, by=(length(categories) + 1), length.out=length(categories)), k], na.rm=TRUE)
-                      }
-                  }
+                  ## ## Fill in total values
+                  ## for (j in 1:length(categories)) {
+                  ##     for (k in 1:length(categories)) {
+                  ##         ixy <- j + (length(categories) + 1) * length(categories)
+                  ##         ixx <- k
+                  ##         tab[ixy,ixx] <- sum(tab[seq(j, by=(length(categories) + 1), length.out=length(categories)), k], na.rm=TRUE)
+                  ##     }
+                  ## }
 
-                  for (j in 1:(length(categories) + 1)) {
-                      for (k in 1:length(categories)) {
-                          ixy <- j * (length(categories) + 1)
-                          ixx <- k
-                          tab[ixy,ixx] <- sum(tab[(seq(1:length(categories)) + (j-1) * (length(categories) + 1)), k], na.rm=TRUE)
-                      }
-                  }
+                  ## for (j in 1:(length(categories) + 1)) {
+                  ##     for (k in 1:length(categories)) {
+                  ##         ixy <- j * (length(categories) + 1)
+                  ##         ixx <- k
+                  ##         tab[ixy,ixx] <- sum(tab[(seq(1:length(categories)) + (j-1) * (length(categories) + 1)), k], na.rm=TRUE)
+                  ##     }
+                  ## }
 
-                  for (j in 1:(length(categories) + 1)) {
-                      for (i in 1:(length(categories) + 1)) {
-                          ixy <- i + (j-1) * (length(categories) + 1)
-                          ixx <- length(categories) + 1
-                          tab[ixy,ixx] <- sum(tab[ixy,1:length(categories)], na.rm=TRUE)
-                      }
-                  }
+                  ## for (j in 1:(length(categories) + 1)) {
+                  ##     for (i in 1:(length(categories) + 1)) {
+                  ##         ixy <- i + (j-1) * (length(categories) + 1)
+                  ##         ixx <- length(categories) + 1
+                  ##         tab[ixy,ixx] <- sum(tab[ixy,1:length(categories)], na.rm=TRUE)
+                  ##     }
+                  ## }
 
-                  tables[[f]] <- tab
+                  ## tables[[f]] <- tab
 
               }
 
@@ -337,6 +339,205 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
 
           }
 )
+
+#' Calculate three dimensional comparison table
+#'
+#' Calculate three dimensional comparison table
+#'
+#' @param x.list list
+#' @param x1.list list
+#' @param y1.list list
+#' @param wt.vals list
+#' @param categories numeric
+#' @param \dots additional arguments (none)
+#'
+#' @return A list.
+#'
+#' @export
+threeDimensionTable = function(x.list, x1.list, y1.list, wt.vals, categories, ...) {
+
+    ## get Qng, Rng, Sng
+    Qng.list = vector(mode="list", length=length(x.list))
+    Rng.list = vector(mode="list", length=length(x1.list))
+    Sng.list = vector(mode="list", length=length(y1.list))
+
+    for (i in 1:length(x.list)) {
+        Qng.list[[i]] = x.list[[i]] / wt.vals
+        Rng.list[[i]] = x1.list[[i]] / wt.vals
+        Sng.list[[i]] = y1.list[[i]] / wt.vals
+    }
+
+    ## preallocate table
+    tab <- matrix(data=NA, nrow=((length(categories) + 1) * (length(categories) + 1)), ncol=(length(categories) + 1))
+                  
+    eq1.list <- list()
+    eq2.list <- list()
+    for (j in 1:length(categories)) {
+        eq1.list[[j]] <- pmin(Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 1
+        eq2.list[[j]] <- pmin(Qng.list[[j]], Rng.list[[j]], Sng.list[[j]], na.rm=TRUE) ## Equation 2
+    }
+
+    eq3.list <- list()
+    for (j in 1:length(categories)) {
+
+        ## Equation 3
+        bsum <- list()
+        for (i in 1:length(categories)) {
+            if (i != j) {
+                ix <- length(bsum) + 1
+                bsum[[ix]] <- Qng.list[[i]] - eq2.list[[i]]
+            }
+        }
+        bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
+
+        eq3.sublist <- list()
+        for (i in 1:length(categories)) {
+            if (i != j) {
+                b <- Qng.list[[i]] - eq2.list[[i]] ## numerator of expression right of multiplication sign
+                eq3.sublist[[i]] <- (eq1.list[[j]] - eq2.list[[j]]) * b / bsum ## Equation 3
+            } else {
+                eq3.sublist[[i]] <- NA
+            }
+        }
+        eq3.list[[j]] <- eq3.sublist
+    }
+
+    ## Equation 4
+    Qqng.list <- list()
+    for (i in 1:length(categories)) {
+        Tng <- list()
+        for (j in 1:length(categories)) {
+            if (i != j) {
+                Tng[[j]] <- eq3.list[[j]][[i]]
+            } else {
+                Tng[[j]] <- eq2.list[[i]]
+            }
+        }
+        Tng <- rowSums(do.call(cbind, Tng), na.rm=TRUE)  
+        Qqng.list[[i]] <- Qng.list[[i]] - Tng ## Equation 4
+
+    }
+
+    ## Equation 5
+    Rrng.list <- list()
+    for (j in 1:length(categories)) {
+        Rrng.list[[j]] <- Rng.list[[j]] - eq1.list[[j]] ## Equation 5
+    }
+
+    ## Equation 6
+    Ssng.list <- list()
+    for (k in 1:length(categories)) {
+        Ssng.list[[k]] <- Sng.list[[k]] - eq1.list[[k]] ## Equation 6
+    }
+
+    ## Equation 7
+    a <- Reduce("+", eq1.list) ## expression left of multiplication sign
+    bsum <- list()
+    for (j in 1:length(categories)) {
+        for (k in 1:length(categories)) {
+            for (i in 1:length(categories)) {
+                if (j != k) {
+                    ix <- length(bsum) + 1
+                    bsum[[ix]] <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]]
+                }
+            }
+        }
+    }        
+    bsum <- Reduce("+", bsum) ## denominator of expression right of multiplication sign
+
+    eq7.list <- list()
+    for (j in 1:length(categories)) {
+        eq7.sublist <- list()
+        for (k in 1:length(categories)) {
+            eq7.subsublist <- list()
+            for (i in 1:length(categories)) {
+                if (j != k) {
+                    b <- Qqng.list[[i]] * Rrng.list[[j]] * Ssng.list[[k]] ## numerator of expression right of multiplication sign
+                    eq7.subsublist[[i]] <- (1 - a) * b / bsum ## Equation 7
+                } else {
+                    eq7.subsublist[[i]] <- NA
+                }
+            }
+            eq7.sublist[[k]] <- eq7.subsublist
+        }
+        eq7.list[[j]] <- eq7.sublist
+    }
+
+    ## Fill in three-dimensional table
+
+    ## Rule 1
+    for (j in 1:length(categories)) {
+        ixy <- j * (length(categories) + 1)
+        ixx <- j
+        tab[ixy,ixx] <- sum(eq1.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+    }
+
+    ## Rule 2
+    for (j in 1:length(categories)) {
+        ixy <- j + (j-1) * (length(categories) + 1)
+        ixx <- j
+        tab[ixy,ixx] <- sum(eq2.list[[j]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+    }
+
+    ## Rule 3
+    for (j in 1:length(categories)) {
+        for (i in 1:length(categories)) {
+            if (i != j) {
+                ixy <- i + (j-1) * (length(categories) + 1)
+                ixx <- j
+                tab[ixy,ixx] <- sum(eq3.list[[j]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+            }
+        }
+    }
+
+    ## Rule 4
+    for (j in 1:length(categories)) {
+        for (k in 1:length(categories)) {
+            for (i in 1:length(categories)) {
+                if (j != k) {
+                    ixy <- i + (j-1) * (length(categories) + 1)
+                    ixx <- k
+                    tab[ixy,ixx] <- sum(eq7.list[[j]][[k]][[i]] * wt.vals, na.rm=TRUE) / sum(wt.vals, na.rm=TRUE)
+                }
+            }
+        }
+    }
+
+    ## Fill in total values
+    for (j in 1:length(categories)) {
+        for (k in 1:length(categories)) {
+            ixy <- j + (length(categories) + 1) * length(categories)
+            ixx <- k
+            tab[ixy,ixx] <- sum(tab[seq(j, by=(length(categories) + 1), length.out=length(categories)), k], na.rm=TRUE)
+        }
+    }
+
+    for (j in 1:(length(categories) + 1)) {
+        for (k in 1:length(categories)) {
+            ixy <- j * (length(categories) + 1)
+            ixx <- k
+            tab[ixy,ixx] <- sum(tab[(seq(1:length(categories)) + (j-1) * (length(categories) + 1)), k], na.rm=TRUE)
+        }
+    }
+
+    for (j in 1:(length(categories) + 1)) {
+        for (i in 1:(length(categories) + 1)) {
+            ixy <- i + (j-1) * (length(categories) + 1)
+            ixx <- length(categories) + 1
+            tab[ixy,ixx] <- sum(tab[ixy,1:length(categories)], na.rm=TRUE)
+        }
+    }
+    tab
+}
+
+
+
+
+
+
+
+
+
 
 ## .agreementBudget <- function(tables, factors, categories) { 
 
