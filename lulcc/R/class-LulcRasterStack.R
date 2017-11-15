@@ -64,7 +64,12 @@ setClass("DiscreteLulcRasterStack",
              if (!check1) stop("RasterStack contains no layers")
              check2 <- (length(object@t) == raster::nlayers(object))
              if (!check2) stop("timesteps do not correspond with maps")
-             check3 <- all(sort(unique(as.numeric(raster::getValues(object)))) %in% object@categories)
+             if (raster::canProcessInMemory(object)) {
+                 check3 <- all(sort(unique(as.numeric(raster::getValues(object)))) %in% object@categories)
+             } else {
+                 warning("Cannot process in memory")
+                 check3 <- TRUE
+             }
              if (!check3) stop("unknown categories in maps")
              check4 <- (length(object@categories) == length(object@labels))
              if (!check4) stop("labels and categories have different lengths")

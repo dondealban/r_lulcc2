@@ -2,8 +2,7 @@
 #'
 #' Divide a categorical raster map into training and testing partitions.
 #' A wrapper function for \cr
-#' \code{caret::\link[caret]{createDataPartition}} (Kuhn, 2008) to divide a
-#' categorical raster map into training and testing partitions.
+#' \code{caret::\link[caret]{createDataPartition}} (Kuhn, 2008).
 #' 
 #' @param x RasterLayer with categorical data
 #' @param size numeric value between zero and one indicating the proportion of

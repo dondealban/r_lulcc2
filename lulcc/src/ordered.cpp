@@ -60,12 +60,11 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
   NumericMatrix tprob1 = clone(tprob);
 
   // TODO: apply automatic transitions, mask values
-  
   for (int i = 0; i < (ncat - 1); i++) {
-    
+
     int cat = alloc_order[i];
     IntegerVector v = Rcpp::seq(0, ncat - 1);
-    LogicalVector ix = categories == cat;
+    LogicalVector ix = (categories == cat);
     IntegerVector a = v[ix];
     
     if (a.size() != 1) {
@@ -83,16 +82,25 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
       // bool incr = (dmd[cat_index] > 0);
       bool incr = (d1 > d0);
 
-      // index of cells not currently belonging to current lu
       IntegerVector v = Rcpp::seq(0, ncell - 1);
       IntegerVector chng_cat = alloc_order[Rcpp::seq(0, i)];
-      LogicalVector cell_index_logical = !inC(lu1, chng_cat);
+
+      // if lu has increasing demand, get the index of cells currently
+      // belonging to other lus; if decreasing demand get index of cells
+      // belonging to the lu
+      LogicalVector cell_index_logical;
+      if (incr) {
+        cell_index_logical = !inC(lu1, chng_cat);
+      } else {
+	cell_index_logical = inC(lu1, chng_cat);
+      }
+      
       IntegerVector cell_index = v[cell_index_logical];
       
       // suitability of cells not currently belonging to current lu
       NumericVector p = tprob1(_,cat_index);
       p = p[cell_index];
-      
+
       IntegerVector order;
       if (incr) {
         order = orderC(p, true); 
@@ -113,7 +121,8 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
           if ((std::isfinite(p[j])) && (p[j] >= 0)) {
             bool test;
             if (stochastic) {
-              double rand = runif(1)[0];
+	      double mx = max(p);
+              double rand = runif(1, 0, mx)[0];
               if (incr) {
                 test = p[j] > rand;
               } else {
@@ -126,6 +135,13 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
 
             if (test) {
               int jj = cell_index2[j];
+
+	      // int mx=max(cell_index2);
+	      // int mn=min(cell_index2);
+	      // Rprintf("%d\n", mx);
+	      // Rprintf("%d\n", mn);
+	      // Rprintf("%d\n", cell_index2.size());
+	      
               if (incr) {
                 lu1[jj] = cat;  // if increasing demand, change category
               } else {
@@ -133,8 +149,8 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
               }
 
               absdmd -= 1;
-              p[jj] = -99;
-              tprob1(jj,_) = rep(-99, ncat);
+              p[j] = -99.0;
+              tprob1(jj,_) = rep(-99.0, ncat);
             }
           }
           j++;
@@ -144,7 +160,12 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
         counter++;
         
       } while ((absdmd > 0) && (counter < maxiter));
-    }    
+
+      if (absdmd > 0) {
+	Rprintf("Maximum number of iterations reached: demand not satisfied\n");
+      }
+      
+    }
   }
 
   // assign the last category to cells not already assigned higher
