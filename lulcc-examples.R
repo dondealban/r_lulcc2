@@ -122,7 +122,6 @@ clues.tabs <- ThreeMapComparison(x=lu[[1]],
                                  categories=lu@categories,
                                  labels=lu@labels)
 
-stop()
 ## ## plot three dimensional tables in different ways (figures not shown in paper)
 ## plot(clues.tabs)
 ## plot(clues.tabs, category=1, factors=2^(1:8)[c(1,3,5,7)])

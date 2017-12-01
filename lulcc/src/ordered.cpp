@@ -92,14 +92,14 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
       if (incr) {
         cell_index_logical = !inC(lu1, chng_cat);
       } else {
-	cell_index_logical = inC(lu1, chng_cat);
+	cell_index_logical = (lu1 == cat);
       }
       
       IntegerVector cell_index = v[cell_index_logical];
       
       // suitability of cells not currently belonging to current lu
-      NumericVector p = tprob1(_,cat_index);
-      p = p[cell_index];
+      NumericVector pp = tprob1(_,cat_index);
+      NumericVector p = pp[cell_index];
 
       IntegerVector order;
       if (incr) {
@@ -110,7 +110,7 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
 
       p = p[order];
       IntegerVector cell_index2 = cell_index[order]; // index of cell as they appear in p
-
+      
       int counter = 0;
       do {
         
@@ -135,22 +135,17 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
 
             if (test) {
               int jj = cell_index2[j];
-
-	      // int mx=max(cell_index2);
-	      // int mn=min(cell_index2);
-	      // Rprintf("%d\n", mx);
-	      // Rprintf("%d\n", mn);
-	      // Rprintf("%d\n", cell_index2.size());
-	      
               if (incr) {
                 lu1[jj] = cat;  // if increasing demand, change category
+                tprob1(jj,_) = rep(-99.0, ncat);
+		
               } else {
                 lu1[jj] = -1;   // if decreasing demand, convert to holding category
               }
 
               absdmd -= 1;
               p[j] = -99.0;
-              tprob1(jj,_) = rep(-99.0, ncat);
+              // tprob1(jj,_) = rep(-99.0, ncat);
             }
           }
           j++;
@@ -162,7 +157,7 @@ IntegerVector ordered(IntegerVector lu0, NumericMatrix tprob, IntegerVector dmd,
       } while ((absdmd > 0) && (counter < maxiter));
 
       if (absdmd > 0) {
-	Rprintf("Maximum number of iterations reached: demand not satisfied\n");
+	Rprintf("Maximum number of iterations reached: demand not satisfied (%d)\n", absdmd);
       }
       
     }

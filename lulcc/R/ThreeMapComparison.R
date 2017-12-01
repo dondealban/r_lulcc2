@@ -127,9 +127,9 @@ setMethod("ThreeMapComparison", signature(x = "RasterLayer", x1 = "RasterLayer",
                       tmp.y1 <- (y1 == cat) 
 
                       if (factors[f] > 1) {
-                          tmp.x <- raster::aggregate(tmp.x, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
-                          tmp.x1 <- raster::aggregate(tmp.x1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
-                          tmp.y1 <- raster::aggregate(tmp.y1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE)#, ...)
+                          tmp.x <- raster::aggregate(tmp.x, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
+                          tmp.x1 <- raster::aggregate(tmp.x1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
+                          tmp.y1 <- raster::aggregate(tmp.y1, fact=factors[f], fun=sum, na.rm=TRUE, expand=TRUE, ...)
                       }
 
                       st[[j]] <- stack((tmp.x / weight), (tmp.x1 / weight), (tmp.y1 / weight)) ####
