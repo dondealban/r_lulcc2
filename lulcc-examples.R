@@ -37,16 +37,16 @@ library(randomForest)
 library(rpart)
 
 built.form  <- as.formula("Built ~ ef_001 + ef_002 + ef_003")
-built.rf    <- randomForest(built.form, method="class", data=train.data)
+## built.rf    <- randomForest(built.form, data=train.data)
 built.glm   <- glm(built.form, family=binomial, data=train.data)
 ## built.rpart <- rpart(built.form, method="class", data=train.data)
 
 forest.form <- as.formula("Forest ~ ef_001 + ef_002")
-forest.rf   <- randomForest(forest.form, method="class", data=train.data)
+## forest.rf   <- randomForest(forest.form, data=train.data)
 forest.glm  <- glm(forest.form, data=train.data)
 
 other.form  <- as.formula("Other ~ ef_001 + ef_002")
-other.rf    <- randomForest(other.form, method="class", data=train.data)
+## other.rf    <- randomForest(other.form, data=train.data)
 other.glm   <- glm(forest.glm, data=train.data)
 
 ## rf.mods  <- new("PredictiveModelList",

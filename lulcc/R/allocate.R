@@ -427,7 +427,7 @@ setMethod("allocate", signature(model = "OrderedModel"),
                   }
                   tprob <- prob
 
-                  lu1.vals <- ordered(lu0.vals, tprob, d, model@order, model@categories, stochastic, 100)
+                  lu1.vals <- ordered(lu0, tprob, d, model@order, model@categories, stochastic, 100)
                   
                   ## lu1.vals <- ordered_old(lu0=lu0,
                   ##                         lu0.vals=lu0.vals,
