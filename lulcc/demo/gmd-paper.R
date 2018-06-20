@@ -2,7 +2,6 @@
 
 ## Demo script to run the code and produce the figures shown in
 ## the Geoscientific Model Development paper
-devtools::load_all("lulcc")
 
 library(RColorBrewer)  ## required for plotting
 
