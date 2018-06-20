@@ -281,3 +281,4 @@ fom.p
 ## trellis.device(device="pdf", width=4.72, height=4.72, file="f08_figure_of_merit.pdf")
 ## print(fom.p)
 ## dev.off()
+
